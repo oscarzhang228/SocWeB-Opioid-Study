@@ -1,3 +1,8 @@
 .card {
-  max-width: clamp(50%, 50%, 400px);
+  max-width: 100%;
+}
+
+.card-container {
+  overflow: scroll;
+  height: 100vh;
 }
