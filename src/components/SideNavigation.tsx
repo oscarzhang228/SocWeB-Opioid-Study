@@ -1,7 +1,11 @@
-import { AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  BarsOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import styles from "../scss/SideNavigation.module.scss";
+import styles from "../scss/Navigation.module.scss";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -26,25 +30,27 @@ const items: MenuProps["items"] = [
     "Navigation",
     "nav",
     null,
-    [getItem("Home", "13", <AppstoreOutlined />)],
+    [
+      getItem("Home", "home", <AppstoreOutlined />),
+      getItem("Questions", "questions", <BarsOutlined />, [
+        getItem("Question 1", "q1", <QuestionCircleOutlined />),
+        getItem("Question 2", "q2", <QuestionCircleOutlined />),
+        getItem("Question 3", "q3", <QuestionCircleOutlined />),
+        getItem("Question 4", "q4", <QuestionCircleOutlined />),
+        getItem("Question 5", "q5", <QuestionCircleOutlined />),
+        getItem("Question 6", "q6", <QuestionCircleOutlined />),
+        getItem("Question 7", "q7", <QuestionCircleOutlined />),
+        getItem("Question 8", "q8", <QuestionCircleOutlined />),
+      ]),
+    ],
     "group"
   ),
-
-  getItem("Questions", "questions", <BarsOutlined />, [
-    getItem("Option 5", "5"),
-    getItem("Option 6", "6"),
-  ]),
 ];
 
 export default function SideNavigation() {
-  const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
-  };
-
   return (
     <Menu
-      onClick={onClick}
-      className={`${styles["navigation-menu"]}`}
+      className={`${styles["navigation-menu"]} pt-5`}
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={["questions"]}
       mode="inline"
