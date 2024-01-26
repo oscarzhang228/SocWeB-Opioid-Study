@@ -1,8 +1,13 @@
 .navigation-menu {
   background-color: #fff !important;
   border-inline-end: none !important;
+  overflow: scroll;
+  max-height: 100vh;
 }
 
 .ant-menu-item {
   background-color: #fff !important;
+}
+.navigation-menu::-webkit-scrollbar {
+  display: none;
 }
