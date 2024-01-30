@@ -6,7 +6,7 @@ import Question from "./Question";
 export default function QuestionBox(props: { questions: any[] }) {
   return (
     <div className={`d-flex flex-column ${styles["card-container"]} p-3 gap-2`}>
-      <Card hoverable>
+      <Card hoverable id="home">
         <p className="text-center">
           Thank you for consenting to{" "}
           <Tooltip placement="topLeft" title={"This is a proof of concept"}>

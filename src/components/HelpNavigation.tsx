@@ -48,6 +48,14 @@ const items: MenuProps["items"] = [
   ),
 ];
 
+const HandleClick = (e: { key: string }) => {
+  if (e.key === "treatments") {
+    window.open("https://findtreatment.gov/");
+  } else if (e.key === "email") {
+    window.open("mailto:smittal87@gatech.edu");
+  }
+};
+
 export default function HelpNavigation() {
   return (
     <Menu
@@ -55,6 +63,7 @@ export default function HelpNavigation() {
       mode="inline"
       defaultOpenKeys={["samhsa", "email", "phone"]}
       items={items}
+      onClick={HandleClick}
     />
   );
 }
