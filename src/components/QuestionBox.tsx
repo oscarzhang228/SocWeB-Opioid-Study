@@ -26,6 +26,7 @@ export default function QuestionBox(props: { questions: any[] }) {
           <Card
             className={`${styles.card} p-5 w-100`}
             hoverable
+            key={index}
             id={`question-${index + 1}`}
           >
             <Question
