@@ -9,7 +9,7 @@ function App() {
   const [questions, setQuestions] = React.useState<any[]>([]);
 
   useEffect(() => {
-    axios("http://localhost:3001/questions").then((res) => {
+    axios("api/server").then((res) => {
       setQuestions(res.data);
     });
   }, []);
