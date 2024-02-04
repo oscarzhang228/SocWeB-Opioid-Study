@@ -3,10 +3,10 @@ import styles from "../scss/QuestionBox.module.scss";
 import { Card, Tooltip, Carousel, Button } from "antd";
 import Question from "./Question";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-export default function ClickStyle() {
+export default function ClickStyle(props: { questions: any[] }) {
   const carouselRef = React.useRef<any>(null);
   let pageNumber = 0;
-  const lastPage = 2;
+  const lastPage = 7;
   const GoForward = () => {
     if (pageNumber === lastPage) return;
     carouselRef.current.next();
@@ -18,13 +18,13 @@ export default function ClickStyle() {
     pageNumber--;
   };
   return (
-    <div>
+    <div className="h-75 d-flex justify-content-center flex-column">
       <Carousel
         className="d-flex flex-column justify-content-center"
         dots={false}
         ref={carouselRef}
       >
-        <Card hoverable>
+        <Card hoverable className="">
           <p className="text-center">
             Thank you for consenting to{" "}
             <Tooltip placement="topLeft" title={"This is a proof of concept"}>
@@ -40,23 +40,22 @@ export default function ClickStyle() {
             understanding.
           </p>
         </Card>
-        <Card className={`${styles.card} p-5 w-100`} hoverable>
-          <Question
-            questionNumber={1}
-            question="I have been having various discussions over on r/opiates and I have read
-              that methadone clinics are decreasing and the trend is for suboxone to
-              be used as an opiate replacement medicine. Is this the case in general?
-              Same question has been posted in r/opiatesrecovery. I hope this is
-              allowed!?"
-            response="To be honest, I think suboxone is going to stop working for everyone
-              because everyone is gonna be doing fentanyl and we all know the horrors
-              of precipitated withdrawals."
-          />
-        </Card>
-        <div>
-          <h2>Hello</h2>
-        </div>
-        <div></div>
+        {props.questions.map((data, index) => {
+          return (
+            <Card
+              className={`${styles.card} p-5 w-100`}
+              hoverable
+              key={index}
+              id={`question-${index + 1}`}
+            >
+              <Question
+                questionNumber={index + 1}
+                question={data["Question (Reddit post)"]}
+                response={data["Reddit response"]}
+              />
+            </Card>
+          );
+        })}
       </Carousel>
       <div className="w-100 d-flex justify-content-center gap-3 p-5">
         <Button shape="circle" icon={<LeftOutlined />} onClick={GoBack} />
