@@ -18,13 +18,13 @@ export default function ClickStyle(props: { questions: any[] }) {
     pageNumber--;
   };
   return (
-    <div className="h-75 d-flex justify-content-center flex-column">
+    <div className="">
       <Carousel
         className="d-flex flex-column justify-content-center"
         dots={false}
         ref={carouselRef}
       >
-        <Card hoverable className="">
+        <Card hoverable className="p-5 mt-5">
           <p className="text-center">
             Thank you for consenting to{" "}
             <Tooltip placement="topLeft" title={"This is a proof of concept"}>

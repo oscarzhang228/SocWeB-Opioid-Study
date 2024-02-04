@@ -21,7 +21,7 @@ function App() {
           <div className="col-2 d-none d-lg-flex justify-content-center p-2 side-navigation-div">
             <SideNavigation questions={questions}></SideNavigation>
           </div>
-          <div className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column">
+          <div className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100">
             {/* <QuestionBox questions={questions}></QuestionBox> */}
             <ClickStyle questions={questions} />
           </div>
