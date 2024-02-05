@@ -5,17 +5,16 @@ import Question from "./Question";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 export default function ClickStyle(props: { questions: any[] }) {
   const carouselRef = React.useRef<any>(null);
-  let pageNumber = 0;
-  const lastPage = 7;
+
+  const [glossary, setGlossary] = React.useState({
+    sometimes: "a test phrase",
+  } as Object);
+
   const GoForward = () => {
-    if (pageNumber === lastPage) return;
     carouselRef.current.next();
-    pageNumber++;
   };
   const GoBack = () => {
-    if (pageNumber === 0) return;
     carouselRef.current.prev();
-    pageNumber--;
   };
   return (
     <div className="">
@@ -49,6 +48,7 @@ export default function ClickStyle(props: { questions: any[] }) {
               id={`question-${index + 1}`}
             >
               <Question
+                glossary={glossary}
                 questionNumber={index + 1}
                 question={data["Question (Reddit post)"]}
                 response={data["Reddit response"]}

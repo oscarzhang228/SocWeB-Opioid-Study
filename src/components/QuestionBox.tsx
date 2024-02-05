@@ -29,11 +29,11 @@ export default function QuestionBox(props: { questions: any[] }) {
             key={index}
             id={`question-${index + 1}`}
           >
-            <Question
+            {/* <Question
               questionNumber={index + 1}
               question={data["Question (Reddit post)"]}
               response={data["Reddit response"]}
-            />
+            /> */}
           </Card>
         );
       })}
