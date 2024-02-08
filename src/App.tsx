@@ -1,13 +1,19 @@
 import React, { useEffect } from "react";
-import QuestionBox from "./components/QuestionBox";
-import SideNavigation from "./components/SideNavigation";
+import QuestionNavigation from "./components/QuestionNavigation";
 import styles from "./scss/App.module.scss";
 import HelpNavigation from "./components/HelpNavigation";
 import axios from "axios";
-import ClickStyle from "./components/ClickStyle";
+import QuestionView from "./components/QuestionView";
 
 function App() {
   const [questions, setQuestions] = React.useState<any[]>([]);
+  // stores the clicks for each question
+  const [analytics_clicks, setAnalyticsClicks] = React.useState<any[]>([]);
+  // stores the time for each question
+  const [analytics_time, setAnalyticsTime] = React.useState<any[]>([]);
+
+  const [currentPage, setCurrentPage] = React.useState<number>(0);
+  const carouselRef = React.useRef<any>(null);
 
   useEffect(() => {
     axios("api/server").then((res) => {
@@ -19,11 +25,20 @@ function App() {
       <div className="container-fluid">
         <div className="row">
           <div className="col-2 d-none d-lg-flex justify-content-center p-2 side-navigation-div">
-            <SideNavigation questions={questions}></SideNavigation>
+            <QuestionNavigation
+              carouselRef={carouselRef}
+              questions={questions}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            ></QuestionNavigation>
           </div>
           <div className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100">
-            {/* <QuestionBox questions={questions}></QuestionBox> */}
-            <ClickStyle questions={questions} />
+            <QuestionView
+              carouselRef={carouselRef}
+              questions={questions}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
           <div className={`col-2 d-none d-lg-flex justify-content-center p-2 `}>
             <HelpNavigation></HelpNavigation>

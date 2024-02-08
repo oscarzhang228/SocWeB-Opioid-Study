@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "../scss/QuestionBox.module.scss";
 import { Tooltip } from "antd";
 export default function QuestionBox(props: {
@@ -7,6 +6,10 @@ export default function QuestionBox(props: {
   response: string;
   glossary: any;
 }) {
+  // Workaround: inert attribute is not supported in Typescript right now
+  const isInert = true;
+
+  // Purpose: puts words into a tooltip if they are in the glossary
   const ParseString = (parse_string_props: { input_string: string }) => {
     const segmenter = new Intl.Segmenter([], {
       granularity: "word",
@@ -30,7 +33,11 @@ export default function QuestionBox(props: {
               </Tooltip>
             );
           }
-          return <span>{part}</span>;
+          return (
+            <span {...{ inert: isInert ? "" : undefined }} key={index}>
+              {part}
+            </span>
+          );
         })}
       </>
     );
@@ -46,7 +53,7 @@ export default function QuestionBox(props: {
       </div>
       <div className="p-4">
         <h2>Response</h2>
-        <p>{props.response}</p>
+        <ParseString input_string={props.response}></ParseString>
       </div>
     </>
   );

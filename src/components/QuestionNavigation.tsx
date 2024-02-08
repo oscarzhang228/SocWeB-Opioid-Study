@@ -25,7 +25,17 @@ function getItem(
   } as MenuItem;
 }
 
-export default function SideNavigation(props: { questions: any[] }) {
+export default function SideNavigation(props: {
+  questions: any[];
+  carouselRef: React.RefObject<any>;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const NavigateQuestion = (event: { key: string }) => {
+    props.carouselRef.current.goTo(parseInt(event.key));
+    props.setCurrentPage(parseInt(event.key));
+  };
+
   const items: MenuProps["items"] = [
     getItem(
       "Navigation",
@@ -40,7 +50,7 @@ export default function SideNavigation(props: { questions: any[] }) {
           props.questions.map((data, index) => {
             return getItem(
               `Question ${index + 1}`,
-              `question-${index + 1}`,
+              `${index + 1}`,
               <QuestionCircleOutlined />
             );
           })
@@ -55,12 +65,8 @@ export default function SideNavigation(props: { questions: any[] }) {
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={["questions"]}
       mode="inline"
-      onClick={ScrollNavigation}
+      onClick={NavigateQuestion}
       items={items}
     />
   );
 }
-
-const ScrollNavigation = (event: { key: string }) => {
-  document.getElementById(event.key)?.scrollIntoView();
-};

@@ -3,25 +3,38 @@ import styles from "../scss/QuestionBox.module.scss";
 import { Card, Tooltip, Carousel, Button } from "antd";
 import Question from "./Question";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-export default function ClickStyle(props: { questions: any[] }) {
-  const carouselRef = React.useRef<any>(null);
-
-  const [glossary, setGlossary] = React.useState({
+export default function ClickStyle(props: {
+  questions: any[];
+  carouselRef: React.RefObject<any>;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const [glossary] = React.useState({
     sometimes: "a test phrase",
   } as Object);
 
   const GoForward = () => {
-    carouselRef.current.next();
+    // last page is introduction page + questions.length
+    if (props.currentPage >= props.questions.length) {
+      return;
+    }
+    props.carouselRef.current.next();
+    props.setCurrentPage(props.currentPage + 1);
   };
   const GoBack = () => {
-    carouselRef.current.prev();
+    if (props.currentPage === 0) {
+      return;
+    }
+    props.carouselRef.current.prev();
+    props.setCurrentPage(props.currentPage - 1);
   };
+
   return (
     <div className="">
       <Carousel
         className="d-flex flex-column justify-content-center"
         dots={false}
-        ref={carouselRef}
+        ref={props.carouselRef}
       >
         <Card hoverable className={`${styles.card} p-5 mt-5`}>
           <p className="text-center">
@@ -60,6 +73,9 @@ export default function ClickStyle(props: { questions: any[] }) {
       <div className="w-100 d-flex justify-content-center gap-3 p-5">
         <Button shape="circle" icon={<LeftOutlined />} onClick={GoBack} />
         <Button shape="circle" icon={<RightOutlined />} onClick={GoForward} />
+      </div>
+      <div className="w-100 d-flex justify-content-center gap-3 p-5">
+        <Button type="primary">Submit</Button>
       </div>
     </div>
   );
