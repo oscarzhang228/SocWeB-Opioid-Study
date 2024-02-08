@@ -30,10 +30,16 @@ export default function SideNavigation(props: {
   carouselRef: React.RefObject<any>;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  analytics_clicks: any[];
+  setAnalyticsClicks: React.Dispatch<React.SetStateAction<any[]>>;
 }) {
   const NavigateQuestion = (event: { key: string }) => {
     props.carouselRef.current.goTo(parseInt(event.key));
     props.setCurrentPage(parseInt(event.key));
+    //Purpose: increments the direct clicks for the current page
+    const newAnalyticsClicks = props.analytics_clicks;
+    newAnalyticsClicks[parseInt(event.key)].directClicks++;
+    props.setAnalyticsClicks(newAnalyticsClicks);
   };
 
   const items: MenuProps["items"] = [

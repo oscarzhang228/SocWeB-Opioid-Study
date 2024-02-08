@@ -8,10 +8,30 @@ export default function ClickStyle(props: {
   carouselRef: React.RefObject<any>;
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  analytics_clicks: any[];
+  analytics_time: any[];
+  setAnalyticsClicks: React.Dispatch<React.SetStateAction<any[]>>;
+  setAnalyticsTime: React.Dispatch<React.SetStateAction<any[]>>;
+  SendAnalytics: () => void;
 }) {
+  // Workaround: The following three lines is a workaround for destructuring the props for useEffect
+  const currentPage = props.currentPage;
+  const analytics_time = props.analytics_time;
+  const setAnalyticsTime = props.setAnalyticsTime;
   const [glossary] = React.useState({
     sometimes: "a test phrase",
   } as Object);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      // Purpose: increments the time for the current page
+      const newAnalyticsTime = analytics_time;
+      newAnalyticsTime[currentPage]++;
+      setAnalyticsTime(newAnalyticsTime);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [currentPage, analytics_time, setAnalyticsTime]);
 
   const GoForward = () => {
     // last page is introduction page + questions.length
@@ -19,6 +39,11 @@ export default function ClickStyle(props: {
       return;
     }
     props.carouselRef.current.next();
+    // Purpose: increments the forward clicks for the current page
+    const newAnalyticsClicks = props.analytics_clicks;
+    newAnalyticsClicks[props.currentPage].forwardClicks++;
+    props.setAnalyticsClicks(newAnalyticsClicks);
+
     props.setCurrentPage(props.currentPage + 1);
   };
   const GoBack = () => {
@@ -26,6 +51,10 @@ export default function ClickStyle(props: {
       return;
     }
     props.carouselRef.current.prev();
+    // Purpose: increments the back clicks for the current page
+    const newAnalyticsClicks = props.analytics_clicks;
+    newAnalyticsClicks[props.currentPage].backClicks++;
+    props.setAnalyticsClicks(newAnalyticsClicks);
     props.setCurrentPage(props.currentPage - 1);
   };
 
@@ -75,7 +104,9 @@ export default function ClickStyle(props: {
         <Button shape="circle" icon={<RightOutlined />} onClick={GoForward} />
       </div>
       <div className="w-100 d-flex justify-content-center gap-3 p-5">
-        <Button type="primary">Submit</Button>
+        <Button type="primary" onClick={props.SendAnalytics}>
+          Submit
+        </Button>
       </div>
     </div>
   );
