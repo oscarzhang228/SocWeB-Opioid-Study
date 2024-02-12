@@ -3,6 +3,7 @@ import styles from "../scss/QuestionBox.module.scss";
 import { Card, Tooltip, Carousel, Button } from "antd";
 import Question from "./Question";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import Quiz from "./Quiz";
 export default function ClickStyle(props: {
   questions: any[];
   carouselRef: React.RefObject<any>;
@@ -12,7 +13,13 @@ export default function ClickStyle(props: {
   analytics_time: any[];
   setAnalyticsClicks: React.Dispatch<React.SetStateAction<any[]>>;
   setAnalyticsTime: React.Dispatch<React.SetStateAction<any[]>>;
-  SendAnalytics: () => void;
+  SendAnalytics: (email: string) => void;
+  analytics_glossary_hover: { [key: string]: number };
+  setAnalyticsGlossaryHover: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: number;
+    }>
+  >;
 }) {
   // Workaround: The following three lines is a workaround for destructuring the props for useEffect
   const currentPage = props.currentPage;
@@ -33,6 +40,15 @@ export default function ClickStyle(props: {
     return () => clearInterval(interval);
   }, [currentPage, analytics_time, setAnalyticsTime]);
 
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  // Purpose: handles the hover event for the glossary
+  const GlossaryHover = (e: React.MouseEvent) => {
+    const word = (e.target as HTMLElement).innerText.toLowerCase();
+
+    const newAnalyticsGlossaryHover = props.analytics_glossary_hover;
+    newAnalyticsGlossaryHover[word] += 1;
+  };
   const GoForward = () => {
     // last page is introduction page + questions.length
     if (props.currentPage >= props.questions.length) {
@@ -91,6 +107,7 @@ export default function ClickStyle(props: {
             >
               <Question
                 glossary={glossary}
+                GlossaryHover={GlossaryHover}
                 questionNumber={index + 1}
                 question={data["Question (Reddit post)"]}
                 response={data["Reddit response"]}
@@ -104,10 +121,11 @@ export default function ClickStyle(props: {
         <Button shape="circle" icon={<RightOutlined />} onClick={GoForward} />
       </div>
       <div className="w-100 d-flex justify-content-center gap-3 p-5">
-        <Button type="primary" onClick={props.SendAnalytics}>
-          Submit
+        <Button type="primary" onClick={() => setIsModalOpen(true)}>
+          Start Quiz
         </Button>
       </div>
+      <Quiz isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </div>
   );
 }

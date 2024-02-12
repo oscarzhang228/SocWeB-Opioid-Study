@@ -5,6 +5,7 @@ export default function QuestionBox(props: {
   question: string;
   response: string;
   glossary: any;
+  GlossaryHover: (e: React.MouseEvent) => void;
 }) {
   // Workaround: inert attribute is not supported in Typescript right now
   const isInert = true;
@@ -29,7 +30,9 @@ export default function QuestionBox(props: {
                 title={props.glossary[part.toLowerCase()]}
                 key={index}
               >
-                <strong>{part}</strong>
+                <strong onMouseOver={(e) => props.GlossaryHover(e)}>
+                  {part}
+                </strong>
               </Tooltip>
             );
           }

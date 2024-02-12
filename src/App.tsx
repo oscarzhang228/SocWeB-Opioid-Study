@@ -11,13 +11,20 @@ function App() {
   const [analytics_clicks, setAnalyticsClicks] = React.useState<any[]>([]);
   // Purpose: stores the time for each question
   const [analytics_time, setAnalyticsTime] = React.useState<any[]>([]);
+  const [analytics_helpline_clicks, setAnalyticsHelplineClicks] =
+    React.useState<number>(0);
+  const [analytics_glossary_hover, setAnalyticsGlossaryHover] = React.useState<{
+    [key: string]: number;
+  }>({
+    sometimes: 0,
+  });
   // Purpose: used for navigation and keeping track of what page for analytics
   const [currentPage, setCurrentPage] = React.useState<number>(0);
   const carouselRef = React.useRef<any>(null);
 
   // Purpose: fetches the questions from the server
   useEffect(() => {
-    axios("api/server").then((res) => {
+    axios("api/questions").then((res) => {
       setQuestions(res.data);
       InitializeAnalyticsArray(res.data.length);
     });
@@ -34,9 +41,17 @@ function App() {
     setAnalyticsTime(newAnalyticsTime);
   };
 
-  const SendAnalytics = () => {
-    console.log(analytics_clicks);
-    console.log(analytics_time);
+  const SendAnalytics = (email: string) => {
+    const analytics = {
+      email: email,
+      clicks: analytics_clicks,
+      time: analytics_time,
+      helpline_clicks: analytics_helpline_clicks,
+      glossary_hover: analytics_glossary_hover,
+    };
+    // axios.put("api/analytics", analytics).then((res) => {
+    //   console.log(res.data);
+    // });
   };
   return (
     <div className={`d-flex flex-column ${styles.app}`}>
@@ -56,17 +71,22 @@ function App() {
             <QuestionView
               carouselRef={carouselRef}
               questions={questions}
+              SendAnalytics={SendAnalytics}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               analytics_clicks={analytics_clicks}
-              analytics_time={analytics_time}
               setAnalyticsClicks={setAnalyticsClicks}
+              analytics_time={analytics_time}
               setAnalyticsTime={setAnalyticsTime}
-              SendAnalytics={SendAnalytics}
+              analytics_glossary_hover={analytics_glossary_hover}
+              setAnalyticsGlossaryHover={setAnalyticsGlossaryHover}
             />
           </div>
           <div className={`col-2 d-none d-lg-flex justify-content-center p-2 `}>
-            <HelpNavigation></HelpNavigation>
+            <HelpNavigation
+              setAnalyticsHelplineClicks={setAnalyticsHelplineClicks}
+              analytics_helpline_clicks={analytics_helpline_clicks}
+            ></HelpNavigation>
           </div>
         </div>
       </div>

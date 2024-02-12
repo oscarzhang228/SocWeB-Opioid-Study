@@ -48,15 +48,18 @@ const items: MenuProps["items"] = [
   ),
 ];
 
-const HandleClick = (e: { key: string }) => {
-  if (e.key === "treatments") {
-    window.open("https://findtreatment.gov/");
-  } else if (e.key === "email") {
-    window.open("mailto:smittal87@gatech.edu");
-  }
-};
-
-export default function HelpNavigation() {
+export default function HelpNavigation(props: {
+  analytics_helpline_clicks: number;
+  setAnalyticsHelplineClicks: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  const HandleClick = (e: { key: string }) => {
+    if (e.key === "treatments") {
+      props.setAnalyticsHelplineClicks(props.analytics_helpline_clicks + 1);
+      window.open("https://findtreatment.gov/");
+    } else if (e.key === "email") {
+      window.open("mailto:smittal87@gatech.edu");
+    }
+  };
   return (
     <Menu
       className={`${styles["navigation-menu"]} pt-5`}

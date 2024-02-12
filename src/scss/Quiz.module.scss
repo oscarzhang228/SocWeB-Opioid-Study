@@ -1,0 +1,66 @@
+#msform {
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+}
+
+#msform fieldset {
+  background: white;
+  border: 0 none;
+  border-radius: 0px;
+
+  padding: 20px 30px;
+  box-sizing: border-box;
+  width: 80%;
+  margin: 0 10%;
+
+  /*stacking fieldsets above each other*/
+  position: relative;
+}
+
+/*Hide all except first fieldset*/
+#msform fieldset:not(:first-of-type) {
+  display: none;
+}
+
+#msform input,
+#msform textarea {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: montserrat;
+  color: #2c3e50;
+  font-size: 13px;
+}
+
+#msform input:focus,
+#msform textarea:focus {
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: 1px solid #ee0979;
+  outline-width: 0;
+  transition: All 0.5s ease-in;
+  -webkit-transition: All 0.5s ease-in;
+  -moz-transition: All 0.5s ease-in;
+  -o-transition: All 0.5s ease-in;
+}
+
+/*headings*/
+.fs-title {
+  font-size: 30px;
+
+  color: #2c3e50;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.fs-subtitle {
+  font-weight: normal;
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 20px;
+}
