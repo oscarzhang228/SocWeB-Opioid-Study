@@ -1,0 +1,39 @@
+.Form {
+  text-align: center;
+  position: relative;
+  margin-top: 30px;
+}
+
+.Form-Fields {
+  background: white;
+  border: 0 none;
+  border-radius: 0px;
+
+  padding: 20px 30px;
+  box-sizing: border-box;
+  width: 80%;
+  margin: 0 10%;
+
+  /*stacking fieldsets above each other*/
+  position: relative;
+}
+
+/*Hide all except first fieldset*/
+.Form-Fields:not(:first-of-type) {
+  display: none;
+}
+
+/*headings*/
+.Form-Title {
+  font-size: 30px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.Form-Subtitle {
+  font-weight: normal;
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 20px;
+}

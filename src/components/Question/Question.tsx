@@ -1,4 +1,3 @@
-import styles from "../scss/QuestionBox.module.scss";
 import { Tooltip } from "antd";
 export default function QuestionBox(props: {
   questionNumber: number;
@@ -48,7 +47,7 @@ export default function QuestionBox(props: {
 
   return (
     <>
-      <div className={`${styles["card-question"]} p-4`}>
+      <div className={`p-4`}>
         <h1>Question #{props.questionNumber}</h1>
         <p>
           <ParseString input_string={props.question}></ParseString>

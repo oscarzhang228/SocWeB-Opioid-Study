@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import QuestionNavigation from "./components/QuestionNavigation";
-import styles from "./scss/App.module.scss";
-import HelpNavigation from "./components/HelpNavigation";
+import QuestionNavigation from "../../components/QuestionNavigation/QuestionNavigation";
+import styles from "./App.module.scss";
+import HelpNavigation from "../../components/HelpNavigation/HelpNavigation";
 import axios from "axios";
-import QuestionView from "./components/QuestionView";
+import QuestionView from "../../components/QuestionView/QuestionView";
 
 function App() {
   const [questions, setQuestions] = React.useState<any[]>([]);
@@ -54,10 +54,10 @@ function App() {
     // });
   };
   return (
-    <div className={`d-flex flex-column ${styles.app}`}>
+    <div className={`d-flex flex-column ${styles.App}`}>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-2 d-none d-lg-flex justify-content-center p-2 side-navigation-div">
+          <div className="col-2 d-none d-lg-flex justify-content-center p-2">
             <QuestionNavigation
               carouselRef={carouselRef}
               questions={questions}

@@ -1,0 +1,10 @@
+.QuestionNavigation {
+  background-color: #fff !important;
+  border-inline-end: none !important;
+  overflow: scroll;
+  max-height: 100vh;
+}
+
+.QuestionNavigation::-webkit-scrollbar {
+  display: none;
+}

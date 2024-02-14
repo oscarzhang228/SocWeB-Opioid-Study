@@ -5,7 +5,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import styles from "../scss/Navigation.module.scss";
+import styles from "./QuestionNavigation.module.scss";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -67,7 +67,7 @@ export default function SideNavigation(props: {
   ];
   return (
     <Menu
-      className={`${styles["navigation-menu"]} pt-5`}
+      className={`${styles["QuestionNavigation"]} pt-5`}
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={["questions"]}
       mode="inline"

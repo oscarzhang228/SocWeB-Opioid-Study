@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import styles from "../scss/Navigation.module.scss";
+import styles from "./HelpNavigation.module.scss";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -62,7 +62,7 @@ export default function HelpNavigation(props: {
   };
   return (
     <Menu
-      className={`${styles["navigation-menu"]} pt-5`}
+      className={`${styles["HelpNavigation"]} pt-5`}
       mode="inline"
       defaultOpenKeys={["samhsa", "email", "phone"]}
       items={items}

@@ -1,9 +1,9 @@
 import React from "react";
-import styles from "../scss/QuestionBox.module.scss";
+import styles from "./QuestionView.module.scss";
 import { Card, Tooltip, Carousel, Button } from "antd";
-import Question from "./Question";
+import Question from "../Question/Question";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import Quiz from "./Quiz";
+import Quiz from "../Quiz/Quiz";
 export default function ClickStyle(props: {
   questions: any[];
   carouselRef: React.RefObject<any>;
@@ -81,7 +81,7 @@ export default function ClickStyle(props: {
         dots={false}
         ref={props.carouselRef}
       >
-        <Card hoverable className={`${styles.card} p-5 mt-5`}>
+        <Card hoverable className={`${styles["Carousel-Card"]} p-5 mt-5`}>
           <p className="text-center">
             Thank you for consenting to{" "}
             <Tooltip placement="topLeft" title={"This is a proof of concept"}>
@@ -100,7 +100,7 @@ export default function ClickStyle(props: {
         {props.questions.map((data, index) => {
           return (
             <Card
-              className={`${styles.card} p-5 w-100`}
+              className={`${styles["Carousel-Card"]} p-5 w-100`}
               hoverable
               key={index}
               id={`question-${index + 1}`}
