@@ -49,6 +49,7 @@ function App() {
       helpline_clicks: analytics_helpline_clicks,
       glossary_hover: analytics_glossary_hover,
     };
+    console.log(analytics.email);
     axios.put("api/analytics", analytics).then((res) => {
       console.log(res.data);
     });

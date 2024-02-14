@@ -25,7 +25,7 @@ export default async (req, res) => {
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
     const user = await User.create({
-      email: "oscarzhang228",
+      email: req.body.email,
       analytics_clicks: req.body.clicks,
       analytics_time: req.body.time,
       analytics_glossary_hover: req.body.glossary_hover,
