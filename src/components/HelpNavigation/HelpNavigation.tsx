@@ -36,11 +36,11 @@ const items: MenuProps["items"] = [
     [
       getItem("Find Treatments", "treatments", <EllipsisOutlined />),
       getItem("Email Us", "email", <MailOutlined />, [
-        getItem("smittal87@gatech.edu", "email", <LinkOutlined />),
+        getItem("smittal87@gatech.edu", "shravika", <LinkOutlined />),
       ]),
       getItem("SAMHSA Help Line", "samhsa", <SafetyOutlined />, [
         getItem("1-800-662-HELP (4357)", "phone", <PhoneOutlined />, [
-          getItem("Free 24/7", "phone", <InfoCircleOutlined />),
+          getItem("Free 24/7", "phoneInfo", <InfoCircleOutlined />),
         ]),
       ]),
     ],

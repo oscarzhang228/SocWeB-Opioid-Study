@@ -26,11 +26,11 @@ function App() {
   useEffect(() => {
     axios("api/questions").then((res) => {
       setQuestions(res.data);
-      InitializeAnalyticsArray(res.data.length);
+      initializeAnalyticsArray(res.data.length);
     });
   }, []);
 
-  const InitializeAnalyticsArray = (length: number) => {
+  const initializeAnalyticsArray = (length: number) => {
     // Purpose: accounts for the introduction page
     length = length + 1;
     const newAnalyticsClicks = Array.from({ length }, () => {
@@ -41,7 +41,7 @@ function App() {
     setAnalyticsTime(newAnalyticsTime);
   };
 
-  const SendAnalytics = (email: string) => {
+  const sendAnalytics = (email: string) => {
     const analytics = {
       email: email,
       clicks: analytics_clicks,
@@ -49,9 +49,9 @@ function App() {
       helpline_clicks: analytics_helpline_clicks,
       glossary_hover: analytics_glossary_hover,
     };
-    // axios.put("api/analytics", analytics).then((res) => {
-    //   console.log(res.data);
-    // });
+    axios.put("api/analytics", analytics).then((res) => {
+      console.log(res.data);
+    });
   };
   return (
     <div className={`d-flex flex-column ${styles.App}`}>
@@ -71,7 +71,7 @@ function App() {
             <QuestionView
               carouselRef={carouselRef}
               questions={questions}
-              SendAnalytics={SendAnalytics}
+              sendAnalytics={sendAnalytics}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               analytics_clicks={analytics_clicks}

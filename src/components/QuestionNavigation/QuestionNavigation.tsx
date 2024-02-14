@@ -33,7 +33,7 @@ export default function SideNavigation(props: {
   analytics_clicks: any[];
   setAnalyticsClicks: React.Dispatch<React.SetStateAction<any[]>>;
 }) {
-  const NavigateQuestion = (event: { key: string }) => {
+  const navigateQuestion = (event: { key: string }) => {
     props.carouselRef.current.goTo(parseInt(event.key));
     props.setCurrentPage(parseInt(event.key));
     //Purpose: increments the direct clicks for the current page
@@ -71,7 +71,7 @@ export default function SideNavigation(props: {
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={["questions"]}
       mode="inline"
-      onClick={NavigateQuestion}
+      onClick={navigateQuestion}
       items={items}
     />
   );

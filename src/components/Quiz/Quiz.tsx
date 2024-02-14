@@ -1,6 +1,5 @@
-import { Modal, Button, Input } from "antd";
+import { Modal, Button, Radio } from "antd";
 import styles from "./Quiz.module.scss";
-import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -14,47 +13,69 @@ type Inputs = {
 export default function Quiz(props: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  sendAnalytics: (email: string) => void;
 }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-  // text for the quiz buttons that changes from next to submit
-  const [buttonText, setButtonText] = useState<string>("Next");
-  const handleOk = () => {
-    console.log("ok");
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    props.sendAnalytics(data.email);
+    props.setIsModalOpen(false);
   };
   const handleCancel = () => {
     props.setIsModalOpen(false);
   };
+
+  const questionArr: string[] = [
+    "Q1: Suboxone is a medication-assisted treatment for Opioid Use Disorder (OUD)",
+    "Q2: It is easy for people to disclose their past addiction to opioids",
+    "Q3: Going to methadone clinics is a one fit all solution to Opioid Use Disorder (OUD)",
+    "Q4: It is difficult to get an appointment for methadone clinics or treatment using methadone.",
+  ];
+
+  const allQuestions = questionArr.map((question, index) => {
+    return <Question key={index} question={question} />;
+  });
 
   return (
     <Modal
       open={props.isModalOpen}
       onCancel={handleCancel}
       footer={[
-        <Button key="Submit" htmlType="submit" onClick={handleSubmit(onSubmit)}>
-          {buttonText}
+        <Button htmlType="submit" key="submit" onClick={handleSubmit(onSubmit)}>
+          Submit
         </Button>,
       ]}
     >
       <form className={`${styles["Quiz-Form"]}`}>
         <fieldset
-          className={`${styles["Form-Fields"]} d-flex flex-column gap-2`}
+          className={`${styles["Form-Fields"]} d-flex flex-column gap-2 align-items-center`}
         >
           <h2 className={`${styles["Form-Title"]}`}>Quiz</h2>
-          <h3 className={`${styles["Form-Subtitle"]}`}>Enter Your Email</h3>
-          <Input
-            type="text"
+          <h3 className={`${styles["Form-Body"]}`}>Enter Your Email</h3>
+          <input
+            type="email"
             placeholder="Email"
-            className="text-center"
-            {...register("email", { required: true })}
+            className="text-center form-control"
+            {...register("email")}
+            required
           />
+          {allQuestions}
         </fieldset>
       </form>
     </Modal>
   );
 }
+
+const Question = (props: { question: string }) => {
+  return (
+    <>
+      <h3 className={`${styles["Form-Body"]} text-center p-3`}>
+        {props.question}
+      </h3>
+      <Radio.Group className="d-flex justify-content-center">
+        <Radio value={1}>True</Radio>
+        <Radio value={2}>False</Radio>
+      </Radio.Group>
+    </>
+  );
+};
