@@ -1,30 +1,51 @@
-import { Modal, Button, Radio } from "antd";
+import { Modal, Button } from "antd";
 import styles from "./Quiz.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
-
-type Inputs = {
-  email: string;
-  q1: boolean;
-  q2: boolean;
-  q3: boolean;
-  q4: boolean;
-};
 
 export default function Quiz(props: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   sendAnalytics: (email: string) => void;
 }) {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<any>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    props.sendAnalytics(data.email);
-    props.setIsModalOpen(false);
+  const onSubmit: SubmitHandler<any> = (data) => {
+    console.log(data);
+    // props.sendAnalytics(data.email);
+    // props.setIsModalOpen(false);
   };
   const handleCancel = () => {
     props.setIsModalOpen(false);
   };
 
+  // Purpose: creates a question component
+  const Question = (props: { question: string; questionNumber: number }) => {
+    return (
+      <>
+        <h3 className={`${styles["Form-Body"]} text-center p-3`}>
+          {props.question}
+        </h3>
+        <div className="d-flex justify-content-center gap-3">
+          <input
+            type="radio"
+            id={`q${props.questionNumber}-yes`}
+            value="true"
+            required
+            {...register(`q${props.questionNumber}`)}
+          />
+          <label htmlFor={`q${props.questionNumber}-yes`}>Yes</label>
+          <input
+            type="radio"
+            id={`q${props.questionNumber}-no`}
+            value="false"
+            required
+            {...register(`q${props.questionNumber}`)}
+          />
+          <label htmlFor={`q${props.questionNumber}-no`}>No</label>
+        </div>
+      </>
+    );
+  };
   const questionArr: string[] = [
     "Q1: Suboxone is a medication-assisted treatment for Opioid Use Disorder (OUD)",
     "Q2: It is easy for people to disclose their past addiction to opioids",
@@ -33,20 +54,16 @@ export default function Quiz(props: {
   ];
 
   const allQuestions = questionArr.map((question, index) => {
-    return <Question key={index} question={question} />;
+    return <Question key={index} question={question} questionNumber={index} />;
   });
 
   return (
-    <Modal
-      open={props.isModalOpen}
-      onCancel={handleCancel}
-      footer={[
-        <Button htmlType="submit" key="submit" onClick={handleSubmit(onSubmit)}>
-          Submit
-        </Button>,
-      ]}
-    >
-      <form className={`${styles["Quiz-Form"]}`}>
+    <Modal open={props.isModalOpen} onCancel={handleCancel} footer={[]}>
+      <form
+        className={`${styles["Quiz-Form"]} d-flex flex-column gap-3 align-items-center p-5`}
+        id="quiz"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <fieldset
           className={`${styles["Form-Fields"]} d-flex flex-column gap-2 align-items-center`}
         >
@@ -61,21 +78,10 @@ export default function Quiz(props: {
           />
           {allQuestions}
         </fieldset>
+        <Button htmlType="submit" key="submit">
+          Submit
+        </Button>
       </form>
     </Modal>
   );
 }
-
-const Question = (props: { question: string }) => {
-  return (
-    <>
-      <h3 className={`${styles["Form-Body"]} text-center p-3`}>
-        {props.question}
-      </h3>
-      <Radio.Group className="d-flex justify-content-center">
-        <Radio value={1}>True</Radio>
-        <Radio value={2}>False</Radio>
-      </Radio.Group>
-    </>
-  );
-};
