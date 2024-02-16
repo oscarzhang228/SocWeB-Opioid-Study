@@ -11,7 +11,7 @@ export default function Quiz(props: {
 
   const onSubmit: SubmitHandler<any> = (data) => {
     console.log(data);
-    // props.sendAnalytics(data.email);
+    // props.sendAnalytics(data);
     // props.setIsModalOpen(false);
   };
   const handleCancel = () => {
@@ -60,7 +60,7 @@ export default function Quiz(props: {
   return (
     <Modal open={props.isModalOpen} onCancel={handleCancel} footer={[]}>
       <form
-        className={`${styles["Quiz-Form"]} d-flex flex-column gap-3 align-items-center p-5`}
+        className={`${styles["Form"]} d-flex flex-column gap-3 align-items-center p-5`}
         id="quiz"
         onSubmit={handleSubmit(onSubmit)}
       >

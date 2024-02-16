@@ -34,6 +34,11 @@ export default function SideNavigation(props: {
   setAnalyticsClicks: React.Dispatch<React.SetStateAction<any[]>>;
 }) {
   const navigateQuestion = (event: { key: string }) => {
+    if (event.key === "home") {
+      props.carouselRef.current.goTo(0);
+      props.setCurrentPage(0);
+      return;
+    }
     props.carouselRef.current.goTo(parseInt(event.key));
     props.setCurrentPage(parseInt(event.key));
     //Purpose: increments the direct clicks for the current page
