@@ -7,12 +7,14 @@ import QuestionView from "../../components/QuestionView/QuestionView";
 
 function App() {
   const [questions, setQuestions] = React.useState<any[]>([]);
-  // Purpose: stores the clicks for each question
+  // Purpose: stores the clicks for each question. Tracked in QuestionNavigation
   const [analytics_clicks, setAnalyticsClicks] = React.useState<any[]>([]);
-  // Purpose: stores the time for each question
+  // Purpose: stores the time for each question. Tracked in QuestionView
   const [analytics_time, setAnalyticsTime] = React.useState<any[]>([]);
+  // Purpose: stores the clicks for the helpline. Tracked in HelpNavigation
   const [analytics_helpline_clicks, setAnalyticsHelplineClicks] =
     React.useState<number>(0);
+  // Purpose: stores the number of times a glossary term is hovered over. Tracked in QuestionView
   const [analytics_glossary_hover, setAnalyticsGlossaryHover] = React.useState<{
     [key: string]: number;
   }>({
