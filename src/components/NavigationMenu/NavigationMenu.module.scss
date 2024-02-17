@@ -1,10 +1,10 @@
-.HelpNavigation {
+.Navigation {
   background-color: #fff !important;
   border-inline-end: none !important;
   overflow: scroll;
   max-height: 100vh;
 }
 
-.HelpNavigation::-webkit-scrollbar {
+.Navigation::-webkit-scrollbar {
   display: none;
 }
