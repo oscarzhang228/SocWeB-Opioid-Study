@@ -7,6 +7,7 @@ import {
 } from "../components/NavigationMenu/MenuItems";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAnalytics } from "../analytics/AnalyticsProvider";
 
 // Main Page for the App with the menus and the content of the study
 export default function Main() {
@@ -17,13 +18,19 @@ export default function Main() {
   const [questionMenu, setQuestionMenu] = useState<any[]>(
     questionMenuItems([])
   );
+
+  // analytics context
+  const { initalizeQuestionAnalytics } = useAnalytics();
+
   useEffect(() => {
+    // get the questions -> initalize the panel, the menu, and the analytics
     axios("api/questions").then((res) => {
       setQuestions(res.data);
-      //     initializeAnalyticsArray(res.data.length);
       setQuestionMenu(questionMenuItems(res.data));
+      initalizeQuestionAnalytics(res.data);
     });
   }, []);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -46,16 +53,6 @@ export default function Main() {
     </div>
   );
 }
-
-/*
-Step-By-Step
-
-Set up a grid element with a row and three columns.
-
-Put the menu in the first and second column.
-
-Handle click handlers for the menus and create the analytics handler for that
-*/
 
 // const navigateQuestion = (event: { key: string }) => {
 //   if (event.key === "home") {
