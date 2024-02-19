@@ -64,7 +64,7 @@ export const questionMenuItems = (questions: string[]) => {
           questions.map((data, index) => {
             return getItem(
               `Question ${index + 1}`,
-              `${index + 1}`,
+              `Question:${index + 1}`,
               <QuestionCircleOutlined />
             );
           })

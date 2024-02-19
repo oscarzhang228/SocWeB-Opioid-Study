@@ -2,14 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
 import { AnalyticsProvider } from "./analytics/AnalyticsProvider";
 export default function App() {
-  // const [questions, setQuestions] = React.useState<any[]>([]);
-  // // Purpose: stores the clicks for each question. Tracked in QuestionNavigation
-  // const [analytics_clicks, setAnalyticsClicks] = React.useState<any[]>([]);
-  // // Purpose: stores the time for each question. Tracked in QuestionView
-  // const [analytics_time, setAnalyticsTime] = React.useState<any[]>([]);
-  // // Purpose: stores the clicks for the helpline. Tracked in HelpNavigation
-  // const [analytics_helpline_clicks, setAnalyticsHelplineClicks] =
-  //   React.useState<number>(0);
   // // Purpose: stores the number of times a glossary term is hovered over. Tracked in QuestionView
   // const [analytics_glossary_hover, setAnalyticsGlossaryHover] = React.useState<{
   //   [key: string]: number;
@@ -31,18 +23,6 @@ export default function App() {
   //     setQuestionMenu(questionMenuItems(res.data));
   //   });
   // }, []);
-
-  // const initializeAnalyticsArray = (length: number) => {
-  //   // Purpose: accounts for the introduction page
-  //   length = length + 1;
-  //   const newAnalyticsClicks = Array.from({ length }, () => {
-  //     return { backClicks: 0, forwardClicks: 0, directClicks: 0 };
-  //   });
-  //   const newAnalyticsTime = Array.from({ length }, () => 0);
-  //   setAnalyticsClicks(newAnalyticsClicks);
-  //   setAnalyticsTime(newAnalyticsTime);
-  // };
-
   // const sendAnalytics = (email: string) => {
   //   const analytics = {
   //     email: email,

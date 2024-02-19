@@ -11,25 +11,45 @@ import { useAnalytics } from "../analytics/AnalyticsProvider";
 
 // Main Page for the App with the menus and the content of the study
 export default function Main() {
-  // holds the questions for the day
   const [questions, setQuestions] = useState<string[]>([]);
-
-  // start with an empty questions array but once I get it from the server, I will update the items to reflect that
   const [questionMenu, setQuestionMenu] = useState<any[]>(
     questionMenuItems([])
   );
+  const {
+    initializeQuestionAnalytics,
+    incrementHelplineClicks,
+    incrementDirectClicks,
+    incrementHomePageClicks,
+  } = useAnalytics();
 
-  // analytics context
-  const { initalizeQuestionAnalytics } = useAnalytics();
-
+  // get the questions -> initalize the panel, the menu, and the analytics
   useEffect(() => {
-    // get the questions -> initalize the panel, the menu, and the analytics
     axios("api/questions").then((res) => {
       setQuestions(res.data);
       setQuestionMenu(questionMenuItems(res.data));
-      initalizeQuestionAnalytics(res.data);
+      initializeQuestionAnalytics(res.data);
     });
-  }, []);
+  }, [initializeQuestionAnalytics]);
+
+  const menuClickHandler = (event: { key: string }) => {
+    switch (event.key) {
+      case "treatments":
+        window.open("https://findtreatment.gov/");
+        incrementHelplineClicks();
+        break;
+      case "home":
+        incrementHomePageClicks();
+        break;
+      case event.key.startsWith("Question:") ? event.key : "":
+        // key in the formation Question:questionNumber so split it and get the question number
+        const questionNumber = parseInt(event.key.split(":")[1]);
+        // question 1 is at index 0
+        incrementDirectClicks(questionNumber - 1);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div className="container-fluid">
@@ -38,7 +58,7 @@ export default function Main() {
           <NavigationMenu
             menuItems={questionMenu}
             defaultOpenKeys={questionMenuDefaultOpenKeys}
-            clickHandler={() => {}}
+            clickHandler={menuClickHandler}
           />
         </section>
         <section className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100"></section>
@@ -46,7 +66,7 @@ export default function Main() {
           <NavigationMenu
             menuItems={helpMenuItems}
             defaultOpenKeys={helpMenuDefaultOpenKeys}
-            clickHandler={() => {}}
+            clickHandler={menuClickHandler}
           />
         </section>
       </div>

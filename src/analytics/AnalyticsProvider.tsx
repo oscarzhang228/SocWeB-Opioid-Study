@@ -1,10 +1,11 @@
 // analytics/AnalyticsProvider.tsx
-import React, { createContext, useContext, ReactNode } from "react";
-
-// functions that the context will be providing
-interface AnalyticsContextProps {
-  initalizeQuestionAnalytics: (questionData: QuestionData[]) => void;
-}
+import React, { createContext, useContext } from "react";
+import {
+  AnalyticsContextProps,
+  AnalyticsProviderProps,
+  QuestionClicks,
+  QuestionData,
+} from "./AnalyticsTypes";
 
 const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(
   undefined
@@ -18,21 +19,13 @@ export const useAnalytics = (): AnalyticsContextProps => {
   return context;
 };
 
-interface AnalyticsProviderProps {
-  children: ReactNode;
-}
-
 export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   children,
 }) => {
-  // tracked analytics
+  // ==========================================
+  // Section: Question Analytics
+  // ==========================================
   let questionAnalytics: QuestionClicks[] = [];
-  const helplineClicks: number = 0;
-  const glossaryHover: { [key: string]: number } = {};
-
-  // analytics functions
-
-  // for each question in the questionData, add a question to the questionAnalytics with the question and 0 for the inital analytics
   const initializeQuestionAnalytics = (questionData: QuestionData[]) => {
     // create a temporary array in order to avoid accidentally getting send two messages and making too big of an inital quesiton analytics array
     const temporaryQuestionAnalytics: QuestionClicks[] = [];
@@ -50,8 +43,58 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     questionAnalytics = temporaryQuestionAnalytics;
   };
 
+  const incrementForwardClicks = (index: number) => {
+    questionAnalytics[index]["forwardClicks"]++;
+  };
+  const incrementBackClicks = (index: number) => {
+    questionAnalytics[index]["backClicks"]++;
+  };
+  const incrementDirectClicks = (index: number) => {
+    questionAnalytics[index]["directClicks"]++;
+  };
+
+  // ==========================================
+  // Section: Treatment Helpline Analytics
+  // ==========================================
+  let helplineClicks: number = 0;
+
+  const incrementHelplineClicks = () => {
+    helplineClicks++;
+  };
+
+  // ==========================================
+  // Section: Home Page Analytics
+  // ==========================================
+  let homePageClicks: number = 0;
+
+  const incrementHomePageClicks = () => {
+    homePageClicks++;
+  };
+  // ==========================================
+  // Section: Glossary Analytics
+  // ==========================================
+  const glossaryHover: { [key: string]: number } = {};
+
+  const incrementGlossaryHover = (term: string) => {
+    if (glossaryHover[term]) {
+      glossaryHover[term]++;
+    } else {
+      console.error("Glossary term not found");
+    }
+  };
+
+  // ==========================================
+  // Section: Provider Setup
+  // ==========================================
+
   const analyticsContextValue: AnalyticsContextProps = {
-    initalizeQuestionAnalytics: initializeQuestionAnalytics,
+    initializeQuestionAnalytics,
+    incrementBackClicks,
+    incrementForwardClicks,
+    incrementHelplineClicks,
+    incrementDirectClicks,
+    incrementHomePageClicks,
+    incrementGlossaryHover,
   };
 
   return (
@@ -60,18 +103,3 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     </AnalyticsContext.Provider>
   );
 };
-
-interface QuestionClicks {
-  question: string;
-  backClicks: number;
-  forwardClicks: number;
-  directClicks: number;
-  time: number;
-}
-
-// this is what I'm going to get from the server
-interface QuestionData {
-  "LLM Response": string;
-  "Question (Reddit post)": string;
-  "Reddit response": string;
-}
