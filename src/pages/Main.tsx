@@ -8,10 +8,11 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAnalytics } from "../analytics/AnalyticsProvider";
+import QAPanel from "../components/QA Panel/QAPanel";
 
 // Main Page for the App with the menus and the content of the study
 export default function Main() {
-  const [questions, setQuestions] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<any[]>([]);
   const [questionMenu, setQuestionMenu] = useState<any[]>(
     questionMenuItems([])
   );
@@ -61,7 +62,9 @@ export default function Main() {
             clickHandler={menuClickHandler}
           />
         </section>
-        <section className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100"></section>
+        <section className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100">
+          <QAPanel questions={questions} />
+        </section>
         <section className="col-2 d-none d-lg-flex justify-content-center p-2">
           <NavigationMenu
             menuItems={helpMenuItems}

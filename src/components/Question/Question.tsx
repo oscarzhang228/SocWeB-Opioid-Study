@@ -1,62 +1,27 @@
 import { Tooltip } from "antd";
-export default function QuestionBox(props: {
+import { useGlossaryTooltip } from "../../hooks/useGlossaryTooltip";
+import { useState } from "react";
+import styles from "./Question.module.scss";
+export default function Question(props: {
   questionNumber: number;
   question: string;
   response: string;
-  glossary: any;
-  GlossaryHover: (e: React.MouseEvent) => void;
+  // glossary: any;
+  // GlossaryHover: (e: React.MouseEvent) => void;
 }) {
-  // Workaround: inert attribute is not supported in Typescript right now
-  const isInert = true;
-
-  // Purpose: puts words into a tooltip if they are in the glossary
-  const ParseString = (parse_string_props: { input_string: string }) => {
-    const segmenter = new Intl.Segmenter([], {
-      granularity: "word",
-    });
-    // grabs the words from the input string
-    const parts = Array.from(
-      segmenter.segment(parse_string_props.input_string)
-    ).map((part) => part.segment);
-
-    return (
-      <>
-        {parts.map((part, index): JSX.Element => {
-          if (props.glossary[part.toLowerCase()] !== undefined) {
-            return (
-              <Tooltip
-                placement="topLeft"
-                title={props.glossary[part.toLowerCase()]}
-                key={index}
-              >
-                <strong onMouseOver={(e) => props.GlossaryHover(e)}>
-                  {part}
-                </strong>
-              </Tooltip>
-            );
-          }
-          return (
-            <span {...{ inert: isInert ? "" : undefined }} key={index}>
-              {part}
-            </span>
-          );
-        })}
-      </>
-    );
-  };
+  const [question] = useState(useGlossaryTooltip(props.question));
+  const [response] = useState(useGlossaryTooltip(props.response));
 
   return (
-    <>
+    <div className={styles.Question}>
       <div className={`p-4`}>
         <h1>Question #{props.questionNumber}</h1>
-        <p>
-          <ParseString input_string={props.question}></ParseString>
-        </p>
+        <p>{question}</p>
       </div>
       <div className="p-4">
         <h2>Response</h2>
-        <ParseString input_string={props.response}></ParseString>
+        <p>{response}</p>
       </div>
-    </>
+    </div>
   );
 }

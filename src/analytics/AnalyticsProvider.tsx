@@ -73,13 +73,14 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // ==========================================
   // Section: Glossary Analytics
   // ==========================================
+  // glossary is hardcoded in the useGlossaryTooltip.tsx file
   const glossaryHover: { [key: string]: number } = {};
 
   const incrementGlossaryHover = (term: string) => {
     if (glossaryHover[term]) {
       glossaryHover[term]++;
     } else {
-      console.error("Glossary term not found");
+      glossaryHover[term] = 1;
     }
   };
 
