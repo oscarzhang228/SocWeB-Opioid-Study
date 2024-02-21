@@ -26,10 +26,10 @@ export default async (req, res) => {
     );
     const user = await User.create({
       email: req.body.email,
-      analytics_clicks: req.body.clicks,
-      analytics_time: req.body.time,
-      analytics_glossary_hover: req.body.glossary_hover,
-      analytics_helpLinkClicks: req.body.helpLinkClicks,
+      questions: req.body.questions,
+      helplineClicks: req.body.helplineClicks,
+      homePageClicks: req.body.homePageClicks,
+      glossaryHover: req.body.glossaryHover,
     });
   } finally {
     // Ensures that the client will close when you finish/error

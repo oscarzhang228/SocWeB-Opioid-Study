@@ -2,27 +2,46 @@ import { Carousel, Card, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Question from "../Question/Question";
 import styles from "./QAPanel.module.scss";
-import { useRef } from "react";
-export default function QAPanel(props: { questions: any[] }) {
-  const carouselRef = useRef<any>(null);
-  const goBack = () => {
-    // last page is introduction page + questions.length
+import { useAnalytics } from "../../analytics/AnalyticsProvider";
+import { useEffect } from "react";
+export default function QAPanel(props: { questions: any[]; carouselRef: any }) {
+  const { changePageNumber, incrementQuestionTime, getPageNumber } =
+    useAnalytics();
 
-    carouselRef.current!.prev();
+  // ==========================================
+  // Section: Carousel Controls
+  // ==========================================
+  const goBack = () => {
+    console.log(getPageNumber());
+    if (getPageNumber() === 0) {
+      return;
+    }
+    changePageNumber("subtract");
+    props.carouselRef!.current.prev();
   };
 
   const goForward = () => {
-    // last page is introduction page + questions.length
-    carouselRef.current!.next();
+    console.log(getPageNumber());
+    if (getPageNumber() === props.questions.length) {
+      return;
+    }
+    changePageNumber("add");
+
+    props.carouselRef!.current.next();
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      incrementQuestionTime();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [incrementQuestionTime]);
+
   return (
-    <>
-      <Carousel
-        className="d-flex flex-column justify-content-center"
-        dots={false}
-        ref={carouselRef}
-      >
-        <Card hoverable className={`${styles["QAPanel-Card"]} p-5 mt-5`}>
+    <div className="d-flex flex-column justify-content-center h-100">
+      <Carousel dots={false} ref={props.carouselRef} adaptiveHeight={true}>
+        <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
           <p className="text-center">
             Thank you for consenting to participate in our study! Following are
             some questions and their corresponding response, related to Opioid
@@ -37,7 +56,7 @@ export default function QAPanel(props: { questions: any[] }) {
         {props.questions.map((data, index) => {
           return (
             <Card
-              className={`${styles["QAPanel-Card"]} p-5 w-100`}
+              className={`${styles["QAPanel-Card"]} p-3 pb-0 w-100 h-100`}
               hoverable
               key={index}
               id={`question-${index + 1}`}
@@ -50,27 +69,25 @@ export default function QAPanel(props: { questions: any[] }) {
             </Card>
           );
         })}
+        <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
+          <p className="text-center">
+            Thank you so much for participating and going through the content
+            and the quiz. Your participation is greatly appreciated and today's
+            session is now complete.
+          </p>
+        </Card>
       </Carousel>
-      <Button shape="circle" icon={<LeftOutlined />} onClick={goBack} />
-      <Button
-        shape="circle"
-        icon={<RightOutlined />}
-        onClick={goForward}
-      />{" "}
-    </>
+      <div className="pt-2 w-100 d-flex justify-content-end">
+        <Button shape="circle" icon={<LeftOutlined />} onClick={goBack} />
+        <Button
+          shape="circle"
+          icon={<RightOutlined />}
+          onClick={goForward}
+        />{" "}
+      </div>
+    </div>
   );
 }
-
-// export default function QAPanel(props: {
-
-// }) {
-//   // Workaround: The following three lines is a workaround for destructuring the props for useEffect
-//   const currentPage = props.currentPage;
-//   const analytics_time = props.analytics_time;
-//   const setAnalyticsTime = props.setAnalyticsTime;
-//   const [glossary] = React.useState({
-//     sometimes: "a test phrase",
-//   } as Object);
 
 //   React.useEffect(() => {
 //     const interval = setInterval(() => {

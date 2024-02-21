@@ -6,8 +6,6 @@ export default function Question(props: {
   questionNumber: number;
   question: string;
   response: string;
-  // glossary: any;
-  // GlossaryHover: (e: React.MouseEvent) => void;
 }) {
   const [question] = useState(useGlossaryTooltip(props.question));
   const [response] = useState(useGlossaryTooltip(props.response));

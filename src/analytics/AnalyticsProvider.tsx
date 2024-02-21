@@ -6,6 +6,7 @@ import {
   QuestionClicks,
   QuestionData,
 } from "./AnalyticsTypes";
+import axios from "axios";
 
 const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(
   undefined
@@ -26,6 +27,8 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // Section: Question Analytics
   // ==========================================
   let questionAnalytics: QuestionClicks[] = [];
+  let pageNumber = 0;
+
   const initializeQuestionAnalytics = (questionData: QuestionData[]) => {
     // create a temporary array in order to avoid accidentally getting send two messages and making too big of an inital quesiton analytics array
     const temporaryQuestionAnalytics: QuestionClicks[] = [];
@@ -52,7 +55,25 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   const incrementDirectClicks = (index: number) => {
     questionAnalytics[index]["directClicks"]++;
   };
+  const getPageNumber = () => {
+    return pageNumber;
+  };
+  // input: add or subtract
+  const changePageNumber = (operation: string, pageNum?: number) => {
+    if (operation === "add") {
+      pageNumber++;
+    } else if (operation === "set" && pageNum) {
+      pageNumber = pageNum;
+    } else {
+      pageNumber--;
+    }
+  };
 
+  const incrementQuestionTime = () => {
+    if (questionAnalytics[pageNumber]) {
+      questionAnalytics[pageNumber]["time"]++;
+    }
+  };
   // ==========================================
   // Section: Treatment Helpline Analytics
   // ==========================================
@@ -85,6 +106,23 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   };
 
   // ==========================================
+  // Section: Sending Analytics
+  // ==========================================
+  const sendAnalytics = (email: string) => {
+    const analytics = {
+      email: email,
+      questions: questionAnalytics,
+      helplineClicks: helplineClicks,
+      homePageClicks: homePageClicks,
+      glossaryHover: glossaryHover,
+    };
+
+    axios.put("api/analytics", analytics).then((res) => {
+      console.log(res.data);
+    });
+  };
+
+  // ==========================================
   // Section: Provider Setup
   // ==========================================
 
@@ -96,6 +134,10 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     incrementDirectClicks,
     incrementHomePageClicks,
     incrementGlossaryHover,
+    changePageNumber,
+    incrementQuestionTime,
+    getPageNumber,
+    sendAnalytics,
   };
 
   return (

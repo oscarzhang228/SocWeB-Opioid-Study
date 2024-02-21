@@ -5,7 +5,7 @@ import {
   helpMenuItems,
   helpMenuDefaultOpenKeys,
 } from "../components/NavigationMenu/MenuItems";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAnalytics } from "../analytics/AnalyticsProvider";
 import QAPanel from "../components/QA Panel/QAPanel";
@@ -16,11 +16,13 @@ export default function Main() {
   const [questionMenu, setQuestionMenu] = useState<any[]>(
     questionMenuItems([])
   );
+  const carouselRef = useRef<any>(null);
   const {
     initializeQuestionAnalytics,
     incrementHelplineClicks,
     incrementDirectClicks,
     incrementHomePageClicks,
+    changePageNumber,
   } = useAnalytics();
 
   // get the questions -> initalize the panel, the menu, and the analytics
@@ -39,13 +41,20 @@ export default function Main() {
         incrementHelplineClicks();
         break;
       case "home":
+        changePageNumber("set", 0);
         incrementHomePageClicks();
+        carouselRef.current.goTo(0);
         break;
       case event.key.startsWith("Question:") ? event.key : "":
         // key in the formation Question:questionNumber so split it and get the question number
         const questionNumber = parseInt(event.key.split(":")[1]);
-        // question 1 is at index 0
+
+        // increment the direct clicks for the question which is one behind the question number because the question number starts from 1
         incrementDirectClicks(questionNumber - 1);
+
+        // go to the question
+        carouselRef.current.goTo(questionNumber);
+        changePageNumber("set", questionNumber);
         break;
       default:
         break;
@@ -53,7 +62,7 @@ export default function Main() {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid h-100">
       <div className="row">
         <section className="col-2 d-none d-lg-flex justify-content-center p-2">
           <NavigationMenu
@@ -63,7 +72,7 @@ export default function Main() {
           />
         </section>
         <section className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100">
-          <QAPanel questions={questions} />
+          <QAPanel questions={questions} carouselRef={carouselRef} />
         </section>
         <section className="col-2 d-none d-lg-flex justify-content-center p-2">
           <NavigationMenu

@@ -8,6 +8,10 @@ export interface AnalyticsContextProps {
   incrementDirectClicks: (index: number) => void;
   incrementGlossaryHover: (term: string) => void;
   incrementHomePageClicks: () => void;
+  incrementQuestionTime: () => void;
+  changePageNumber: (operation: string, pageNum?: number) => void;
+  getPageNumber: () => number;
+  sendAnalytics: (email: string) => void;
 }
 
 export interface AnalyticsProviderProps {
