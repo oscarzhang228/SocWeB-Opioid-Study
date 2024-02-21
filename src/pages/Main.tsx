@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAnalytics } from "../analytics/AnalyticsProvider";
 import QAPanel from "../components/QA Panel/QAPanel";
+import { useParams } from "react-router-dom";
 
 // Main Page for the App with the menus and the content of the study
 export default function Main() {
@@ -25,14 +26,16 @@ export default function Main() {
     changePageNumber,
   } = useAnalytics();
 
+  const { day } = useParams();
+
   // get the questions -> initalize the panel, the menu, and the analytics
   useEffect(() => {
-    axios("api/questions").then((res) => {
+    axios.get("api/questions?day=" + day).then((res) => {
       setQuestions(res.data);
       setQuestionMenu(questionMenuItems(res.data));
       initializeQuestionAnalytics(res.data);
     });
-  }, [initializeQuestionAnalytics]);
+  }, [initializeQuestionAnalytics, day]);
 
   const menuClickHandler = (event: { key: string }) => {
     switch (event.key) {

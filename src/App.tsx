@@ -6,7 +6,7 @@ export default function App() {
     <AnalyticsProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/:day" element={<Main />} />
         </Routes>
       </Router>
     </AnalyticsProvider>
