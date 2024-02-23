@@ -1,19 +1,29 @@
 import { Modal, Button } from "antd";
 import styles from "./Quiz.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useAnalytics } from "../../analytics/AnalyticsProvider";
 
 export default function Quiz(props: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  sendAnalytics: (email: string) => void;
+  carouselRef: any;
 }) {
   const { register, handleSubmit } = useForm<any>();
+  const { sendAnalytics, changePageNumber } = useAnalytics();
 
   const onSubmit: SubmitHandler<any> = (data) => {
+    // close the modal
+    props.setIsModalOpen(false);
+
+    // go to next page
+    props.carouselRef.current.next();
+    changePageNumber("add");
+
+    // handle the form data
     console.log(data);
-    // props.sendAnalytics(data);
-    // props.setIsModalOpen(false);
+    // sendAnalytics(data);
   };
+
   const handleCancel = () => {
     props.setIsModalOpen(false);
   };
@@ -22,7 +32,7 @@ export default function Quiz(props: {
   const Question = (props: { question: string; questionNumber: number }) => {
     return (
       <>
-        <h3 className={`${styles["Form-Body"]} text-center p-3`}>
+        <h3 className={`${styles["Form-Body"]} text-center p-2`}>
           {props.question}
         </h3>
         <div className="d-flex justify-content-center gap-3">
@@ -30,18 +40,16 @@ export default function Quiz(props: {
             type="radio"
             id={`q${props.questionNumber}-yes`}
             value="true"
-            required
-            {...register(`q${props.questionNumber}`)}
+            {...register(`q${props.questionNumber}`, { required: true })}
           />
-          <label htmlFor={`q${props.questionNumber}-yes`}>Yes</label>
+          <label htmlFor={`q${props.questionNumber}-yes`}>True</label>
           <input
             type="radio"
             id={`q${props.questionNumber}-no`}
             value="false"
-            required
-            {...register(`q${props.questionNumber}`)}
+            {...register(`q${props.questionNumber}`, { required: true })}
           />
-          <label htmlFor={`q${props.questionNumber}-no`}>No</label>
+          <label htmlFor={`q${props.questionNumber}-no`}>False</label>
         </div>
       </>
     );
@@ -60,7 +68,7 @@ export default function Quiz(props: {
   return (
     <Modal open={props.isModalOpen} onCancel={handleCancel} footer={[]}>
       <form
-        className={`${styles["Form"]} d-flex flex-column gap-3 align-items-center p-5`}
+        className={`${styles["Form"]} d-flex flex-column gap-3 align-items-center p-3`}
         id="quiz"
         onSubmit={handleSubmit(onSubmit)}
       >

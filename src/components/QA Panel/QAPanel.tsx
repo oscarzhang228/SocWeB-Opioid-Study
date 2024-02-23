@@ -4,7 +4,11 @@ import Question from "../Question/Question";
 import styles from "./QAPanel.module.scss";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
 import { useEffect } from "react";
-export default function QAPanel(props: { questions: any[]; carouselRef: any }) {
+export default function QAPanel(props: {
+  questions: any[];
+  carouselRef: any;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const { changePageNumber, incrementQuestionTime, getPageNumber } =
     useAnalytics();
 
@@ -12,7 +16,6 @@ export default function QAPanel(props: { questions: any[]; carouselRef: any }) {
   // Section: Carousel Controls
   // ==========================================
   const goBack = () => {
-    console.log(getPageNumber());
     if (getPageNumber() === 0) {
       return;
     }
@@ -21,8 +24,8 @@ export default function QAPanel(props: { questions: any[]; carouselRef: any }) {
   };
 
   const goForward = () => {
-    console.log(getPageNumber());
     if (getPageNumber() === props.questions.length) {
+      props.setIsModalOpen(true);
       return;
     }
     changePageNumber("add");
@@ -38,9 +41,18 @@ export default function QAPanel(props: { questions: any[]; carouselRef: any }) {
     return () => clearInterval(interval);
   }, [incrementQuestionTime]);
 
+  const style = {
+    height: "60vh",
+    overflow: "scroll",
+  };
   return (
-    <div className="d-flex flex-column justify-content-center h-100">
-      <Carousel dots={false} ref={props.carouselRef} adaptiveHeight={true}>
+    <div className="d-flex flex-column justify-content-center">
+      <Carousel
+        dots={false}
+        ref={props.carouselRef}
+        adaptiveHeight={true}
+        style={style}
+      >
         <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
           <p className="text-center">
             Thank you for consenting to participate in our study! Following are
@@ -77,13 +89,9 @@ export default function QAPanel(props: { questions: any[]; carouselRef: any }) {
           </p>
         </Card>
       </Carousel>
-      <div className="pt-2 w-100 d-flex justify-content-end">
+      <div className="pt-2 w-100 d-flex justify-content-center gap-2">
         <Button shape="circle" icon={<LeftOutlined />} onClick={goBack} />
-        <Button
-          shape="circle"
-          icon={<RightOutlined />}
-          onClick={goForward}
-        />{" "}
+        <Button shape="circle" icon={<RightOutlined />} onClick={goForward} />
       </div>
     </div>
   );

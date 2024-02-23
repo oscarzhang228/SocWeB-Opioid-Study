@@ -10,6 +10,7 @@ import axios from "axios";
 import { useAnalytics } from "../analytics/AnalyticsProvider";
 import QAPanel from "../components/QA Panel/QAPanel";
 import { useParams } from "react-router-dom";
+import Quiz from "../components/Quiz/Quiz";
 
 // Main Page for the App with the menus and the content of the study
 export default function Main() {
@@ -25,7 +26,7 @@ export default function Main() {
     incrementHomePageClicks,
     changePageNumber,
   } = useAnalytics();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { day } = useParams();
 
   // get the questions -> initalize the panel, the menu, and the analytics
@@ -75,7 +76,16 @@ export default function Main() {
           />
         </section>
         <section className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100">
-          <QAPanel questions={questions} carouselRef={carouselRef} />
+          <QAPanel
+            questions={questions}
+            carouselRef={carouselRef}
+            setIsModalOpen={setIsModalOpen}
+          />
+          <Quiz
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            carouselRef={carouselRef}
+          />
         </section>
         <section className="col-2 d-none d-lg-flex justify-content-center p-2">
           <NavigationMenu

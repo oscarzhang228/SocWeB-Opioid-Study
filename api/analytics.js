@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   email: String,
-  analytics_clicks: [
-    { backClicks: Number, forwardClicks: Number, directClicks: Number },
-  ],
-  analytics_time: [Number],
-  analytics_glossary_hover: Map,
-  helpLinkClicks: Number,
+  day: Number,
+  questions: Object,
+  helplineClicks: Number,
+  homePageClicks: Number,
+  glossaryHover: Map,
+  quiz: Object,
 });
 
 const User = mongoose.model("User", userSchema);
@@ -24,13 +24,7 @@ export default async (req, res) => {
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
-    const user = await User.create({
-      email: req.body.email,
-      questions: req.body.questions,
-      helplineClicks: req.body.helplineClicks,
-      homePageClicks: req.body.homePageClicks,
-      glossaryHover: req.body.glossaryHover,
-    });
+    const user = await User.create(req.body);
   } finally {
     // Ensures that the client will close when you finish/error
     await mongoose.disconnect();

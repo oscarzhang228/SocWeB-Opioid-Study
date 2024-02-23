@@ -11,7 +11,7 @@ export interface AnalyticsContextProps {
   incrementQuestionTime: () => void;
   changePageNumber: (operation: string, pageNum?: number) => void;
   getPageNumber: () => number;
-  sendAnalytics: (email: string) => void;
+  sendAnalytics: (quizData: any) => void;
 }
 
 export interface AnalyticsProviderProps {

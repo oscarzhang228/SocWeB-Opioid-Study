@@ -7,6 +7,7 @@ import {
   QuestionData,
 } from "./AnalyticsTypes";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(
   undefined
@@ -108,13 +109,20 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // ==========================================
   // Section: Sending Analytics
   // ==========================================
-  const sendAnalytics = (email: string) => {
+  const { day } = useParams();
+  const sendAnalytics = (quizData: any) => {
+    // get the email from the quiz data for use as the primary key
+    const email = quizData.email;
+    delete quizData.email;
+
     const analytics = {
       email: email,
+      day: day,
       questions: questionAnalytics,
       helplineClicks: helplineClicks,
       homePageClicks: homePageClicks,
       glossaryHover: glossaryHover,
+      quiz: quizData,
     };
 
     axios.put("api/analytics", analytics).then((res) => {
