@@ -41,17 +41,13 @@ export default function QAPanel(props: {
     return () => clearInterval(interval);
   }, [incrementQuestionTime]);
 
-  const style = {
-    height: "60vh",
-    overflow: "scroll",
-  };
   return (
     <div className="d-flex flex-column justify-content-center">
       <Carousel
         dots={false}
         ref={props.carouselRef}
         adaptiveHeight={true}
-        style={style}
+        className={styles["QAPanel-Carousel"]}
       >
         <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
           <p className="text-center">

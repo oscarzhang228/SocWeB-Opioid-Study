@@ -3,3 +3,13 @@
   background-color: #fff;
   margin-top: 3rem;
 }
+
+.QAPanel-Carousel {
+  height: 26rem;
+  overflow: scroll;
+}
+
+// delete the scroll bars for the carousel
+.QAPanel-Carousel::-webkit-scrollbar {
+  display: none;
+}
