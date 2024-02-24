@@ -21,7 +21,7 @@ export default function Quiz(props: {
 
     // handle the form data
     console.log(data);
-    // sendAnalytics(data);
+    sendAnalytics(data);
   };
 
   const handleCancel = () => {
@@ -32,7 +32,7 @@ export default function Quiz(props: {
   const Question = (props: { question: string; questionNumber: number }) => {
     return (
       <>
-        <h3 className={`${styles["Form-Body"]} text-center p-2`}>
+        <h3 className={`${styles["Form-Body"]} text-center p-2 px-1`}>
           {props.question}
         </h3>
         <div className="d-flex justify-content-center gap-3">
@@ -68,9 +68,14 @@ export default function Quiz(props: {
   });
 
   return (
-    <Modal open={props.isModalOpen} onCancel={handleCancel} footer={[]}>
+    <Modal
+      open={props.isModalOpen}
+      onCancel={handleCancel}
+      footer={[]}
+      className={styles.Quiz}
+    >
       <form
-        className={`${styles["Form"]} d-flex flex-column gap-3 align-items-center p-3`}
+        className={`${styles["Form"]} d-flex flex-column gap-3 align-items-center p-3 px-1`}
         id="quiz"
         onSubmit={handleSubmit(onSubmit)}
       >

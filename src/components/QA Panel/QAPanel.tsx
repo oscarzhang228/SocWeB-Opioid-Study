@@ -8,6 +8,10 @@ export default function QAPanel(props: {
   questions: any[];
   carouselRef: any;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  disabledForwardButton: boolean;
+  changeDisabledForwardButton: React.Dispatch<React.SetStateAction<boolean>>;
+  disabledBackButton: boolean;
+  changeDisabledBackButton: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { changePageNumber, incrementQuestionTime, getPageNumber } =
     useAnalytics();
@@ -21,6 +25,17 @@ export default function QAPanel(props: {
     }
     changePageNumber("subtract");
     props.carouselRef!.current.prev();
+
+    if (props.disabledForwardButton) {
+      props.changeDisabledForwardButton(false);
+    }
+
+    // if first question, disable back button else enable if disabled
+    if (getPageNumber() === 0) {
+      props.changeDisabledBackButton(true);
+    } else if (props.disabledBackButton) {
+      props.changeDisabledBackButton(false);
+    }
   };
 
   const goForward = () => {
@@ -28,9 +43,21 @@ export default function QAPanel(props: {
       props.setIsModalOpen(true);
       return;
     }
+
     changePageNumber("add");
 
     props.carouselRef!.current.next();
+
+    if (props.disabledBackButton) {
+      props.changeDisabledBackButton(false);
+    }
+
+    // if final question, disable forward button else enable if disabled
+    if (getPageNumber() === props.questions.length) {
+      props.changeDisabledForwardButton(true);
+    } else if (props.disabledForwardButton) {
+      props.changeDisabledForwardButton(false);
+    }
   };
 
   useEffect(() => {
@@ -86,8 +113,18 @@ export default function QAPanel(props: {
         </Card>
       </Carousel>
       <div className="pt-2 w-100 d-flex justify-content-center gap-2">
-        <Button shape="circle" icon={<LeftOutlined />} onClick={goBack} />
-        <Button shape="circle" icon={<RightOutlined />} onClick={goForward} />
+        <Button
+          shape="circle"
+          icon={<LeftOutlined />}
+          disabled={props.disabledBackButton}
+          onClick={goBack}
+        />
+        <Button
+          shape="circle"
+          icon={<RightOutlined />}
+          disabled={props.disabledForwardButton}
+          onClick={goForward}
+        />
       </div>
     </div>
   );

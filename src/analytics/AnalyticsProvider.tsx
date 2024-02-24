@@ -56,6 +56,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   const incrementDirectClicks = (index: number) => {
     questionAnalytics[index]["directClicks"]++;
   };
+
   const getPageNumber = () => {
     return pageNumber;
   };
@@ -63,7 +64,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   const changePageNumber = (operation: string, pageNum?: number) => {
     if (operation === "add") {
       pageNumber++;
-    } else if (operation === "set" && pageNum) {
+    } else if (operation === "set" && pageNum != null) {
       pageNumber = pageNum;
     } else {
       pageNumber--;

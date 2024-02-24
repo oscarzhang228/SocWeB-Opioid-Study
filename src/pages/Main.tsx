@@ -38,6 +38,11 @@ export default function Main() {
     });
   }, [initializeQuestionAnalytics, day]);
 
+  const [disabledBackButton, changeDisabledBackButton] =
+    useState<boolean>(true);
+  const [disabledForwardButton, changeDisabledForwardButton] =
+    useState<boolean>(false);
+
   const menuClickHandler = (event: { key: string }) => {
     switch (event.key) {
       case "treatments":
@@ -45,9 +50,16 @@ export default function Main() {
         incrementHelplineClicks();
         break;
       case "home":
+        carouselRef.current.goTo(0);
+
+        changeDisabledBackButton(true);
+
+        if (disabledForwardButton) {
+          changeDisabledForwardButton(false);
+        }
+
         changePageNumber("set", 0);
         incrementHomePageClicks();
-        carouselRef.current.goTo(0);
         break;
       case event.key.startsWith("Question:") ? event.key : "":
         // key in the formation Question:questionNumber so split it and get the question number
@@ -59,6 +71,18 @@ export default function Main() {
         // go to the question
         carouselRef.current.goTo(questionNumber);
         changePageNumber("set", questionNumber);
+
+        // if question is the last question the set disabled forward to true else set both of the to false
+        if (questionNumber === questions.length) {
+          changeDisabledForwardButton(true);
+        } else if (disabledForwardButton) {
+          changeDisabledForwardButton(false);
+        }
+
+        if (disabledBackButton) {
+          changeDisabledBackButton(false);
+        }
+
         break;
       default:
         break;
@@ -80,6 +104,10 @@ export default function Main() {
             questions={questions}
             carouselRef={carouselRef}
             setIsModalOpen={setIsModalOpen}
+            disabledForwardButton={disabledForwardButton}
+            changeDisabledForwardButton={changeDisabledForwardButton}
+            disabledBackButton={disabledBackButton}
+            changeDisabledBackButton={changeDisabledBackButton}
           />
           <Quiz
             isModalOpen={isModalOpen}
