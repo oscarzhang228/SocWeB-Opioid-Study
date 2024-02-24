@@ -40,14 +40,16 @@ export default function Quiz(props: {
             type="radio"
             id={`q${props.questionNumber}-yes`}
             value="true"
-            {...register(`q${props.questionNumber}`, { required: true })}
+            required
+            {...register(`q${props.questionNumber}`)}
           />
           <label htmlFor={`q${props.questionNumber}-yes`}>True</label>
           <input
             type="radio"
             id={`q${props.questionNumber}-no`}
             value="false"
-            {...register(`q${props.questionNumber}`, { required: true })}
+            required
+            {...register(`q${props.questionNumber}`)}
           />
           <label htmlFor={`q${props.questionNumber}-no`}>False</label>
         </div>
