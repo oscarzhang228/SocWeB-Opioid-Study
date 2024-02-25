@@ -22,54 +22,57 @@ export default function QAPanel(props: {
   // Section: Carousel Controls
   // ==========================================
   const goBack = () => {
-    // if coming from the thank you page then set it equal to true else false
-    if (getPageNumber() === props.questions.length + 1) {
+    if (getPageNumber() === 0) {
+      throw new Error(
+        "Should not be able to go back when back button is disabled"
+      );
+    }
+
+    // change the page number and move the carousel to the previous page
+    changePageNumber("subtract");
+    props.carouselRef!.current.prev();
+
+    // if we are at the last page then show quiz else hide it
+    if (getPageNumber() === props.questions.length) {
       props.setShowQuizButton(true);
     } else if (props.showQuizButton) {
       props.setShowQuizButton(false);
     }
 
-    // if the first page then don't do anything
-    if (getPageNumber() === 0) {
-      return;
-    }
-
-    changePageNumber("subtract");
-    props.carouselRef!.current.prev();
-
-    if (props.disabledForwardButton) {
+    // if the forward button is disabled then enable it unless we are on the last page before thank you
+    if (
+      props.disabledForwardButton &&
+      getPageNumber() !== props.questions.length
+    ) {
       props.changeDisabledForwardButton(false);
     }
 
-    // if first question, disable back button else enable if disabled
+    // if first question, disable back button
     if (getPageNumber() === 0) {
       props.changeDisabledBackButton(true);
-    } else if (props.disabledBackButton) {
-      props.changeDisabledBackButton(false);
     }
   };
 
   const goForward = () => {
     if (getPageNumber() === props.questions.length) {
-      return;
-    }
-    if (getPageNumber() === props.questions.length - 1) {
-      props.setShowQuizButton(true);
+      throw new Error(
+        "Should not be able to go forward when button is disabled on the last page"
+      );
     }
 
+    // change the page number and move the carousel to the next page
     changePageNumber("add");
-
     props.carouselRef!.current.next();
 
+    // if the back button is disabled the enable it
     if (props.disabledBackButton) {
       props.changeDisabledBackButton(false);
     }
 
-    // if final question, disable forward button else enable if disabled
+    // if final question, disable forward button and show quiz button
     if (getPageNumber() === props.questions.length) {
+      props.setShowQuizButton(true);
       props.changeDisabledForwardButton(true);
-    } else if (props.disabledForwardButton) {
-      props.changeDisabledForwardButton(false);
     }
   };
 
