@@ -6,6 +6,7 @@ import { useAnalytics } from "../../analytics/AnalyticsProvider";
 export default function Quiz(props: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>;
   carouselRef: any;
 }) {
   const { register, handleSubmit } = useForm<any>();
@@ -14,6 +15,9 @@ export default function Quiz(props: {
   const onSubmit: SubmitHandler<any> = (data) => {
     // close the modal
     props.setIsModalOpen(false);
+
+    // get rid of the quiz button
+    props.setShowQuizButton(false);
 
     // go to next page
     props.carouselRef.current.next();

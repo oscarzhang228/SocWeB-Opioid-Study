@@ -12,6 +12,8 @@ export default function QAPanel(props: {
   changeDisabledForwardButton: React.Dispatch<React.SetStateAction<boolean>>;
   disabledBackButton: boolean;
   changeDisabledBackButton: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>;
+  showQuizButton: boolean;
 }) {
   const { changePageNumber, incrementQuestionTime, getPageNumber } =
     useAnalytics();
@@ -20,9 +22,18 @@ export default function QAPanel(props: {
   // Section: Carousel Controls
   // ==========================================
   const goBack = () => {
+    // if coming from the thank you page then set it equal to true else false
+    if (getPageNumber() === props.questions.length + 1) {
+      props.setShowQuizButton(true);
+    } else if (props.showQuizButton) {
+      props.setShowQuizButton(false);
+    }
+
+    // if the first page then don't do anything
     if (getPageNumber() === 0) {
       return;
     }
+
     changePageNumber("subtract");
     props.carouselRef!.current.prev();
 
@@ -40,8 +51,10 @@ export default function QAPanel(props: {
 
   const goForward = () => {
     if (getPageNumber() === props.questions.length) {
-      props.setIsModalOpen(true);
       return;
+    }
+    if (getPageNumber() === props.questions.length - 1) {
+      props.setShowQuizButton(true);
     }
 
     changePageNumber("add");
@@ -125,6 +138,17 @@ export default function QAPanel(props: {
           disabled={props.disabledForwardButton}
           onClick={goForward}
         />
+      </div>
+      <div className="d-flex justify-content-center pt-5">
+        {props.showQuizButton && (
+          <Button
+            onClick={() => {
+              props.setIsModalOpen(true);
+            }}
+          >
+            Start Quiz
+          </Button>
+        )}
       </div>
     </div>
   );

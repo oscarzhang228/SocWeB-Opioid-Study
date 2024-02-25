@@ -18,6 +18,7 @@ export default function Main() {
   const [questionMenu, setQuestionMenu] = useState<any[]>(
     questionMenuItems([])
   );
+  const [showQuizButton, setShowQuizButton] = useState<boolean>(false);
   const carouselRef = useRef<any>(null);
   const {
     initializeQuestionAnalytics,
@@ -58,6 +59,10 @@ export default function Main() {
           changeDisabledForwardButton(false);
         }
 
+        if (showQuizButton) {
+          setShowQuizButton(false);
+        }
+
         changePageNumber("set", 0);
         incrementHomePageClicks();
         break;
@@ -75,8 +80,13 @@ export default function Main() {
         // if question is the last question the set disabled forward to true else set both of the to false
         if (questionNumber === questions.length) {
           changeDisabledForwardButton(true);
+          setShowQuizButton(true);
         } else if (disabledForwardButton) {
           changeDisabledForwardButton(false);
+        }
+
+        if (showQuizButton && questionNumber !== questions.length) {
+          setShowQuizButton(false);
         }
 
         if (disabledBackButton) {
@@ -108,11 +118,14 @@ export default function Main() {
             changeDisabledForwardButton={changeDisabledForwardButton}
             disabledBackButton={disabledBackButton}
             changeDisabledBackButton={changeDisabledBackButton}
+            showQuizButton={showQuizButton}
+            setShowQuizButton={setShowQuizButton}
           />
           <Quiz
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             carouselRef={carouselRef}
+            setShowQuizButton={setShowQuizButton}
           />
         </section>
         <section className="col-2 d-none d-lg-flex justify-content-center p-2">
