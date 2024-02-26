@@ -6,7 +6,7 @@
   </a>
 </p>
 
-> A web application for the Social Dynamics and Wellbeing Lab's OUD study on how human-generated responses related to opioid use disorder affect those with opioid use discorder versus GPT-4-generated responses.
+> A web application for the Social Dynamics and Wellbeing Lab's OUD study on how human-generated responses related to opioid use disorder affect those with opioid use disorder versus GPT-4-generated responses.
 
 ## Install
 
