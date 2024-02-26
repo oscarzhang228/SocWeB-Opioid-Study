@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
 import { AnalyticsProvider } from "./analytics/AnalyticsProvider";
+import Footer from "./components/Footer/Footer";
+
 export default function App() {
   return (
     <AnalyticsProvider>
@@ -8,6 +10,7 @@ export default function App() {
         <Routes>
           <Route path="/:day" element={<Main />} />
         </Routes>
+        <Footer></Footer>
       </Router>
     </AnalyticsProvider>
   );

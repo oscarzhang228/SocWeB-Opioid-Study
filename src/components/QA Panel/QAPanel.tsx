@@ -85,7 +85,7 @@ export default function QAPanel(props: {
   }, [incrementQuestionTime]);
 
   return (
-    <div className="d-flex flex-column justify-content-center">
+    <div className="d-flex flex-column justify-content-center pt-5">
       <Carousel
         dots={false}
         ref={props.carouselRef}
@@ -143,15 +143,14 @@ export default function QAPanel(props: {
         />
       </div>
       <div className="d-flex justify-content-center pt-5">
-        {props.showQuizButton && (
-          <Button
-            onClick={() => {
-              props.setIsModalOpen(true);
-            }}
-          >
-            Start Quiz
-          </Button>
-        )}
+        <Button
+          onClick={() => {
+            props.setIsModalOpen(true);
+          }}
+          style={{ visibility: props.showQuizButton ? "visible" : "hidden" }}
+        >
+          Start Quiz
+        </Button>
       </div>
     </div>
   );
