@@ -105,7 +105,7 @@ export default function Quiz(props: {
           <input
             type="email"
             placeholder="Email"
-            className="text-center form-control"
+            className="text-center form-control px-2"
             {...register("email")}
             required
           />

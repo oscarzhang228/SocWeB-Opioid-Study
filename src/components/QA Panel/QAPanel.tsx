@@ -126,8 +126,9 @@ export default function QAPanel(props: {
             meaning of any unknown terms that appear throughout the document. As
             a reminder, your participation is entirely voluntary, and you may
             discontinue participation at any time. After going through the
-            following content, you will be asked to answer a few questions to
-            help us gauge your overall understanding.
+            following content, you will be asked to take a short{" "}
+            <strong>required quiz</strong> to help us gauge your overall
+            understanding.
           </p>
         </Card>
         {props.questions.map((data, index) => {
@@ -174,6 +175,7 @@ export default function QAPanel(props: {
             props.setIsModalOpen(true);
           }}
           style={{ visibility: props.showQuizButton ? "visible" : "hidden" }}
+          type="primary"
         >
           Start Quiz
         </Button>
