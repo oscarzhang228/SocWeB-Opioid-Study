@@ -9,7 +9,7 @@ export interface AnalyticsContextProps {
   incrementGlossaryHover: (term: string) => void;
   incrementHomePageClicks: () => void;
   incrementQuestionTime: () => void;
-  changePageNumber: (operation: string, pageNum?: number) => void;
+  changePageNumber: (operation?: "add" | "set", pageNum?: number) => void;
   getPageNumber: () => number;
   sendAnalytics: (quizData: any) => void;
 }

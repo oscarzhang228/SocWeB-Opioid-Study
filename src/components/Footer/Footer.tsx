@@ -1,5 +1,10 @@
 import GTLogo from "../../images/GT_Logo.png";
 import styles from "./Footer.module.scss";
+
+/**
+ * This component is used to display the footer
+ * @return {*}
+ */
 export default function Footer() {
   return (
     <div className="d-flex justify-content-center p-3">
@@ -10,9 +15,9 @@ export default function Footer() {
       ></img>
       <div className="d-flex flex-column justify-content-center">
         <h1 className={styles["Footer-Heading"]}>
-          Social Dynamics and Wellbeing Lab @ Georgia Tech
+          Social Dynamics and Well-Being Lab @ Georgia Tech
         </h1>
-        <h2 className={styles["Footer-Subheading"]}>
+        {/* <h2 className={styles["Footer-Subheading"]}>
           If reading through the document brings you distress,
         </h2>
         <p className={styles["Footer-Content"]}>
@@ -28,7 +33,7 @@ export default function Footer() {
               SAMHSA Treatment Services Locator.
             </a>
           </strong>
-        </p>
+        </p> */}
       </div>
     </div>
   );

@@ -4,6 +4,22 @@ import Question from "../Question/Question";
 import styles from "./QAPanel.module.scss";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
 import { useEffect } from "react";
+
+/**
+ * This component is used to display the questions and responses in a carousel
+ * @param {{
+ *   questions: any[]; quesetion array for curernt questions
+ *   carouselRef: any; reference to the carousel
+ *   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>; function to open the modal
+ *   disabledForwardButton: boolean; state to disable the forward button
+ *   changeDisabledForwardButton: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the forward button
+ *   disabledBackButton: boolean; state to disable the back button
+ *   changeDisabledBackButton: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the back button
+ *   setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the quiz button
+ *   showQuizButton: boolean; state to show the quiz button
+ * }} props
+ * @return {*}
+ */
 export default function QAPanel(props: {
   questions: any[];
   carouselRef: any;
@@ -21,6 +37,10 @@ export default function QAPanel(props: {
   // ==========================================
   // Section: Carousel Controls
   // ==========================================
+
+  /**
+   * This function is used to go back to the previous question
+   */
   const goBack = () => {
     if (getPageNumber() === 0) {
       throw new Error(
@@ -29,7 +49,7 @@ export default function QAPanel(props: {
     }
 
     // change the page number and move the carousel to the previous page
-    changePageNumber("subtract");
+    changePageNumber();
     props.carouselRef!.current.prev();
 
     // if we are at the last page then show quiz else hide it
@@ -53,6 +73,9 @@ export default function QAPanel(props: {
     }
   };
 
+  /**
+   * This function is used to go forward to the next question
+   */
   const goForward = () => {
     if (getPageNumber() === props.questions.length) {
       throw new Error(
@@ -76,6 +99,9 @@ export default function QAPanel(props: {
     }
   };
 
+  /**
+   * This hook is used to increment the time spent on the question every second.
+   */
   useEffect(() => {
     const interval = setInterval(() => {
       incrementQuestionTime();

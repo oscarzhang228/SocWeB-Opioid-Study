@@ -1,3 +1,10 @@
+/**
+ * This file contains the questions and responses for the chatbot.
+ * The questions are organized by day, and each day contains an array of questions.
+ * Responses are sent based on the day number
+ * @module api/questions
+ * @param day - The day number in a query string
+ */
 export default (req, res) => {
   res.send(questions[req.query.day - 1]);
 };

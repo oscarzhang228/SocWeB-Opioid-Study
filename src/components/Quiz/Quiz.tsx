@@ -3,6 +3,16 @@ import styles from "./Quiz.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
 
+/**
+ * This component is used to display the quiz modal
+ * @param {{
+ *   isModalOpen: boolean; state to open the modal
+ *   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the modal
+ *   setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the quiz button
+ *   carouselRef: any; reference to the carousel
+ * }} props
+ * @return {*}
+ */
 export default function Quiz(props: {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +22,10 @@ export default function Quiz(props: {
   const { register, handleSubmit } = useForm<any>();
   const { sendAnalytics, changePageNumber } = useAnalytics();
 
+  /**
+   * Submit handler for the form.
+   * @param data - form data
+   */
   const onSubmit: SubmitHandler<any> = (data) => {
     // close the modal
     props.setIsModalOpen(false);

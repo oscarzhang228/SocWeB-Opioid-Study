@@ -12,6 +12,15 @@ import {
 
 type MenuItem = Required<MenuProps>["items"][number];
 
+/**
+ * This function is used to create a menu item
+ * @param {React.ReactNode} label the label of the menu item
+ * @param {React.Key} key the key of the menu item
+ * @param {React.ReactNode} [icon] the icon of the menu item
+ * @param {MenuItem[]} [children] the children of the menu item
+ * @param {"group"} [type] the type of the menu item
+ * @return {*}  {MenuItem}
+ */
 function getItem(
   label: React.ReactNode,
   key: React.Key,
@@ -48,7 +57,11 @@ export const helpMenuItems: any[] = [
 // all items should be open by default
 export const helpMenuDefaultOpenKeys = ["helpline", "email"];
 
-// Takes in the number of question and returns the menu items for the questions
+/**
+ * This function is used to create the question menu items
+ * @param {string[]} questions the questions
+ * @return {*}  {MenuItem[]}
+ */
 export const questionMenuItems = (questions: string[]) => {
   return [
     getItem(

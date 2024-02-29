@@ -13,6 +13,10 @@ const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(
   undefined
 );
 
+/**
+ * This hook is used to get the analytics context
+ * @returns the analytics context
+ */
 export const useAnalytics = (): AnalyticsContextProps => {
   const context = useContext(AnalyticsContext);
   if (!context) {
@@ -21,6 +25,11 @@ export const useAnalytics = (): AnalyticsContextProps => {
   return context;
 };
 
+/**
+ * This component is used to provide the analytics context to the application.
+ * @param param0 contains the children of the provider
+ * @returns The analytics provider
+ */
 export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   children,
 }) => {
@@ -30,6 +39,10 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   let questionAnalytics: QuestionClicks[] = [];
   let pageNumber = 0;
 
+  /**
+   * Initalizes the question analytics array with the question data from the server
+   * @param questionData the question data from the server
+   */
   const initializeQuestionAnalytics = (questionData: QuestionData[]) => {
     // create a temporary array in order to avoid accidentally getting send two messages and making too big of an inital quesiton analytics array
     const temporaryQuestionAnalytics: QuestionClicks[] = [];
@@ -47,21 +60,44 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     questionAnalytics = temporaryQuestionAnalytics;
   };
 
+  /**
+   * This function is used to increment the forward clicks of a question
+   * @param index the index of the question
+   */
   const incrementForwardClicks = (index: number) => {
     questionAnalytics[index]["forwardClicks"]++;
   };
+
+  /**
+   * This function is used to increment the back clicks of a question
+   * @param index the index of the question
+   */
   const incrementBackClicks = (index: number) => {
     questionAnalytics[index]["backClicks"]++;
   };
+
+  /**
+   * This function is used to increment the direct clicks of a question
+   * @param index the index of the question
+   */
   const incrementDirectClicks = (index: number) => {
     questionAnalytics[index]["directClicks"]++;
   };
 
+  /**
+   * Getter for the current page number
+   * @returns the current page number
+   */
   const getPageNumber = () => {
     return pageNumber;
   };
-  // input: add or subtract
-  const changePageNumber = (operation: string, pageNum?: number) => {
+
+  /**
+   * This function is used to change the page number
+   * @param operation the operation to perform on the page number either add or set
+   * @param pageNum the page number to set
+   */
+  const changePageNumber = (operation?: "add" | "set", pageNum?: number) => {
     if (operation === "add") {
       pageNumber++;
     } else if (operation === "set" && pageNum != null) {
@@ -71,6 +107,9 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     }
   };
 
+  /**
+   * This function is used to increment the time spent on a question
+   */
   const incrementQuestionTime = () => {
     if (questionAnalytics[pageNumber]) {
       questionAnalytics[pageNumber]["time"]++;
@@ -81,6 +120,9 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // ==========================================
   let helplineClicks: number = 0;
 
+  /**
+   * This function is used to increment the helpline clicks
+   */
   const incrementHelplineClicks = () => {
     helplineClicks++;
   };
@@ -90,6 +132,9 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // ==========================================
   let homePageClicks: number = 0;
 
+  /**
+   * This function is used to increment the home page clicks
+   */
   const incrementHomePageClicks = () => {
     homePageClicks++;
   };
@@ -99,6 +144,10 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // glossary is hardcoded in the useGlossaryTooltip.tsx file
   const glossaryHover: { [key: string]: number } = {};
 
+  /**
+   * This function is used to increment the glossary hover
+   * @param term the term that was hovered over
+   */
   const incrementGlossaryHover = (term: string) => {
     if (glossaryHover[term]) {
       glossaryHover[term]++;
@@ -111,6 +160,11 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // Section: Sending Analytics
   // ==========================================
   const { day } = useParams();
+
+  /**
+   * This function is used to send the analytics to the server
+   * @param quizData the quiz data from the front-end
+   */
   const sendAnalytics = (quizData: any) => {
     // get the email from the quiz data for use as the primary key
     const email = quizData.email;

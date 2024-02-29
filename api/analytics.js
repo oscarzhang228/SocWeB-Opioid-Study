@@ -16,6 +16,10 @@ const clientOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
 };
 
+/**
+ * Create a new user in the database with the data from the request body
+ * @param {Object} req - The request object
+ */
 export default async (req, res) => {
   try {
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version

@@ -12,7 +12,10 @@ import QAPanel from "../components/QA Panel/QAPanel";
 import { useParams } from "react-router-dom";
 import Quiz from "../components/Quiz/Quiz";
 
-// Main Page for the App with the menus and the content of the study
+/**
+ * This component is used to display the main page
+ * @returns Main Page
+ */
 export default function Main() {
   const [questions, setQuestions] = useState<any[]>([]);
   const [questionMenu, setQuestionMenu] = useState<any[]>(
@@ -29,7 +32,10 @@ export default function Main() {
   } = useAnalytics();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { day } = useParams();
-  // get the questions -> initalize the panel, the menu, and the analytics
+
+  /**
+   * This useEffect is used to get the questions from the backend and set the questions, the question menu, and initialize the question analytics
+   */
   useEffect(() => {
     const parsedDay = day?.slice(3);
     axios.get("api/questions?day=" + parsedDay).then((res) => {
@@ -44,6 +50,10 @@ export default function Main() {
   const [disabledForwardButton, changeDisabledForwardButton] =
     useState<boolean>(false);
 
+  /**
+   * Navigation menu click handler that handles the click of the menu items and opens the corresponding page.
+   * @param event the event that is triggered when a menu item is clicked
+   */
   const menuClickHandler = (event: { key: string }) => {
     switch (event.key) {
       case "treatments":
@@ -51,7 +61,7 @@ export default function Main() {
         incrementHelplineClicks();
         break;
       case "home":
-        // go to the home page and set the page number to 0
+        // go to the home page and set the page number to 0 which is the home page
         carouselRef.current.goTo(0);
         changePageNumber("set", 0);
 
