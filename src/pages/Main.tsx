@@ -109,6 +109,12 @@ export default function Main() {
 
   return (
     <div className="container-fluid h-100">
+      <Quiz
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        carouselRef={carouselRef}
+        setShowQuizButton={setShowQuizButton}
+      />
       <div className="row">
         <section className="col-2 d-none d-lg-flex justify-content-center p-2">
           <NavigationMenu
@@ -127,12 +133,6 @@ export default function Main() {
             disabledBackButton={disabledBackButton}
             changeDisabledBackButton={changeDisabledBackButton}
             showQuizButton={showQuizButton}
-            setShowQuizButton={setShowQuizButton}
-          />
-          <Quiz
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            carouselRef={carouselRef}
             setShowQuizButton={setShowQuizButton}
           />
         </section>

@@ -119,7 +119,7 @@ export default function QAPanel(props: {
         className={styles["QAPanel-Carousel"]}
       >
         <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
-          <p className="text-center">
+          <p className={`text-center ${styles["QAPanel-NonQuestion"]}`}>
             Thank you for consenting to participate in our study! Following are
             some questions and their corresponding response, related to Opioid
             Use Disorder. Please read through them carefully. You may search the
@@ -146,8 +146,8 @@ export default function QAPanel(props: {
             </Card>
           );
         })}
-        <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
-          <p className="text-center">
+        <Card hoverable className={`${styles["QAPanel-Card"]}  p-3 pb-0 mt-5`}>
+          <p className={`text-center ${styles["QAPanel-NonQuestion"]}`}>
             Thank you so much for participating and going through the content
             and the quiz. Your participation is greatly appreciated and today's
             session is now complete.

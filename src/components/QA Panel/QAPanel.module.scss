@@ -9,6 +9,9 @@
   overflow: scroll;
 }
 
+.QAPanel-NonQuestion {
+  font-size: 1.1rem;
+}
 // delete the scroll bars for the carousel
 .QAPanel-Carousel::-webkit-scrollbar {
   display: none;

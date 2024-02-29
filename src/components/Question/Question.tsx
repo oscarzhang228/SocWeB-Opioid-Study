@@ -22,7 +22,7 @@ export default function Question(props: {
   return (
     <div className={styles.QuestionResponse}>
       <div>
-        <h2>Question #{props.questionNumber}</h2>
+        <h2>Question {props.questionNumber}</h2>
         <p>{question}</p>
       </div>
       <div>

@@ -93,7 +93,7 @@ export default function Quiz(props: {
       className={styles.Quiz}
     >
       <form
-        className={`${styles["Form"]} d-flex flex-column gap-3 align-items-center p-3 px-1`}
+        className={`${styles["Form"]} d-flex flex-column gap-3 align-items-center p-2 px-1`}
         id="quiz"
         onSubmit={handleSubmit(onSubmit)}
       >

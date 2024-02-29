@@ -1,8 +1,4 @@
 .Quiz {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   overflow: scroll;
 }
 
@@ -20,10 +16,8 @@
   border: 0 none;
   border-radius: 0px;
 
-  padding: 20px 30px;
   box-sizing: border-box;
   width: 80%;
-  margin: 0 10%;
 
   /*stacking fieldsets above each other*/
   position: relative;
