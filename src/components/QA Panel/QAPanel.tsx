@@ -111,7 +111,7 @@ export default function QAPanel(props: {
   }, [incrementQuestionTime]);
 
   return (
-    <div className="d-flex flex-column justify-content-center pt-5">
+    <div className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3">
       <Carousel
         dots={false}
         ref={props.carouselRef}
@@ -155,7 +155,7 @@ export default function QAPanel(props: {
           </p>
         </Card>
       </Carousel>
-      <div className="pt-2 w-100 d-flex justify-content-center gap-2">
+      <div className="p-3 w-100 d-flex justify-content-center gap-2">
         <Button
           shape="circle"
           icon={<LeftOutlined />}
@@ -169,7 +169,7 @@ export default function QAPanel(props: {
           onClick={goForward}
         />
       </div>
-      <div className="d-flex justify-content-center pt-5">
+      <div className="d-flex justify-content-center">
         <Button
           onClick={() => {
             props.setIsModalOpen(true);
