@@ -5,11 +5,10 @@
 }
 
 .QAPanel-Carousel {
-  overflow: scroll;
   height: 26rem;
-
+  overflow: scroll;
   @media screen and (max-width: 425px) {
-    height: 26rem;
+    height: 33rem;
   }
 }
 

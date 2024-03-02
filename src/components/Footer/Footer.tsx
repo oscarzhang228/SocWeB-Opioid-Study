@@ -7,7 +7,7 @@ import styles from "./Footer.module.scss";
  */
 export default function Footer() {
   return (
-    <div className="d-flex justify-content-center p-3 pt-5">
+    <div className="d-flex justify-content-center p-md-4">
       <img
         src={GTLogo}
         className={styles["Footer-Logo"]}
