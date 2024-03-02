@@ -117,6 +117,9 @@ export default function QAPanel(props: {
         ref={props.carouselRef}
         adaptiveHeight={true}
         className={styles["QAPanel-Carousel"]}
+        draggable={false}
+        infinite={false} // Disable infinite loop
+        swipe={false}
       >
         <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
           <p className={`text-center ${styles["QAPanel-NonQuestion"]}`}>
