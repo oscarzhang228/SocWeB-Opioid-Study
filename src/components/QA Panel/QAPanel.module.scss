@@ -5,12 +5,16 @@
 }
 
 .QAPanel-Carousel {
-  height: 26rem;
   overflow: scroll;
+  height: 26rem;
+  @media screen and (max-width: 425px) {
+    height: 40rem;
+    background-color: red($color: #000000);
+  }
 }
 
 .QAPanel-NonQuestion {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 // delete the scroll bars for the carousel
 .QAPanel-Carousel::-webkit-scrollbar {

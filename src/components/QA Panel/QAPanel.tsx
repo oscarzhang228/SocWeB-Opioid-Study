@@ -115,7 +115,7 @@ export default function QAPanel(props: {
       <Carousel
         dots={false}
         ref={props.carouselRef}
-        adaptiveHeight={true}
+        // adaptiveHeight={true}
         className={styles["QAPanel-Carousel"]}
       >
         <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
