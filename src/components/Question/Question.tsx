@@ -22,11 +22,13 @@ export default function Question(props: {
   return (
     <div className={styles.QuestionResponse}>
       <div>
-        <h2>Question {props.questionNumber}</h2>
+        <h2 className={styles["QuestionResponse-Header"]}>
+          Question {props.questionNumber}
+        </h2>
         <p>{question}</p>
       </div>
       <div>
-        <h2>Response</h2>
+        <h2 className={styles["QuestionResponse-Header"]}>Response</h2>
         <p className={styles.Response}>{response}</p>
       </div>
     </div>

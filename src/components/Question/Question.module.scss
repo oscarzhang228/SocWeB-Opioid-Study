@@ -1,4 +1,13 @@
 .QuestionResponse {
   user-select: none;
   font-size: 1rem;
+  @media screen and (max-width: 425px) {
+    font-size: 0.8rem;
+  }
+}
+
+.QuestionResponse-Header {
+  // @media screen and (max-width: 957px) {
+  //   font-size: 3rem;
+  // }
 }
