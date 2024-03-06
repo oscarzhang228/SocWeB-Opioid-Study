@@ -36,7 +36,7 @@ type QAPanelProps = {
 export default function QAPanel(props: QAPanelProps) {
   const { changePageNumber, incrementQuestionTime, getPageNumber } =
     useAnalytics();
-
+  const SCALE_CONSTANT = 0.01;
   // ==========================================
   // Section: Carousel Controls
   // ==========================================
@@ -131,7 +131,7 @@ export default function QAPanel(props: QAPanelProps) {
         if (lastScale > 1.5) {
           return;
         }
-        lastScale = lastScale * e.scale;
+        lastScale += SCALE_CONSTANT;
 
         // Apply the transformation to the element
         zoomableRef.current!.style.transform = `scale(${lastScale})`;
@@ -147,7 +147,7 @@ export default function QAPanel(props: QAPanelProps) {
         }
 
         // Only zoom out if the scale is greater than 1
-        lastScale -= 0.01; // Decrease scale on pan
+        lastScale -= SCALE_CONSTANT; // Decrease scale on pan
         zoomableRef.current!.style.transform = `scale(${lastScale})`;
       });
 
