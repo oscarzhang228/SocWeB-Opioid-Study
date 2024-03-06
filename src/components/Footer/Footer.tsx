@@ -1,23 +1,48 @@
 import GTLogo from "../../images/GT_Logo.png";
 import styles from "./Footer.module.scss";
+import { Typography } from "antd";
+import { useAnalytics } from "../../analytics/AnalyticsProvider";
+import { LinkOutlined } from "@ant-design/icons";
+
+const { Paragraph, Link } = Typography;
 
 /**
  * This component is used to display the footer
  * @return {*}
  */
 export default function Footer() {
+  const { incrementHelplineClicks } = useAnalytics();
   return (
-    <div className="d-flex justify-content-center p-md-4 flex-column align-items-center">
+    <section className="d-flex justify-content-center p-md-4 flex-column align-items-center">
+      <section className={`${styles["Footer-Mobile"]} pt-3 text-center`}>
+        <Paragraph className={styles["Mobile-Text"]}>
+          SAMHSA Helpline: 1-800-662-HELP (4357)
+        </Paragraph>
+        <Paragraph className={styles["Mobile-Text"]}>
+          Contact Us: smittal87@gatech.edu
+        </Paragraph>
+        <Paragraph className={styles["Mobile-Text"]}>
+          <Link
+            className={styles["Mobile-Link"]}
+            target="_blank"
+            href="https://findtreatment.gov/"
+            onClick={() => incrementHelplineClicks()}
+          >
+            Find Treatments <LinkOutlined />
+          </Link>
+        </Paragraph>
+      </section>
+
       <img
         src={GTLogo}
-        className={`${styles["Footer-Logo"]} pt-lg-5 pt-3`}
+        className={`${styles["Footer-Logo"]} pt-lg-5 pt-2`}
         alt="Georgia Tech Logo"
       ></img>
-      <div className="d-flex flex-column justify-content-center">
+      <section className="d-flex flex-column justify-content-center">
         <h1 className={`${styles["Footer-Heading"]} px-5 py-2 text-center`}>
           Social Dynamics and Well-Being Lab @ Georgia Tech
         </h1>
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }

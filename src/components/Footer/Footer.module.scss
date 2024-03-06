@@ -16,3 +16,18 @@
     font-size: 1.1rem;
   }
 }
+
+.Footer-Mobile {
+  @media screen and (min-width: 992px) {
+    display: none;
+  }
+}
+
+.Mobile-Link {
+  color: black !important;
+  font-size: 1rem;
+}
+
+.Mobile-Text {
+  font-size: 1rem;
+}
