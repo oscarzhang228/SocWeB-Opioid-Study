@@ -1,6 +1,11 @@
 import { Menu } from "antd";
 import styles from "./NavigationMenu.module.scss";
 
+type NavigationMenuProps = {
+  menuItems: any[];
+  clickHandler: (e: { key: string }) => void;
+  defaultOpenKeys: string[];
+};
 /**
  * This component is used to display a menu based on the menu items.
  * @param {{
@@ -10,11 +15,7 @@ import styles from "./NavigationMenu.module.scss";
  * }} props
  * @return {*}
  */
-export default function NavigationMenu(props: {
-  menuItems: any[];
-  clickHandler: (e: { key: string }) => void;
-  defaultOpenKeys: string[];
-}) {
+export default function NavigationMenu(props: NavigationMenuProps) {
   const { defaultOpenKeys, clickHandler, menuItems } = props;
 
   return (

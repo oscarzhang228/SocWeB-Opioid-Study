@@ -3,6 +3,12 @@ import styles from "./Quiz.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
 
+type QuizProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>;
+  carouselRef: any;
+};
 /**
  * This component is used to display the quiz modal
  * @param {{
@@ -13,12 +19,7 @@ import { useAnalytics } from "../../analytics/AnalyticsProvider";
  * }} props
  * @return {*}
  */
-export default function Quiz(props: {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>;
-  carouselRef: any;
-}) {
+export default function Quiz(props: QuizProps) {
   const { register, handleSubmit } = useForm<any>();
   const { sendAnalytics, changePageNumber } = useAnalytics();
 

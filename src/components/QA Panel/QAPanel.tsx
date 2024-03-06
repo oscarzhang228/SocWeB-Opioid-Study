@@ -3,8 +3,21 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Question from "../Question/Question";
 import styles from "./QAPanel.module.scss";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
+import Hammer from "hammerjs";
+
+type QAPanelProps = {
+  questions: any[];
+  carouselRef: any;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  disabledForwardButton: boolean;
+  changeDisabledForwardButton: React.Dispatch<React.SetStateAction<boolean>>;
+  disabledBackButton: boolean;
+  changeDisabledBackButton: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>;
+  showQuizButton: boolean;
+};
 /**
  * This component is used to display the questions and responses in a carousel
  * @param {{
@@ -20,17 +33,7 @@ import { useEffect } from "react";
  * }} props
  * @return {*}
  */
-export default function QAPanel(props: {
-  questions: any[];
-  carouselRef: any;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  disabledForwardButton: boolean;
-  changeDisabledForwardButton: React.Dispatch<React.SetStateAction<boolean>>;
-  disabledBackButton: boolean;
-  changeDisabledBackButton: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>;
-  showQuizButton: boolean;
-}) {
+export default function QAPanel(props: QAPanelProps) {
   const { changePageNumber, incrementQuestionTime, getPageNumber } =
     useAnalytics();
 
@@ -110,6 +113,40 @@ export default function QAPanel(props: {
     return () => clearInterval(interval);
   }, [incrementQuestionTime]);
 
+  const zoomableRef = useRef<HTMLElement>(null); // Reference to the div you want to apply pinch zoom
+
+  useEffect(() => {
+    if (zoomableRef.current) {
+      // Ensure the div is mounted
+      const manager = new Hammer.Manager(zoomableRef.current);
+      const Pinch = new Hammer.Pinch(); // Instantiate Pinch gesture
+      manager.add(Pinch); // Add Pinch gesture to the manager
+
+      let initialScale = 1;
+      let lastScale = 1;
+
+      manager.on("pinchstart", (e: any) => {
+        initialScale = lastScale || 1;
+      });
+
+      manager.on("pinchmove", (e: any) => {
+        // Calculate the new scale
+        const scale = initialScale * e.scale;
+
+        // Apply the scale transformation
+        zoomableRef.current!.style.transform = `scale(${scale})`;
+      });
+
+      manager.on("pinchend", (e: any) => {
+        // Update the last scale
+        lastScale = initialScale * e.scale;
+      });
+
+      return () => {
+        manager.off("pinchstart pinchmove pinchend"); // Clean up events when component unmounts
+      };
+    }
+  });
   return (
     <div className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3">
       <Carousel

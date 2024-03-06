@@ -2,6 +2,11 @@ import { useGlossaryTooltip } from "../../hooks/useGlossaryTooltip";
 import { useState } from "react";
 import styles from "./Question.module.scss";
 
+type QuestionProps = {
+  questionNumber: number;
+  question: string;
+  response: string;
+};
 /**
  * This component is used to display the question and response
  * @param {{
@@ -11,11 +16,7 @@ import styles from "./Question.module.scss";
  * }} props
  * @return {*}
  */
-export default function Question(props: {
-  questionNumber: number;
-  question: string;
-  response: string;
-}) {
+export default function Question(props: QuestionProps) {
   const [question] = useState(useGlossaryTooltip(props.question));
   const [response] = useState(useGlossaryTooltip(props.response));
 
