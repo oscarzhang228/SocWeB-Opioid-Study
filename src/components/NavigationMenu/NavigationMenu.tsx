@@ -15,13 +15,15 @@ export default function NavigationMenu(props: {
   clickHandler: (e: { key: string }) => void;
   defaultOpenKeys: string[];
 }) {
+  const { defaultOpenKeys, clickHandler, menuItems } = props;
+
   return (
     <Menu
       className={`${styles["Navigation"]} pt-5`}
       mode="inline"
-      defaultOpenKeys={props.defaultOpenKeys}
-      items={props.menuItems}
-      onClick={props.clickHandler}
+      defaultOpenKeys={defaultOpenKeys}
+      items={menuItems}
+      onClick={clickHandler}
     />
   );
 }

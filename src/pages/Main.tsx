@@ -18,10 +18,11 @@ import Quiz from "../components/Quiz/Quiz";
  */
 export default function Main() {
   const [questions, setQuestions] = useState<any[]>([]);
-  const [questionMenu, setQuestionMenu] = useState<any[]>(
-    questionMenuItems([])
-  );
   const [showQuizButton, setShowQuizButton] = useState<boolean>(false);
+  const [questionMenu, setQuestionMenu] = useState<any[]>(
+    questionMenuItems([], false)
+  );
+
   const carouselRef = useRef<any>(null);
   const {
     initializeQuestionAnalytics,
@@ -32,18 +33,24 @@ export default function Main() {
   } = useAnalytics();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { day } = useParams();
-
+  const isQuestionSet = useRef<boolean>(false);
   /**
-   * This useEffect is used to get the questions from the backend and set the questions, the question menu, and initialize the question analytics
+   * This useEffect is used to get the questions from the backend and set the questions, the question menu, and initialize the question analytics.
+   * It also sets the showQuizButton state is it is the first time getting called.
    */
   useEffect(() => {
+    if (isQuestionSet.current) {
+      setQuestionMenu(questionMenuItems(questions, showQuizButton));
+      return;
+    }
     const parsedDay = day?.slice(3);
     axios.get("api/questions?day=" + parsedDay).then((res) => {
       setQuestions(res.data);
-      setQuestionMenu(questionMenuItems(res.data));
+      setQuestionMenu(questionMenuItems(res.data, showQuizButton));
       initializeQuestionAnalytics(res.data);
+      isQuestionSet.current = true;
     });
-  }, [initializeQuestionAnalytics, day]);
+  }, [initializeQuestionAnalytics, day, showQuizButton, questions]);
 
   const [disabledBackButton, changeDisabledBackButton] =
     useState<boolean>(true);
@@ -101,6 +108,9 @@ export default function Main() {
         if (disabledBackButton) {
           changeDisabledBackButton(false);
         }
+        break;
+      case "quiz":
+        setIsModalOpen(true);
         break;
       default:
         break;

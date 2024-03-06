@@ -8,6 +8,7 @@ import {
   SafetyOutlined,
   AppstoreOutlined,
   BarsOutlined,
+  UnlockFilled,
 } from "@ant-design/icons";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -26,7 +27,8 @@ function getItem(
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  type?: "group"
+  type?: "group",
+  disabled?: boolean
 ): MenuItem {
   return {
     key,
@@ -34,6 +36,7 @@ function getItem(
     children,
     label,
     type,
+    disabled,
   } as MenuItem;
 }
 
@@ -62,7 +65,10 @@ export const helpMenuDefaultOpenKeys = ["helpline", "email"];
  * @param {string[]} questions the questions
  * @return {*}  {MenuItem[]}
  */
-export const questionMenuItems = (questions: string[]) => {
+export const questionMenuItems = (
+  questions: string[],
+  showQuizButton: boolean
+) => {
   return [
     getItem(
       "Navigation",
@@ -81,6 +87,14 @@ export const questionMenuItems = (questions: string[]) => {
               <QuestionCircleOutlined />
             );
           })
+        ),
+        getItem(
+          "Quiz",
+          "quiz",
+          <UnlockFilled />,
+          undefined,
+          undefined,
+          !showQuizButton
         ),
       ],
       "group"
