@@ -128,26 +128,26 @@ export default function QAPanel(props: QAPanelProps) {
       let lastScale = 1;
 
       mc.on("pinchstart pinchmove pinchend", (e) => {
-        if (lastScale > 1.5) {
-          return;
-        }
-        lastScale += SCALE_CONSTANT;
-
-        // Apply the transformation to the element
-        zoomableRef.current!.style.transform = `scale(${lastScale})`;
-      });
-
-      // Set up pan recognizer for zoom out
-      const pan = new Hammer.Pan();
-      mc.add(pan);
-
-      mc.on("panleft panright panup pandown", (e) => {
         if (lastScale < 1) {
           return;
         }
 
         // Only zoom out if the scale is greater than 1
         lastScale -= SCALE_CONSTANT; // Decrease scale on pan
+        zoomableRef.current!.style.transform = `scale(${lastScale})`;
+      });
+
+      // Set up pan recognizer for zoom in
+      const pan = new Hammer.Pan();
+      mc.add(pan);
+
+      mc.on("panleft panright panup pandown", (e) => {
+        if (lastScale > 1.5) {
+          return;
+        }
+        lastScale += SCALE_CONSTANT;
+
+        // Apply the transformation to the element
         zoomableRef.current!.style.transform = `scale(${lastScale})`;
       });
 
