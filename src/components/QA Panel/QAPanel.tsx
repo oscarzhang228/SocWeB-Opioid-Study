@@ -123,7 +123,7 @@ export default function QAPanel(props: QAPanelProps) {
         swipe={false}
       >
         <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
-          <p className={`text-center ${styles["QAPanel-NonQuestion"]}`}>
+          <p className={`text-left ${styles["QAPanel-NonQuestion"]}`}>
             Thank you for consenting to participate in our study! Following are
             some questions and their corresponding response, related to Opioid
             Use Disorder. Please read through them carefully. You may search the
