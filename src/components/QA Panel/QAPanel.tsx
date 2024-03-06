@@ -3,9 +3,7 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Question from "../Question/Question";
 import styles from "./QAPanel.module.scss";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
-import { useEffect, useRef } from "react";
-
-import Hammer from "hammerjs";
+import { useEffect } from "react";
 
 type QAPanelProps = {
   questions: any[];
@@ -36,7 +34,7 @@ type QAPanelProps = {
 export default function QAPanel(props: QAPanelProps) {
   const { changePageNumber, incrementQuestionTime, getPageNumber } =
     useAnalytics();
-  const SCALE_CONSTANT = 0.01;
+
   // ==========================================
   // Section: Carousel Controls
   // ==========================================
@@ -113,55 +111,8 @@ export default function QAPanel(props: QAPanelProps) {
     return () => clearInterval(interval);
   }, [incrementQuestionTime]);
 
-  const zoomableRef = useRef<HTMLElement>(null); // Reference to the div you want to apply pinch zoom
-
-  useEffect(() => {
-    // Ensure the div is mounted
-    if (zoomableRef.current) {
-      const mc = new Hammer.Manager(zoomableRef.current);
-
-      // Create a pinch recognizer
-      const pinch = new Hammer.Pinch();
-      mc.add(pinch);
-
-      // Variable to keep track of the last scale
-      let lastScale = 1;
-
-      mc.on("pinchstart pinchmove pinchend", (e) => {
-        if (lastScale < 1) {
-          return;
-        }
-
-        // Only zoom out if the scale is greater than 1
-        lastScale -= SCALE_CONSTANT; // Decrease scale on pan
-        zoomableRef.current!.style.transform = `scale(${lastScale})`;
-      });
-
-      // Set up pan recognizer for zoom in
-      const pan = new Hammer.Pan();
-      mc.add(pan);
-
-      mc.on("panleft panright panup pandown", (e) => {
-        if (lastScale > 1.5) {
-          return;
-        }
-        lastScale += SCALE_CONSTANT;
-
-        // Apply the transformation to the element
-        zoomableRef.current!.style.transform = `scale(${lastScale})`;
-      });
-
-      // Cleanup event listeners on component unmount
-      return () => {
-        mc.off("pinchstart pinchmove pinchend panleft panright panup pandown");
-      };
-    }
-  });
   return (
-    <div
-      className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3"
-      ref={zoomableRef as any}
-    >
+    <div className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3">
       <Carousel
         dots={false}
         ref={props.carouselRef}
