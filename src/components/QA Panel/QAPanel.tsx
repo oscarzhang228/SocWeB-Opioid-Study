@@ -116,39 +116,56 @@ export default function QAPanel(props: QAPanelProps) {
   const zoomableRef = useRef<HTMLElement>(null); // Reference to the div you want to apply pinch zoom
 
   useEffect(() => {
+    // Ensure the div is mounted
     if (zoomableRef.current) {
-      // Ensure the div is mounted
-      const manager = new Hammer.Manager(zoomableRef.current);
-      const Pinch = new Hammer.Pinch(); // Instantiate Pinch gesture
-      manager.add(Pinch); // Add Pinch gesture to the manager
+      const mc = new Hammer.Manager(zoomableRef.current);
 
-      let initialScale = 1;
+      // Create a pinch recognizer
+      const pinch = new Hammer.Pinch();
+      mc.add(pinch);
+
+      // Variable to keep track of the last scale
       let lastScale = 1;
 
-      manager.on("pinchstart", (e: any) => {
-        initialScale = lastScale || 1;
+      mc.on("pinchstart pinchmove", (e) => {
+        if (e.type === "pinchstart") {
+          lastScale = 1; // Reset lastScale at the start of a pinch
+        }
+        const currentScale = lastScale * e.scale;
+
+        // Apply the transformation to the element
+        zoomableRef.current!.style.transform = `scale(${currentScale})`;
       });
 
-      manager.on("pinchmove", (e: any) => {
-        // Calculate the new scale
-        const scale = initialScale * e.scale;
-
-        // Apply the scale transformation
-        zoomableRef.current!.style.transform = `scale(${scale})`;
+      mc.on("pinchend", (e) => {
+        // Update lastScale to the scale at the end of the pinch
+        lastScale *= e.scale;
       });
 
-      manager.on("pinchend", (e: any) => {
-        // Update the last scale
-        lastScale = initialScale * e.scale;
+      // Set up pan recognizer for zoom out
+      const pan = new Hammer.Pan();
+      mc.add(pan);
+
+      mc.on("panleft panright panup pandown", (e) => {
+        // Example pan logic for zooming out
+        if (lastScale > 1) {
+          // Only zoom out if the scale is greater than 1
+          lastScale -= 0.01; // Decrease scale on pan
+          zoomableRef.current!.style.transform = `scale(${lastScale})`;
+        }
       });
 
+      // Cleanup event listeners on component unmount
       return () => {
-        manager.off("pinchstart pinchmove pinchend"); // Clean up events when component unmounts
+        mc.off("pinchstart pinchmove pinchend panleft panright panup pandown");
       };
     }
   });
   return (
-    <div className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3">
+    <div
+      className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3"
+      ref={zoomableRef as any}
+    >
       <Carousel
         dots={false}
         ref={props.carouselRef}
