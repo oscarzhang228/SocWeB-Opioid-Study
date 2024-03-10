@@ -3,7 +3,12 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Question from "../Question/Question";
 import styles from "./QAPanel.module.scss";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import TextResizeControls from "../TextResizeControls/TextResizeControls";
+
+const TEXT_RATIO_CHANGE = 0.1;
+const MIN_TEXT_RATIO = 0.75;
+const MAX_TEXT_RATIO = 1.5;
 
 type QAPanelProps = {
   questions: any[];
@@ -34,10 +39,42 @@ type QAPanelProps = {
 export default function QAPanel(props: QAPanelProps) {
   const { changePageNumber, incrementQuestionTime, getPageNumber } =
     useAnalytics();
+  const [currentTextRatio, changeTextRatio] = useState<number>(1);
 
-  // ==========================================
-  // Section: Carousel Controls
-  // ==========================================
+  // used to get the font-size of the questions at the start
+  const homeRef = useRef<HTMLParagraphElement>(null);
+  const [defaultFontSize, changeDefaultFontSize] = useState<number>(-1);
+
+  const questionStyleOverrides = {
+    fontSize:
+      defaultFontSize > -1
+        ? currentTextRatio * defaultFontSize + "px"
+        : "inherit",
+  };
+
+  /**
+   * This function is used to change the text size
+   * @param {number} change the amount to change the text by
+   **/
+  const handleTextResize = (change: number) => {
+    // if the default font size is not set then set it
+    if (defaultFontSize === -1) {
+      changeDefaultFontSize(
+        parseFloat(getComputedStyle(homeRef.current!).fontSize)
+      );
+    }
+
+    // if within bounds then change the text change
+    if (
+      currentTextRatio + change <= MAX_TEXT_RATIO &&
+      currentTextRatio + change >= MIN_TEXT_RATIO
+    ) {
+      changeTextRatio(currentTextRatio + change);
+    } else {
+      console.log("Text size out of bounds");
+      return;
+    }
+  };
 
   /**
    * This function is used to go back to the previous question
@@ -112,7 +149,7 @@ export default function QAPanel(props: QAPanelProps) {
   }, [incrementQuestionTime]);
 
   return (
-    <div className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3">
+    <section className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3">
       <Carousel
         dots={false}
         ref={props.carouselRef}
@@ -123,7 +160,11 @@ export default function QAPanel(props: QAPanelProps) {
         swipe={false}
       >
         <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
-          <p className={`text-left ${styles["QAPanel-NonQuestion"]}`}>
+          <p
+            className={`text-left`}
+            ref={homeRef}
+            style={questionStyleOverrides}
+          >
             Thank you for consenting to participate in our study! Following are
             some questions and their corresponding response, related to Opioid
             Use Disorder. Please read through them carefully. You may search the
@@ -147,6 +188,7 @@ export default function QAPanel(props: QAPanelProps) {
                 questionNumber={index + 1}
                 question={data["Question (Reddit post)"]}
                 response={data["Reddit response"]}
+                questionStyleOverride={questionStyleOverrides}
               />
             </Card>
           );
@@ -159,7 +201,13 @@ export default function QAPanel(props: QAPanelProps) {
           </p>
         </Card>
       </Carousel>
-      <div className="p-3 w-100 d-flex justify-content-center gap-2">
+      <section className="align-self-end">
+        <TextResizeControls
+          defaultRatioChange={TEXT_RATIO_CHANGE}
+          handleTextResize={handleTextResize}
+        />
+      </section>
+      <section className="p-3 w-100 d-flex justify-content-center gap-2">
         <Button
           shape="circle"
           icon={<LeftOutlined />}
@@ -172,8 +220,8 @@ export default function QAPanel(props: QAPanelProps) {
           disabled={props.disabledForwardButton}
           onClick={goForward}
         />
-      </div>
-      <div className="d-flex justify-content-center">
+      </section>
+      <section className="d-flex justify-content-center">
         <Button
           onClick={() => {
             props.setIsModalOpen(true);
@@ -183,7 +231,7 @@ export default function QAPanel(props: QAPanelProps) {
         >
           Start Quiz
         </Button>
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }

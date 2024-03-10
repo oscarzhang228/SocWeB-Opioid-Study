@@ -6,6 +6,7 @@ type QuestionProps = {
   questionNumber: number;
   question: string;
   response: string;
+  questionStyleOverride: any;
 };
 /**
  * This component is used to display the question and response
@@ -13,18 +14,20 @@ type QuestionProps = {
  *   questionNumber: number; question number
  *   question: string; question
  *   response: string; response
+ *   questionStyleOverride: any; style overrides for the question
  * }} props
  * @return {*}
  */
 export default function Question(props: QuestionProps) {
+  const { questionNumber, questionStyleOverride } = props;
   const [question] = useState(useGlossaryTooltip(props.question));
   const [response] = useState(useGlossaryTooltip(props.response));
 
   return (
-    <div className={styles.QuestionResponse}>
+    <div className={styles.QuestionResponse} style={questionStyleOverride}>
       <div>
         <h2 className={styles["QuestionResponse-Header"]}>
-          Question {props.questionNumber}
+          Question {questionNumber}
         </h2>
         <p>{question}</p>
       </div>

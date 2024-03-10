@@ -75,6 +75,7 @@ export default function Quiz(props: QuizProps) {
       </>
     );
   };
+
   const questionArr: string[] = [
     "Q1: Suboxone is a medication-assisted treatment for Opioid Use Disorder (OUD)",
     "Q2: It is easy for people to disclose their past addiction to opioids",

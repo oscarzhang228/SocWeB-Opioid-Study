@@ -2,6 +2,11 @@
   max-width: 100%;
   background-color: #fff;
   margin-top: 3rem;
+  user-select: none;
+  font-size: 1rem;
+  @media screen and (max-width: 425px) {
+    font-size: 0.8rem;
+  }
 }
 
 .QAPanel-Carousel {
@@ -9,13 +14,6 @@
   overflow: scroll;
   @media screen and (max-width: 425px) {
     height: 33rem;
-  }
-}
-
-.QAPanel-NonQuestion {
-  font-size: 1.2rem;
-  @media screen and (max-width: 425px) {
-    font-size: 1rem;
   }
 }
 // delete the scroll bars for the carousel

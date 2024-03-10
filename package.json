@@ -59,6 +59,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@types/hammerjs": "^2.0.45"
+    "@types/hammerjs": "^2.0.45",
+    "@types/papaparse": "^5.3.14"
   }
 }
