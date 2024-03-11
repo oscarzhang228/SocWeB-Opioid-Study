@@ -23,28 +23,29 @@ export default function Quiz(props: QuizProps) {
   const { register, handleSubmit } = useForm<any>();
   const { sendAnalytics, changePageNumber } = useAnalytics();
 
+  const { setIsModalOpen, setShowQuizButton, isModalOpen, carouselRef } = props;
+
   /**
    * Submit handler for the form.
    * @param data - form data
    */
   const onSubmit: SubmitHandler<any> = (data) => {
     // close the modal
-    props.setIsModalOpen(false);
+    setIsModalOpen(false);
 
     // get rid of the quiz button
-    props.setShowQuizButton(false);
+    setShowQuizButton(false);
 
     // go to next page
-    props.carouselRef.current.next();
+    carouselRef.current.next();
     changePageNumber("add");
 
     // handle the form data
-    console.log(data);
     sendAnalytics(data);
   };
 
   const handleCancel = () => {
-    props.setIsModalOpen(false);
+    setIsModalOpen(false);
   };
 
   // Purpose: creates a question component
@@ -89,7 +90,7 @@ export default function Quiz(props: QuizProps) {
 
   return (
     <Modal
-      open={props.isModalOpen}
+      open={isModalOpen}
       onCancel={handleCancel}
       footer={[]}
       className={styles.Quiz}

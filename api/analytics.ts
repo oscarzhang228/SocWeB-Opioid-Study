@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { ConnectOptions } from "mongoose";
+import { Request, Response } from "express";
+
 const userSchema = new mongoose.Schema({
   email: String,
   day: Number,
@@ -12,7 +14,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 const uri = `mongodb+srv://oscarzhang228:${process.env.MONGO_KEY}@analytics.myia3o8.mongodb.net/Analytics?retryWrites=true&w=majority`;
-const clientOptions = {
+const clientOptions: ConnectOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
 };
 
@@ -20,7 +22,7 @@ const clientOptions = {
  * Create a new user in the database with the data from the request body
  * @param {Object} req - The request object
  */
-export default async (req, res) => {
+export default async (req: Request, res: Response) => {
   try {
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
     await mongoose.connect(uri, clientOptions);

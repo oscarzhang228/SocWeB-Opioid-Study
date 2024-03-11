@@ -39,10 +39,14 @@ export default function Main() {
    * It also sets the showQuizButton state is it is the first time getting called.
    */
   useEffect(() => {
+    // if there are questions then set the question menu
     if (isQuestionSet.current) {
       setQuestionMenu(questionMenuItems(questions, showQuizButton));
+      isQuestionSet.current = false;
       return;
     }
+
+    // get the questions from the backend
     const parsedDay = day?.slice(3);
     axios.get("api/questions?day=" + parsedDay).then((res) => {
       setQuestions(res.data);
@@ -74,6 +78,7 @@ export default function Main() {
 
         // disable the back button and enable the forward button if it is disabled
         changeDisabledBackButton(true);
+
         if (disabledForwardButton) {
           changeDisabledForwardButton(false);
         }

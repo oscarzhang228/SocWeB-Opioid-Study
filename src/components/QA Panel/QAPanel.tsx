@@ -37,6 +37,17 @@ type QAPanelProps = {
  * @return {*}
  */
 export default function QAPanel(props: QAPanelProps) {
+  const {
+    questions,
+    carouselRef,
+    setIsModalOpen,
+    disabledForwardButton,
+    changeDisabledBackButton,
+    changeDisabledForwardButton,
+    disabledBackButton,
+    setShowQuizButton,
+    showQuizButton,
+  } = props;
   const { changePageNumber, incrementQuestionTime, getPageNumber } =
     useAnalytics();
   const [currentTextRatio, changeTextRatio] = useState<number>(1);
@@ -88,34 +99,18 @@ export default function QAPanel(props: QAPanelProps) {
 
     // change the page number and move the carousel to the previous page
     changePageNumber();
-    props.carouselRef!.current.prev();
+    carouselRef!.current.prev();
 
-    // if we are at the last page then show quiz else hide it
-    if (getPageNumber() === props.questions.length) {
-      props.setShowQuizButton(true);
-    } else if (props.showQuizButton) {
-      props.setShowQuizButton(false);
-    }
-
-    // if the forward button is disabled then enable it unless we are on the last page before thank you
-    if (
-      props.disabledForwardButton &&
-      getPageNumber() !== props.questions.length
-    ) {
-      props.changeDisabledForwardButton(false);
-    }
-
-    // if first question, disable back button
-    if (getPageNumber() === 0) {
-      props.changeDisabledBackButton(true);
-    }
+    showQuizIfLastPage();
+    handleBackButtonDisable();
+    handleForwardButtonDisable();
   };
 
   /**
    * This function is used to go forward to the next question
    */
   const goForward = () => {
-    if (getPageNumber() === props.questions.length) {
+    if (getPageNumber() === questions.length) {
       throw new Error(
         "Should not be able to go forward when button is disabled on the last page"
       );
@@ -123,17 +118,42 @@ export default function QAPanel(props: QAPanelProps) {
 
     // change the page number and move the carousel to the next page
     changePageNumber("add");
-    props.carouselRef!.current.next();
+    carouselRef!.current.next();
 
-    // if the back button is disabled the enable it
-    if (props.disabledBackButton) {
-      props.changeDisabledBackButton(false);
+    showQuizIfLastPage();
+    handleBackButtonDisable();
+    handleForwardButtonDisable();
+  };
+
+  /**
+   * This function is used to show the quiz button if we are on the last page
+   */
+  const showQuizIfLastPage = () => {
+    if (getPageNumber() === questions.length) {
+      setShowQuizButton(true);
+    } else {
+      setShowQuizButton(false);
     }
+  };
 
-    // if final question, disable forward button and show quiz button
-    if (getPageNumber() === props.questions.length) {
-      props.setShowQuizButton(true);
-      props.changeDisabledForwardButton(true);
+  /**
+   * This function is used to disable the back button on the first page and renable on any other page
+   */
+  const handleBackButtonDisable = () => {
+    if (getPageNumber() === 0) {
+      changeDisabledBackButton(true);
+    } else {
+      changeDisabledBackButton(false);
+    }
+  };
+  /**
+   * This function is used to disable the back button on the last page and renable on any other
+   */
+  const handleForwardButtonDisable = () => {
+    if (getPageNumber() === questions.length) {
+      changeDisabledForwardButton(true);
+    } else {
+      changeDisabledForwardButton(false);
     }
   };
 
@@ -152,7 +172,7 @@ export default function QAPanel(props: QAPanelProps) {
     <section className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3">
       <Carousel
         dots={false}
-        ref={props.carouselRef}
+        ref={carouselRef}
         adaptiveHeight={true}
         className={styles["QAPanel-Carousel"]}
         draggable={false}
@@ -176,7 +196,7 @@ export default function QAPanel(props: QAPanelProps) {
             understanding.
           </p>
         </Card>
-        {props.questions.map((data, index) => {
+        {questions.map((data, index) => {
           return (
             <Card
               className={`${styles["QAPanel-Card"]} p-3 pb-0 w-100 h-100`}
@@ -211,22 +231,22 @@ export default function QAPanel(props: QAPanelProps) {
         <Button
           shape="circle"
           icon={<LeftOutlined />}
-          disabled={props.disabledBackButton}
+          disabled={disabledBackButton}
           onClick={goBack}
         />
         <Button
           shape="circle"
           icon={<RightOutlined />}
-          disabled={props.disabledForwardButton}
+          disabled={disabledForwardButton}
           onClick={goForward}
         />
       </section>
       <section className="d-flex justify-content-center">
         <Button
           onClick={() => {
-            props.setIsModalOpen(true);
+            setIsModalOpen(true);
           }}
-          style={{ visibility: props.showQuizButton ? "visible" : "hidden" }}
+          style={{ visibility: showQuizButton ? "visible" : "hidden" }}
           type="primary"
         >
           Start Quiz
