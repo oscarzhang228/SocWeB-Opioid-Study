@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAnalytics } from "../analytics/AnalyticsProvider";
 import QAPanel from "../components/QA Panel/QAPanel";
-import { useParams } from "react-router-dom";
+
 import Quiz from "../components/Quiz/Quiz";
 
 /**
@@ -19,9 +19,7 @@ import Quiz from "../components/Quiz/Quiz";
 export default function Main() {
   const [questions, setQuestions] = useState<any[]>([]);
   const [showQuizButton, setShowQuizButton] = useState<boolean>(false);
-  const [questionMenu, setQuestionMenu] = useState<any[]>(
-    questionMenuItems([], false)
-  );
+  const questionMenu = questionMenuItems(questions, showQuizButton);
 
   const carouselRef = useRef<any>(null);
   const {
@@ -34,27 +32,18 @@ export default function Main() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const params = new URL(window.location.toString()).searchParams;
   const day = params.get("day");
-  const isQuestionSet = useRef<boolean>(false);
+
   /**
    * This useEffect is used to get the questions from the backend and set the questions, the question menu, and initialize the question analytics.
    * It also sets the showQuizButton state is it is the first time getting called.
    */
   useEffect(() => {
-    // if there are questions then set the question menu
-    if (isQuestionSet.current) {
-      setQuestionMenu(questionMenuItems(questions, showQuizButton));
-      isQuestionSet.current = false;
-      return;
-    }
-
     // get the questions from the backend
     axios.get("api/questions?day=" + day).then((res) => {
       setQuestions(res.data);
-      setQuestionMenu(questionMenuItems(res.data, showQuizButton));
       initializeQuestionAnalytics(res.data);
-      isQuestionSet.current = true;
     });
-  }, [initializeQuestionAnalytics, day, showQuizButton, questions]);
+  }, [initializeQuestionAnalytics, day]);
 
   const [disabledBackButton, changeDisabledBackButton] =
     useState<boolean>(true);
