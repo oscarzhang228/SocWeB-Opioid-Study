@@ -197,6 +197,15 @@ export default function QAPanel(props: QAPanelProps) {
           </p>
         </Card>
         {questions.map((data, index) => {
+          // get which version to show based on the url query. 1 is Reddit and 2 is GPT
+          const params = new URL(window.location.toString()).searchParams;
+          const version = params.get("version");
+
+          if (version !== "1" && version !== "2") {
+            throw new Error("Invalid version");
+          }
+          const response =
+            version === "1" ? data["Reddit response"] : data["LLM response"];
           return (
             <Card
               className={`${styles["QAPanel-Card"]} p-3 pb-0 w-100 h-100`}
@@ -207,7 +216,7 @@ export default function QAPanel(props: QAPanelProps) {
               <Question
                 questionNumber={index + 1}
                 question={data["Question (Reddit post)"]}
-                response={data["Reddit response"]}
+                response={response}
                 questionStyleOverride={questionStyleOverrides}
               />
             </Card>
