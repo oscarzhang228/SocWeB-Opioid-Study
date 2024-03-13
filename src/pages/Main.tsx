@@ -32,7 +32,8 @@ export default function Main() {
     changePageNumber,
   } = useAnalytics();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { day } = useParams();
+  const params = new URL(window.location.toString()).searchParams;
+  const day = params.get("day");
   const isQuestionSet = useRef<boolean>(false);
   /**
    * This useEffect is used to get the questions from the backend and set the questions, the question menu, and initialize the question analytics.
@@ -47,8 +48,7 @@ export default function Main() {
     }
 
     // get the questions from the backend
-    const parsedDay = day?.slice(3);
-    axios.get("api/questions?day=" + parsedDay).then((res) => {
+    axios.get("api/questions?day=" + day).then((res) => {
       setQuestions(res.data);
       setQuestionMenu(questionMenuItems(res.data, showQuizButton));
       initializeQuestionAnalytics(res.data);
@@ -162,4 +162,3 @@ export default function Main() {
     </div>
   );
 }
-
