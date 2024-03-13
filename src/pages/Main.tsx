@@ -163,24 +163,3 @@ export default function Main() {
   );
 }
 
-// const navigateQuestion = (event: { key: string }) => {
-//   if (event.key === "home") {
-//     props.carouselRef.current.goTo(0);
-//     props.setCurrentPage(0);
-//     return;
-//   }
-//   props.carouselRef.current.goTo(parseInt(event.key));
-//   props.setCurrentPage(parseInt(event.key));
-//   //Purpose: increments the direct clicks for the current page
-//   const newAnalyticsClicks = props.analytics_clicks;
-//   newAnalyticsClicks[parseInt(event.key)].directClicks++;
-//   props.setAnalyticsClicks(newAnalyticsClicks);
-// };
-//const HandleClick = (e: { key: string }) => {
-//   if (e.key === "treatments") {
-//     props.setAnalyticsHelplineClicks(props.analytics_helpline_clicks + 1);
-//     window.open("https://findtreatment.gov/");
-//   } else if (e.key === "email") {
-//     window.open("mailto:smittal87@gatech.edu");
-//   }
-// };

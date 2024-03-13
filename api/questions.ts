@@ -22,10 +22,24 @@ export default async (req: Request, res: Response) => {
     header: true,
     complete: function (results: any) {
       // get one day's questions based on the day number in the query string and send it as a response. 1st day would have first 8. second day would have second 8, etc.
-      const dayQuestions = results.data.slice(
-        (dayNumber - 1) * numQuestionsPerDay,
-        dayNumber * numQuestionsPerDay
-      );
+      // if the day number is 13 or 14 then send one less question because the last two days have 1 less question
+      let previousDaysQuestions = (dayNumber - 1) * numQuestionsPerDay;
+      let dayQuestions = null;
+      if (dayNumber === 13 || dayNumber === 14) {
+        if (dayNumber === 14) {
+          previousDaysQuestions -= 1;
+        }
+
+        dayQuestions = results.data.slice(
+          previousDaysQuestions,
+          previousDaysQuestions + numQuestionsPerDay - 1
+        );
+      } else {
+        dayQuestions = results.data.slice(
+          previousDaysQuestions,
+          dayNumber * numQuestionsPerDay
+        );
+      }
       res.send(dayQuestions);
     },
   });
