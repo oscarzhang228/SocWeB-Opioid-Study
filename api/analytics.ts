@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 const uri = `mongodb+srv://shravika16093:${process.env.MONGO_KEY}@oud-project.qhb8ogk.mongodb.net/Analytics?retryWrites=true&w=majority&appName=OUD-Project`;
+
 const clientOptions: ConnectOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
 };
