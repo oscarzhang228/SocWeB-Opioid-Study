@@ -1,19 +1,11 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import { Request, Response } from "express";
+import { llmResponse } from "./models/llmAnalytics";
 
-const llmResponseSchema = new mongoose.Schema({
-  email: String,
-  day: Number,
-  questions: Object,
-  helplineClicks: Number,
-  homePageClicks: Number,
-  glossaryHover: Map,
-  quiz: Object,
-});
-
-const llmResponse = mongoose.model("llm", llmResponseSchema);
-
-const uri = `mongodb+srv://shravika16093:${process.env.MONGO_KEY}@oud-project.qhb8ogk.mongodb.net/Analytics?retryWrites=true&w=majority&appName=OUD-Project`;
+// process env should only be set in testing
+const uri =
+  process.env.MONGO_URI ||
+  `mongodb+srv://shravika16093:${process.env.MONGO_KEY}@oud-project.qhb8ogk.mongodb.net/Analytics?retryWrites=true&w=majority&appName=OUD-Project`;
 
 const clientOptions: ConnectOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
@@ -29,9 +21,15 @@ export default async (req: Request, res: Response) => {
     await mongoose.connect(uri, clientOptions);
     await mongoose.connection.db.admin().command({ ping: 1 });
     console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
+      "LLM Analytics: Successfully connected to the database to store LLM analytics."
     );
-    const llm = await llmResponse.create(req.body);
+
+    try {
+      const llm = await llmResponse.create(req.body);
+    } catch (error) {
+      console.error("LLM Analytics: Error creating LLM analytics: ", error);
+      res.status(500).send("Error creating LLM analytics"); // Internal Server Error
+    }
   } finally {
     // Ensures that the client will close when you finish/error
     await mongoose.disconnect();

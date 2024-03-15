@@ -1,19 +1,11 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import { Request, Response } from "express";
+import { redditResponse } from "./models/databaseEntry";
 
-const redditResponseSchema = new mongoose.Schema({
-  email: String,
-  day: Number,
-  questions: Object,
-  helplineClicks: Number,
-  homePageClicks: Number,
-  glossaryHover: Map,
-  quiz: Object,
-});
-
-const redditResponse = mongoose.model("reddit", redditResponseSchema);
-
-const uri = `mongodb+srv://shravika16093:${process.env.MONGO_KEY}@oud-project.qhb8ogk.mongodb.net/Analytics?retryWrites=true&w=majority&appName=OUD-Project`;
+// process env should only be set in testing
+const uri =
+  process.env.MONGO_URI ||
+  `mongodb+srv://shravika16093:${process.env.MONGO_KEY}@oud-project.qhb8ogk.mongodb.net/Analytics?retryWrites=true&w=majority&appName=OUD-Project`;
 
 const clientOptions: ConnectOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
