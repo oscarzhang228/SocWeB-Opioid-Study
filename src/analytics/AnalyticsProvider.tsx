@@ -7,7 +7,6 @@ import {
   QuestionData,
 } from "./AnalyticsTypes";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(
   undefined
@@ -158,8 +157,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
 
   // ==========================================
   // Section: Sending Analytics
-  // ==========================================
-  const { day } = useParams();
+  // =========================================
 
   /**
    * This function is used to send the analytics to the server
@@ -169,6 +167,11 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     // get the email from the quiz data for use as the primary key
     const email = quizData.email;
     delete quizData.email;
+
+    const params = new URL(window.location.toString()).searchParams;
+    const day = params.get("day");
+    // version 1 is reddit responses version 2 is LLM
+    const version = params.get("version");
 
     const analytics = {
       email: email,
@@ -180,9 +183,15 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
       quiz: quizData,
     };
 
-    axios.put("api/analytics", analytics).then((res) => {
-      console.log(res.data);
-    });
+    if (version === "1") {
+      axios.put("api/redditAnalytics", analytics).then((res) => {
+        console.log(res.data);
+      });
+    } else if (version === "2") {
+      axios.put("api/llmAnalytics", analytics).then((res) => {
+        console.log(res.data);
+      });
+    }
   };
 
   // ==========================================

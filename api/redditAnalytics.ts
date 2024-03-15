@@ -1,7 +1,7 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import { Request, Response } from "express";
 
-const userSchema = new mongoose.Schema({
+const redditResponseSchema = new mongoose.Schema({
   email: String,
   day: Number,
   questions: Object,
@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   quiz: Object,
 });
 
-const User = mongoose.model("User", userSchema);
+const redditResponse = mongoose.model("User", redditResponseSchema);
 
 const uri = `mongodb+srv://shravika16093:${process.env.MONGO_KEY}@oud-project.qhb8ogk.mongodb.net/Analytics?retryWrites=true&w=majority&appName=OUD-Project`;
 
@@ -31,7 +31,7 @@ export default async (req: Request, res: Response) => {
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
-    const user = await User.create(req.body);
+    const reddit = await redditResponse.create(req.body);
   } finally {
     // Ensures that the client will close when you finish/error
     await mongoose.disconnect();
