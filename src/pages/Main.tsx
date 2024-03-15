@@ -20,7 +20,7 @@ export default function Main() {
   const [disabledBackButton, changeDisabledBackButton] =
     useState<boolean>(true);
   const [disabledForwardButton, changeDisabledForwardButton] =
-    useState<boolean>(false);
+    useState<boolean>(true);
   const [questions, setQuestions] = useState<any[]>([]);
   const [showQuizButton, setShowQuizButton] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,6 +48,8 @@ export default function Main() {
         throw new Error("No questions found for day: " + day);
       }
       setQuestions(res.data);
+      // enable the forward button when there are questions
+      changeDisabledForwardButton(false);
       initializeQuestionAnalytics(res.data);
     });
   }, [initializeQuestionAnalytics, day]);
