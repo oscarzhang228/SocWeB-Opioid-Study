@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const llmResponseSchema = new mongoose.Schema({
+const databaseEntrySchema = new mongoose.Schema({
   email: String,
   day: Number,
   questions: Object,
@@ -10,4 +10,5 @@ const llmResponseSchema = new mongoose.Schema({
   quiz: Object,
 });
 
-export const llmResponse = mongoose.model("llm", llmResponseSchema);
+export const llmResponse = mongoose.model("llm", databaseEntrySchema);
+export const redditResponse = mongoose.model("reddit", databaseEntrySchema);

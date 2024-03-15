@@ -1,6 +1,6 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import { Request, Response } from "express";
-import { llmResponse } from "./models/llmAnalytics";
+import { llmResponse } from "./models/databaseEntry";
 
 // process env should only be set in testing
 const uri =
