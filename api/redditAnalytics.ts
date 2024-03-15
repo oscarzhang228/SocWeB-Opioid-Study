@@ -11,7 +11,7 @@ const redditResponseSchema = new mongoose.Schema({
   quiz: Object,
 });
 
-const redditResponse = mongoose.model("User", redditResponseSchema);
+const redditResponse = mongoose.model("reddit", redditResponseSchema);
 
 const uri = `mongodb+srv://shravika16093:${process.env.MONGO_KEY}@oud-project.qhb8ogk.mongodb.net/Analytics?retryWrites=true&w=majority&appName=OUD-Project`;
 
@@ -29,7 +29,7 @@ export default async (req: Request, res: Response) => {
     await mongoose.connect(uri, clientOptions);
     await mongoose.connection.db.admin().command({ ping: 1 });
     console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
+      "Pinged your deployment. You successsfully connected to MongoDB!"
     );
     const reddit = await redditResponse.create(req.body);
   } finally {
