@@ -66,7 +66,7 @@ export default function Main() {
         incrementHelplineClicks();
         break;
       case "home":
-        // go to the home page and set the page number to 0 which is the home page
+        // 0 is the home page number
         carouselRef.current.goTo(0);
         changePageNumber("set", 0);
 

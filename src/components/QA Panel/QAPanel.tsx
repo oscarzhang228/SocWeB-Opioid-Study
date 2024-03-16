@@ -1,4 +1,4 @@
-import { Carousel, Card, Button } from "antd";
+import { Carousel, Card, Button, Tooltip } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Question from "../Question/Question";
 import styles from "./QAPanel.module.scss";
@@ -181,19 +181,74 @@ export default function QAPanel(props: QAPanelProps) {
       >
         <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
           <p
-            className={`text-left`}
+            className={`text-left ${styles["Card-Home"]}`}
             ref={homeRef}
             style={questionStyleOverrides}
           >
-            Thank you for consenting to participate in our study! Following are
-            some questions and their corresponding response, related to Opioid
-            Use Disorder. Please read through them carefully. You may search the
-            meaning of any unknown terms that appear throughout the document. As
-            a reminder, your participation is entirely voluntary, and you may
-            discontinue participation at any time. After going through the
-            following content, you will be asked to take a short{" "}
-            <strong>required quiz</strong> to help us gauge your overall
-            understanding.
+            Hello, <br />
+            Thank you for consenting to participate in our study! <br /> <br />
+            <span className="underline">What to do:</span>
+            {""} Please carefully read through the following questions and their
+            corresponding responses, related to opioid use disorder (OUD).
+            Navigate through the questions using the left/right arrow buttons (
+            <Button shape="circle" icon={<LeftOutlined />} size="small" />
+            <Button shape="circle" icon={<RightOutlined />} size="small" />
+            ) provided below. <br /> <br />
+            You may search the meaning of any unknown terms that appear using
+            search engines such as Google. As and when applicable, we also
+            provide a brief description of OUD related terms, highlighted in
+            bold. The description can be accessed by{" "}
+            <Tooltip title="Hover to get a brief description of the word/phrase">
+              <strong>hovering</strong>
+            </Tooltip>{" "}
+            over the bolded terms. You may zoom in/out of the content
+            (increase/decrease the font size) using the +/- buttons (
+            <Button size="small">+</Button> <Button size="small">-</Button>).{" "}
+            <br /> <br />
+            <span className="underline">What not to do:</span>
+            {""} Please refrain from using any large language model or
+            generative AI powered search tools such as ChatGPT or Google Bard.
+            We also ask that you restrict yourself from consuming any other
+            OUD-related content other than what is being provided to you. <br />
+            <br />
+            <span className="underline">
+              Required Quiz and Compensation:
+            </span>{" "}
+            After reading through the questions and their responses, please
+            complete the short “required” quiz. The quiz can be accessed by
+            clicking on the “start quiz” button (
+            <Button size="small" type="primary">
+              Start Quiz
+            </Button>
+            ), which appears after navigating through all the questions.
+            Successful completion of reading the content and taking the quiz
+            would provide a daily compensation of $2, amounting to a total of
+            $30 for the entire duration of two weeks. <br /> <br />
+            <span className="underline">
+              Helplines and Contact Information:
+            </span>{" "}
+            {""}
+            As a reminder, your participation is entirely voluntary and you may
+            discontinue participation at any time. If at any point in this
+            study, you feel distressed, please call the Substance Abuse and
+            Mental Health Services Administration (SAMHSA) National Helpline at
+            1-800-662-HELP (4357). The Helpline is free and available 24/7 and
+            can help you find local resources to help with any mental health or
+            substance use concerns. You can also find an online listing of
+            treatment programs in your area through the{" "}
+            <a href="https://findtreatment.gov/" target="_blank">
+              SAMHSA Treatment Services Locator
+            </a>
+            . If you have any questions about the study, you may contact our
+            research team at smittal87@gatech.edu. Additionally, if you have any
+            questions about your rights as a research participant, you may
+            contact the Georgia Institute of Technology Office of Research
+            Integrity Assurance at{" "}
+            <a href="mailto:IRB@gatech.edu" target="_blank">
+              IRB@gatech.edu
+            </a>
+            . <br /> <br />
+            Thank you for your time and participation!
           </p>
         </Card>
         {questions.map((data, index) => {
