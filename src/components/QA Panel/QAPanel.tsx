@@ -179,7 +179,7 @@ export default function QAPanel(props: QAPanelProps) {
         infinite={false} // Disable infinite loop
         swipe={false}
       >
-        <Card hoverable className={`${styles["QAPanel-Card"]} p-3 pb-0 mt-5`}>
+        <Card hoverable className={`${styles["QAPanel-Card"]} `}>
           <p
             className={`text-left ${styles["Card-Home"]}`}
             ref={homeRef}
@@ -263,7 +263,7 @@ export default function QAPanel(props: QAPanelProps) {
             version === "1" ? data["Reddit response"] : data["LLM response"];
           return (
             <Card
-              className={`${styles["QAPanel-Card"]} p-3 pb-0 w-100 h-100`}
+              className={`${styles["QAPanel-Card"]} w-100 h-100`}
               hoverable
               key={index}
               id={`question-${index + 1}`}
@@ -277,7 +277,7 @@ export default function QAPanel(props: QAPanelProps) {
             </Card>
           );
         })}
-        <Card hoverable className={`${styles["QAPanel-Card"]}  p-3 pb-0 mt-5`}>
+        <Card hoverable className={`${styles["QAPanel-Card"]}  `}>
           <p className={`text-center ${styles["QAPanel-NonQuestion"]}`}>
             Thank you so much for participating and going through the content
             and the quiz. Your participation is greatly appreciated and today's

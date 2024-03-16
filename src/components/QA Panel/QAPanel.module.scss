@@ -1,7 +1,6 @@
 .QAPanel-Card {
   max-width: 100%;
   background-color: #fff;
-  margin-top: 3rem;
   user-select: none;
   font-size: 1rem;
   @media screen and (max-width: 425px) {
@@ -12,14 +11,15 @@
 .QAPanel-Carousel {
   height: 26rem;
   overflow: scroll;
+  overflow-x: hidden;
   @media screen and (max-width: 425px) {
     height: 33rem;
   }
 }
-// delete the scroll bars for the carousel
-.QAPanel-Carousel::-webkit-scrollbar {
-  display: none;
-}
+// // delete the scroll bars for the carousel
+// .QAPanel-Carousel::-webkit-scrollbar {
+//   display: none;
+// }
 
 .Card-Home {
   line-height: 2rem;
