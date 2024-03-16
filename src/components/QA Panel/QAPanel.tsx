@@ -240,10 +240,11 @@ export default function QAPanel(props: QAPanelProps) {
               SAMHSA Treatment Services Locator
             </a>
             . If you have any questions about the study, you may contact our
-            research team at smittal87@gatech.edu. Additionally, if you have any
-            questions about your rights as a research participant, you may
-            contact the Georgia Institute of Technology Office of Research
-            Integrity Assurance at{" "}
+            research team at{" "}
+            <a href="mailto:smittal87@gatech.edu">smittal87@gatech.edu</a>.
+            Additionally, if you have any questions about your rights as a
+            research participant, you may contact the Georgia Institute of
+            Technology Office of Research Integrity Assurance at{" "}
             <a href="mailto:IRB@gatech.edu" target="_blank">
               IRB@gatech.edu
             </a>
