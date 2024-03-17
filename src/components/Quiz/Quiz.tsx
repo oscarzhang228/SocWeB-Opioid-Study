@@ -2,6 +2,7 @@ import { Modal, Button } from "antd";
 import styles from "./Quiz.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
+import quizQuestions from "./quizQuestions";
 
 type QuizProps = {
   isModalOpen: boolean;
@@ -77,12 +78,13 @@ export default function Quiz(props: QuizProps) {
     );
   };
 
-  const questionArr: string[] = [
-    "Q1: Suboxone is a medication-assisted treatment for Opioid Use Disorder (OUD)",
-    "Q2: It is easy for people to disclose their past addiction to opioids",
-    "Q3: Going to methadone clinics is a one fit all solution to Opioid Use Disorder (OUD)",
-    "Q4: It is difficult to get an appointment for methadone clinics or treatment using methadone.",
-  ];
+  //get the questions by day
+  const params = new URL(window.location.toString()).searchParams;
+  const day = params.get("day");
+  if (parseInt(day!) > 14 || parseInt(day!) < 1) {
+    throw new Error("Invalid day");
+  }
+  const questionArr: string[] = quizQuestions[parseInt(day!) - 1];
 
   const allQuestions = questionArr.map((question, index) => {
     return <Question key={index} question={question} questionNumber={index} />;
