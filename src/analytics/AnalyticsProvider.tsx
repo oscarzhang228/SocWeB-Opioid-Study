@@ -184,11 +184,11 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     };
 
     if (version === "1") {
-      axios.put("api/redditAnalytics", analytics).then((res) => {
+      axios.post("api/redditAnalytics", analytics).then((res) => {
         console.log(res.data);
       });
     } else if (version === "2") {
-      axios.put("api/llmAnalytics", analytics).then((res) => {
+      axios.post("api/llmAnalytics", analytics).then((res) => {
         console.log(res.data);
       });
     }

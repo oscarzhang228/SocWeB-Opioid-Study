@@ -24,6 +24,7 @@ export default function Main() {
   const [questions, setQuestions] = useState<any[]>([]);
   const [showQuizButton, setShowQuizButton] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const questionMenu = questionMenuItems(questions, showQuizButton);
   const carouselRef = useRef<any>(null);
   const {

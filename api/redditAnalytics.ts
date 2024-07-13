@@ -1,6 +1,16 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import { Request, Response } from "express";
-import { redditResponse } from "./models/databaseEntry";
+
+const databaseEntrySchema = new mongoose.Schema({
+  email: String,
+  day: Number,
+  questions: Object,
+  helplineClicks: Number,
+  homePageClicks: Number,
+  glossaryHover: Map,
+  quiz: Object,
+});
+const redditResponse = mongoose.model("reddit", databaseEntrySchema);
 
 // process env should only be set in testing
 const uri =
@@ -15,7 +25,7 @@ const clientOptions: ConnectOptions = {
  * Create a new user in the database with the data from the request body
  * @param {Object} req - The request object
  */
-export default async (req: Request, res: Response) => {
+export default async function POST(req: Request, res: Response) {
   try {
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
     await mongoose.connect(uri, clientOptions);
@@ -24,8 +34,11 @@ export default async (req: Request, res: Response) => {
       "Pinged your deployment. You successsfully connected to MongoDB!"
     );
     const reddit = await redditResponse.create(req.body);
+    res.status(200).json(reddit);
+  } catch (err) {
+    res.status(500).json(err);
   } finally {
     // Ensures that the client will close when you finish/error
     await mongoose.disconnect();
   }
-};
+}
