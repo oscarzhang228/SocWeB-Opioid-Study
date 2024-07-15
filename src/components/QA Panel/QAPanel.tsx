@@ -320,9 +320,12 @@ export default function QAPanel(props: QAPanelProps) {
         <Card hoverable className={`${styles["QAPanel-Card"]}  `}>
           <p className={`text-center ${styles["QAPanel-NonQuestion"]}`}>
             Thank you so much for participating and going through the content
-            and the quiz. Your participation is greatly appreciated. Please go
-            to <a href={COMPLETIONLINKS[`day${day}Version${version}`]}> here</a>{" "}
-            to complete your session.
+            and the quiz. Your participation is greatly appreciated. <br />{" "}
+            <span className="h5">
+              Please go{" "}
+              <a href={COMPLETIONLINKS[`day${day}Version${version}`]}>here</a>{" "}
+              to complete your session.{" "}
+            </span>
           </p>
         </Card>
       </Carousel>
