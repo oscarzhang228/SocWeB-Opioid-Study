@@ -318,7 +318,7 @@ export default function QAPanel(props: QAPanelProps) {
           );
         })}
         <Card hoverable className={`${styles["QAPanel-Card"]}  `}>
-          <p className={`text-center ${styles["QAPanel-NonQuestion"]}`}>
+          <p className={`text-start ${styles["QAPanel-NonQuestion"]}`}>
             Thank you so much for participating and going through the content
             and the quiz. Your participation is greatly appreciated. <br />{" "}
             <span className="h5">
