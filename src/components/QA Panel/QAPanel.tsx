@@ -9,6 +9,36 @@ import TextResizeControls from "../TextResizeControls/TextResizeControls";
 const TEXT_RATIO_CHANGE = 0.1;
 const MIN_TEXT_RATIO = 0.75;
 const MAX_TEXT_RATIO = 1.5;
+const COMPLETIONLINKS: { [key: string]: string } = {
+  day1Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day2Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day3Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day4Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day5Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day6Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day7Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day8Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day9Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day10Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day11Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day12Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day13Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day14Version1: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day1Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day2Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day3Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day4Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day5Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day6Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day7Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day8Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day9Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day10Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day11Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day12Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day13Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+  day14Version2: "https://app.prolific.com/submissions/complete?cc=C1L467WZ",
+};
 
 type QAPanelProps = {
   questions: any[];
@@ -24,7 +54,7 @@ type QAPanelProps = {
 /**
  * This component is used to display the questions and responses in a carousel
  * @param {{
- *   questions: any[]; quesetion array for curernt questions
+ *   questions: any[]; quesetion array for current questions
  *   carouselRef: any; reference to the carousel
  *   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>; function to open the modal
  *   disabledForwardButton: boolean; state to disable the forward button
@@ -55,6 +85,11 @@ export default function QAPanel(props: QAPanelProps) {
   // used to get the font-size of the questions at the start
   const homeRef = useRef<HTMLParagraphElement>(null);
   const [defaultFontSize, changeDefaultFontSize] = useState<number>(-1);
+
+  const day = new URL(window.location.toString()).searchParams.get("day");
+  const version = new URL(window.location.toString()).searchParams.get(
+    "version"
+  );
 
   const questionStyleOverrides = {
     fontSize:
@@ -281,8 +316,9 @@ export default function QAPanel(props: QAPanelProps) {
         <Card hoverable className={`${styles["QAPanel-Card"]}  `}>
           <p className={`text-center ${styles["QAPanel-NonQuestion"]}`}>
             Thank you so much for participating and going through the content
-            and the quiz. Your participation is greatly appreciated and today's
-            session is now complete.
+            and the quiz. Your participation is greatly appreciated. Please go
+            to <a href={COMPLETIONLINKS[`day${day}Version${version}`]}> here</a>{" "}
+            to complete your session.
           </p>
         </Card>
       </Carousel>
