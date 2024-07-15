@@ -165,8 +165,8 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
    */
   const sendAnalytics = (quizData: any) => {
     // get the email from the quiz data for use as the primary key
-    const email = quizData.email;
-    delete quizData.email;
+    const prolificId = quizData.prolificId;
+    delete quizData.prolificId;
 
     const params = new URL(window.location.toString()).searchParams;
     const day = params.get("day");
@@ -174,7 +174,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     const version = params.get("version");
 
     const analytics = {
-      email: email,
+      prolificId: prolificId,
       day: day,
       questions: questionAnalytics,
       helplineClicks: helplineClicks,

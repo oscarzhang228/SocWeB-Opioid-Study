@@ -106,12 +106,12 @@ export default function Quiz(props: QuizProps) {
           className={`${styles["Form-Fields"]} d-flex flex-column gap-2 align-items-center`}
         >
           <h2 className={`${styles["Form-Title"]}`}>Quiz</h2>
-          <h3 className={`${styles["Form-Body"]}`}>Enter Your Email</h3>
+          <h3 className={`${styles["Form-Body"]}`}>Enter Your Prolific ID</h3>
           <input
-            type="email"
-            placeholder="Email"
+            type="text"
+            placeholder="Prolific ID"
             className="text-center form-control px-2"
-            {...register("email")}
+            {...register("prolificId")}
             required
           />
           {allQuestions}

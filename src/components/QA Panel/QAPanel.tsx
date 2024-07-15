@@ -271,7 +271,11 @@ export default function QAPanel(props: QAPanelProps) {
             can help you find local resources to help with any mental health or
             substance use concerns. You can also find an online listing of
             treatment programs in your area through the{" "}
-            <a href="https://findtreatment.gov/" target="_blank">
+            <a
+              href="https://findtreatment.gov/"
+              target="_blank"
+              rel="noreferrer"
+            >
               SAMHSA Treatment Services Locator
             </a>
             . If you have any questions about the study, you may contact our
@@ -280,7 +284,7 @@ export default function QAPanel(props: QAPanelProps) {
             Additionally, if you have any questions about your rights as a
             research participant, you may contact the Georgia Institute of
             Technology Office of Research Integrity Assurance at{" "}
-            <a href="mailto:IRB@gatech.edu" target="_blank">
+            <a href="mailto:IRB@gatech.edu" target="_blank" rel="noreferrer">
               IRB@gatech.edu
             </a>
             . <br /> <br />

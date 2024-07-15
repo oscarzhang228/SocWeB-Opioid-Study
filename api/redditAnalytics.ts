@@ -2,7 +2,7 @@ import mongoose, { ConnectOptions } from "mongoose";
 import { Request, Response } from "express";
 
 const databaseEntrySchema = new mongoose.Schema({
-  email: String,
+  prolificId: String,
   day: Number,
   questions: Object,
   helplineClicks: Number,
