@@ -318,14 +318,14 @@ export default function QAPanel(props: QAPanelProps) {
           );
         })}
         <Card hoverable className={`${styles["QAPanel-Card"]}  `}>
-          <p className={`text-start ${styles["QAPanel-NonQuestion"]}`}>
+          <p className={`text-start ${styles["QAPanel-NonQuestion"]} h5`}>
             Thank you so much for participating and going through the content
             and the quiz. Your participation is greatly appreciated. <br />{" "}
-            <span className="h5">
-              Please go{" "}
-              <a href={COMPLETIONLINKS[`day${day}Version${version}`]}>here</a>{" "}
-              to complete your session.{" "}
-            </span>
+            Please click this link{" "}
+            <a href={COMPLETIONLINKS[`day${day}Version${version}`]}>
+              {COMPLETIONLINKS[`day${day}Version${version}`]}
+            </a>{" "}
+            to complete your session on Prolific.{" "}
           </p>
         </Card>
       </Carousel>
