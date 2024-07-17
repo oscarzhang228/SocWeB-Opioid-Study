@@ -13,7 +13,7 @@ const { Paragraph, Link } = Typography;
 export default function Footer() {
   const { incrementHelplineClicks } = useAnalytics();
   return (
-    <section className="d-flex justify-content-center p-md-4 flex-column align-items-center">
+    <section className="d-flex justify-content-center p-md-4 pt-0 flex-column align-items-center">
       <section className={`${styles["Footer-Mobile"]} pt-3 text-center`}>
         <Paragraph className={styles["Mobile-Text"]}>
           SAMHSA Helpline: 1-800-662-HELP (4357)
@@ -35,7 +35,7 @@ export default function Footer() {
 
       <img
         src={GTLogo}
-        className={`${styles["Footer-Logo"]} pt-lg-5 pt-2`}
+        className={`${styles["Footer-Logo"]} `}
         alt="Georgia Tech Logo"
       ></img>
       <section className="d-flex flex-column justify-content-center">

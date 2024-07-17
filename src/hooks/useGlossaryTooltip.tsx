@@ -52,9 +52,9 @@ export const useGlossaryTooltip = (text: string) => {
         placement="topLeft"
         trigger="hover"
       >
-        <strong style={tooltipStyle} onMouseEnter={handleGlossaryHover}>
+        <i style={tooltipStyle} onMouseEnter={handleGlossaryHover}>
           {phrase}
-        </strong>
+        </i>
       </Tooltip>
     );
   };

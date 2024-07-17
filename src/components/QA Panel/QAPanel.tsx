@@ -204,12 +204,12 @@ export default function QAPanel(props: QAPanelProps) {
   }, [incrementQuestionTime]);
 
   return (
-    <section className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3">
+    <section className="d-flex flex-column justify-content-center pt-md-5 pt-xs-3 h-100">
       <Carousel
         dots={false}
         ref={carouselRef}
         adaptiveHeight={true}
-        className={styles["QAPanel-Carousel"]}
+        className={styles["QAPanel-Carousel"] + ""}
         draggable={false}
         infinite={false} // Disable infinite loop
         swipe={false}
@@ -234,9 +234,9 @@ export default function QAPanel(props: QAPanelProps) {
             provide a brief description of OUD related terms, highlighted in
             bold. The description can be accessed by{" "}
             <Tooltip title="Hover to get a brief description of the word/phrase">
-              <strong>hovering</strong>
+              <i>hovering</i>
             </Tooltip>{" "}
-            over the bolded terms. You may zoom in/out of the content
+            over the italicized terms. You may zoom in/out of the content
             (increase/decrease the font size) using the +/- buttons (
             <Button size="small">+</Button> <Button size="small">-</Button>).{" "}
             <br /> <br />
