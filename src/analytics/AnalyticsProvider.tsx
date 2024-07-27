@@ -183,6 +183,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
       quiz: quizData,
     };
 
+    console.log(quizData);
     if (version === "1") {
       axios.post("api/redditAnalytics", analytics).then((res) => {
         console.log(res.data);

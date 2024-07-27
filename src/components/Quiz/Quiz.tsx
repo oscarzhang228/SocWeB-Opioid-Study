@@ -21,7 +21,7 @@ type QuizProps = {
  * @return {*}
  */
 export default function Quiz(props: QuizProps) {
-  const { register, handleSubmit } = useForm<any>();
+  const { register, handleSubmit, setValue } = useForm<any>();
   const { sendAnalytics, changePageNumber } = useAnalytics();
 
   const { setIsModalOpen, setShowQuizButton, isModalOpen, carouselRef } = props;
@@ -31,6 +31,14 @@ export default function Quiz(props: QuizProps) {
    * @param data - form data
    */
   const onSubmit: SubmitHandler<any> = (data) => {
+    // loop through every property of data and if any are null then return
+    console.log(data);
+    for (const key in data) {
+      if (data[key] === null) {
+        return;
+      }
+    }
+
     // close the modal
     setIsModalOpen(false);
 
@@ -51,27 +59,20 @@ export default function Quiz(props: QuizProps) {
 
   // Purpose: creates a question component
   const Question = (props: { question: string; questionNumber: number }) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setValue(`q${props.questionNumber}`, value);
+    };
+
     return (
       <>
         <h3 className={`${styles["Form-Body"]} text-center p-2 px-1`}>
           {props.question}
         </h3>
         <div className="d-flex justify-content-center gap-3">
-          <input
-            type="radio"
-            id={`q${props.questionNumber}-yes`}
-            value="true"
-            required
-            {...register(`q${props.questionNumber}`)}
-          />
+          <input type="radio" value="true" required onChange={onChange} />
           <label htmlFor={`q${props.questionNumber}-yes`}>True</label>
-          <input
-            type="radio"
-            id={`q${props.questionNumber}-no`}
-            value="false"
-            required
-            {...register(`q${props.questionNumber}`)}
-          />
+          <input type="radio" value="false" required onChange={onChange} />
           <label htmlFor={`q${props.questionNumber}-no`}>False</label>
         </div>
       </>
