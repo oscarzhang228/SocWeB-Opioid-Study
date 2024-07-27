@@ -32,7 +32,6 @@ export default function Quiz(props: QuizProps) {
    */
   const onSubmit: SubmitHandler<any> = (data) => {
     // loop through every property of data and if any are null then return
-    console.log(data);
     for (const key in data) {
       if (data[key] === null) {
         return;
