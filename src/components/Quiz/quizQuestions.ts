@@ -67,6 +67,11 @@ const quizQuestions = [
     "People with opioid use disorder cannot be trusted.",
     "Accountability can help with recovering from opioid use.",
   ],
+  [
+    "Based on question/response 8, it is safe for people to continue to use opioids with methadone.",
+    "It is possible to go through a relapse while trying to recover from opioids.",
+    "It is possible to get addicted to suboxone.",
+  ],
 ];
 
 export default quizQuestions;

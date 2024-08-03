@@ -34,6 +34,11 @@ export default async function GET(req: Request, res: Response) {
             previousDaysQuestions,
             previousDaysQuestions + numQuestionsPerDay - 1
           );
+        } else if (dayNumber === 15) {
+          dayQuestions = results.data.slice(
+            previousDaysQuestions - 2,
+            previousDaysQuestions + numQuestionsPerDay
+          );
         } else {
           dayQuestions = results.data.slice(
             previousDaysQuestions,

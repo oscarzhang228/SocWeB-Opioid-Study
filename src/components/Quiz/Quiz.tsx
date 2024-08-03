@@ -81,7 +81,7 @@ export default function Quiz(props: QuizProps) {
   //get the questions by day
   const params = new URL(window.location.toString()).searchParams;
   const day = params.get("day");
-  if (parseInt(day!) > 14 || parseInt(day!) < 1) {
+  if (parseInt(day!) > 15 || parseInt(day!) < 1) {
     throw new Error("Invalid day");
   }
   const questionArr: string[] = quizQuestions[parseInt(day!) - 1];
