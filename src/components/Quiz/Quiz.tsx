@@ -3,6 +3,7 @@ import styles from "./Quiz.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
 import quizQuestions from "./quizQuestions";
+import { QuizData, QuizFormInputs } from "../../pages/quizTypes";
 
 type QuizProps = {
   isModalOpen: boolean;
@@ -21,7 +22,7 @@ type QuizProps = {
  * @return {*}
  */
 export default function Quiz(props: QuizProps) {
-  const { register, handleSubmit } = useForm<any>();
+  const { register, handleSubmit } = useForm<QuizFormInputs>();
   const { sendAnalytics, changePageNumber } = useAnalytics();
 
   const { setIsModalOpen, setShowQuizButton, isModalOpen, carouselRef } = props;
@@ -30,13 +31,23 @@ export default function Quiz(props: QuizProps) {
    * Submit handler for the form.
    * @param data - form data
    */
-  const onSubmit: SubmitHandler<any> = (data) => {
+  const onSubmit: SubmitHandler<QuizFormInputs> = (data) => {
+    const quizData: QuizData = {};
     // loop through every property of data and if any are null then return
-    for (const key in data) {
-      if (data[key] === null) {
-        return;
+    for (let key of Object.keys(data)) {
+      // if its a question then add it to the quizData object
+      if (key.startsWith("q")) {
+        const questionNumber = parseInt(key.slice(1));
+        const question = quizQuestions[parseInt(day!) - 1][questionNumber];
+
+        quizData[key as any] = {
+          question: question,
+          answer: data[key as any],
+        };
       }
     }
+    // if its the prolificId then add it to the quizData object
+    quizData["prolificId"] = data["prolificId"];
 
     // close the modal
     setIsModalOpen(false);
@@ -49,7 +60,7 @@ export default function Quiz(props: QuizProps) {
     changePageNumber("add");
 
     // handle the form data
-    sendAnalytics(data);
+    sendAnalytics(quizData);
   };
 
   const handleCancel = () => {
@@ -67,6 +78,7 @@ export default function Quiz(props: QuizProps) {
         <input
           type="textarea"
           {...register(`q${props.questionNumber}`)}
+          required
           className="text-center form-control px-2"
         />
       </>

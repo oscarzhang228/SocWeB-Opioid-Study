@@ -7,6 +7,7 @@ import {
   QuestionData,
 } from "./AnalyticsTypes";
 import axios from "axios";
+import { QuizData } from "../pages/quizTypes";
 
 const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(
   undefined
@@ -159,10 +160,6 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // Section: Sending Analytics
   // =========================================
 
-  type QuizData = {
-    prolificId?: string;
-    [key: `q${number}`]: string;
-  };
   /**
    * This function is used to send the analytics to the server
    * @param quizData the quiz data from the front-end
