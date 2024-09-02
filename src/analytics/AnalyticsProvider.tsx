@@ -159,11 +159,15 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // Section: Sending Analytics
   // =========================================
 
+  type QuizData = {
+    prolificId?: string;
+    [key: `q${number}`]: string;
+  };
   /**
    * This function is used to send the analytics to the server
    * @param quizData the quiz data from the front-end
    */
-  const sendAnalytics = (quizData: any) => {
+  const sendAnalytics = (quizData: QuizData) => {
     // get the email from the quiz data for use as the primary key
     const prolificId = quizData.prolificId;
     delete quizData.prolificId;

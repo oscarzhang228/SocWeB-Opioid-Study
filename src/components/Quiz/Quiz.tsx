@@ -21,7 +21,7 @@ type QuizProps = {
  * @return {*}
  */
 export default function Quiz(props: QuizProps) {
-  const { register, handleSubmit, setValue } = useForm<any>();
+  const { register, handleSubmit } = useForm<any>();
   const { sendAnalytics, changePageNumber } = useAnalytics();
 
   const { setIsModalOpen, setShowQuizButton, isModalOpen, carouselRef } = props;
@@ -58,22 +58,17 @@ export default function Quiz(props: QuizProps) {
 
   // Purpose: creates a question component
   const Question = (props: { question: string; questionNumber: number }) => {
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setValue(`q${props.questionNumber}`, value);
-    };
-
     return (
       <>
         <h3 className={`${styles["Form-Body"]} text-center p-2 px-1`}>
           {props.question}
         </h3>
-        <div className="d-flex justify-content-center gap-3">
-          <input type="radio" value="true" required onChange={onChange} />
-          <label htmlFor={`q${props.questionNumber}-yes`}>True</label>
-          <input type="radio" value="false" required onChange={onChange} />
-          <label htmlFor={`q${props.questionNumber}-no`}>False</label>
-        </div>
+
+        <input
+          type="textarea"
+          {...register(`q${props.questionNumber}`)}
+          className="text-center form-control px-2"
+        />
       </>
     );
   };
