@@ -17,25 +17,25 @@ import Quiz from "../components/Quiz/Quiz";
  * @returns Main Page
  */
 export default function Main() {
-  const [disabledBackButton, changeDisabledBackButton] =
-    useState<boolean>(true);
-  const [disabledForwardButton, changeDisabledForwardButton] =
-    useState<boolean>(true);
   const [questions, setQuestions] = useState<any[]>([]);
-  const [showQuizButton, setShowQuizButton] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const questionMenu = questionMenuItems(questions, showQuizButton);
   const carouselRef = useRef<any>(null);
   const {
     initializeQuestionAnalytics,
     incrementHelplineClicks,
     incrementDirectClicks,
     incrementHomePageClicks,
-    changePageNumber,
+    setPageNumber,
+    pageNumber,
   } = useAnalytics();
+  const disabledBackButton = pageNumber === 0;
+  const disabledForwardButton = pageNumber === questions.length;
+  const showQuizButton = pageNumber === questions.length;
   const params = new URL(window.location.toString()).searchParams;
   const day = params.get("day");
+
+  const questionMenu = questionMenuItems(questions, showQuizButton);
 
   /**
    * This useEffect is used to get the questions from the backend and set the questions, the question menu, and initialize the question analytics.
@@ -49,8 +49,6 @@ export default function Main() {
         throw new Error("No questions found for day: " + day);
       }
       setQuestions(res.data);
-      // enable the forward button when there are questions
-      changeDisabledForwardButton(false);
       initializeQuestionAnalytics(res.data);
     });
   }, [initializeQuestionAnalytics, day]);
@@ -69,19 +67,7 @@ export default function Main() {
       case "home":
         // 0 is the home page number
         carouselRef.current.goTo(0);
-        changePageNumber("set", 0);
-
-        // disable the back button and enable the forward button if it is disabled
-        changeDisabledBackButton(true);
-
-        if (disabledForwardButton) {
-          changeDisabledForwardButton(false);
-        }
-
-        // if the quiz button is showing then hide it
-        if (showQuizButton) {
-          setShowQuizButton(false);
-        }
+        setPageNumber(0);
         incrementHomePageClicks();
         break;
       case event.key.startsWith("Question:") ? event.key : "":
@@ -109,26 +95,10 @@ export default function Main() {
 
     // Go to the selected question
     carouselRef.current.goTo(questionNumber);
-    changePageNumber("set", questionNumber);
+    setPageNumber(questionNumber);
 
     // Increment the direct clicks for the question
     incrementDirectClicks(questionNumber - 1);
-
-    // Update button states based on the selected question
-    if (questionNumber === questions.length) {
-      // Disable forward button and show quiz button if it's the last question
-      changeDisabledForwardButton(true);
-      setShowQuizButton(true);
-    } else {
-      // Enable forward button and hide quiz button if it's not the last question
-      changeDisabledForwardButton(false);
-      setShowQuizButton(false);
-    }
-
-    // Enable back button if it was disabled
-    if (disabledBackButton) {
-      changeDisabledBackButton(false);
-    }
   };
 
   return (
@@ -137,7 +107,6 @@ export default function Main() {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         carouselRef={carouselRef}
-        setShowQuizButton={setShowQuizButton}
       />
       <div className="row">
         <section className="col-2 d-none d-lg-flex justify-content-center p-2">
@@ -153,11 +122,8 @@ export default function Main() {
             carouselRef={carouselRef}
             setIsModalOpen={setIsModalOpen}
             disabledForwardButton={disabledForwardButton}
-            changeDisabledForwardButton={changeDisabledForwardButton}
             disabledBackButton={disabledBackButton}
-            changeDisabledBackButton={changeDisabledBackButton}
             showQuizButton={showQuizButton}
-            setShowQuizButton={setShowQuizButton}
           />
         </section>
         <section className="col-2 d-none d-lg-flex justify-content-center p-2">

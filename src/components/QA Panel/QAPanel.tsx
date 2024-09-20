@@ -46,23 +46,17 @@ type QAPanelProps = {
   carouselRef: any;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   disabledForwardButton: boolean;
-  changeDisabledForwardButton: React.Dispatch<React.SetStateAction<boolean>>;
   disabledBackButton: boolean;
-  changeDisabledBackButton: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>;
   showQuizButton: boolean;
 };
 /**
  * This component is used to display the questions and responses in a carousel
  * @param {{
- *   questions: any[]; quesetion array for current questions
+ *   questions: any[]; array for current items to display
  *   carouselRef: any; reference to the carousel
  *   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>; function to open the modal
  *   disabledForwardButton: boolean; state to disable the forward button
- *   changeDisabledForwardButton: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the forward button
  *   disabledBackButton: boolean; state to disable the back button
- *   changeDisabledBackButton: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the back button
- *   setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the quiz button
  *   showQuizButton: boolean; state to show the quiz button
  * }} props
  * @return {*}
@@ -73,14 +67,10 @@ export default function QAPanel(props: QAPanelProps) {
     carouselRef,
     setIsModalOpen,
     disabledForwardButton,
-    changeDisabledBackButton,
-    changeDisabledForwardButton,
     disabledBackButton,
-    setShowQuizButton,
     showQuizButton,
   } = props;
-  const { changePageNumber, incrementQuestionTime, getPageNumber } =
-    useAnalytics();
+  const { setPageNumber, incrementQuestionTime, pageNumber } = useAnalytics();
   const [currentTextRatio, changeTextRatio] = useState<number>(1);
 
   // used to get the font-size of the questions at the start
@@ -127,70 +117,30 @@ export default function QAPanel(props: QAPanelProps) {
    * This function is used to go back to the previous question
    */
   const goBack = () => {
-    if (getPageNumber() === 0) {
+    if (pageNumber === 0) {
       throw new Error(
         "Should not be able to go back when back button is disabled"
       );
     }
 
     // change the page number and move the carousel to the previous page
-    changePageNumber();
+    setPageNumber(pageNumber - 1);
     carouselRef!.current.prev();
-
-    showQuizIfLastPage();
-    handleBackButtonDisable();
-    handleForwardButtonDisable();
   };
 
   /**
    * This function is used to go forward to the next question
    */
   const goForward = () => {
-    if (getPageNumber() === questions.length) {
+    if (pageNumber === questions.length) {
       throw new Error(
         "Should not be able to go forward when button is disabled on the last page"
       );
     }
 
     // change the page number and move the carousel to the next page
-    changePageNumber("add");
+    setPageNumber(pageNumber + 1);
     carouselRef!.current.next();
-
-    showQuizIfLastPage();
-    handleBackButtonDisable();
-    handleForwardButtonDisable();
-  };
-
-  /**
-   * This function is used to show the quiz button if we are on the last page
-   */
-  const showQuizIfLastPage = () => {
-    if (getPageNumber() === questions.length) {
-      setShowQuizButton(true);
-    } else {
-      setShowQuizButton(false);
-    }
-  };
-
-  /**
-   * This function is used to disable the back button on the first page and renable on any other page
-   */
-  const handleBackButtonDisable = () => {
-    if (getPageNumber() === 0) {
-      changeDisabledBackButton(true);
-    } else {
-      changeDisabledBackButton(false);
-    }
-  };
-  /**
-   * This function is used to disable the back button on the last page and renable on any other
-   */
-  const handleForwardButtonDisable = () => {
-    if (getPageNumber() === questions.length) {
-      changeDisabledForwardButton(true);
-    } else {
-      changeDisabledForwardButton(false);
-    }
   };
 
   /**

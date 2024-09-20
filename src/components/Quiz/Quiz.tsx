@@ -8,7 +8,6 @@ import { QuizData, QuizFormInputs } from "../../pages/quizTypes";
 type QuizProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>;
   carouselRef: any;
 };
 /**
@@ -16,16 +15,15 @@ type QuizProps = {
  * @param {{
  *   isModalOpen: boolean; state to open the modal
  *   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the modal
- *   setShowQuizButton: React.Dispatch<React.SetStateAction<boolean>>; function to change the state of the quiz button
  *   carouselRef: any; reference to the carousel
  * }} props
  * @return {*}
  */
 export default function Quiz(props: QuizProps) {
   const { register, handleSubmit } = useForm<QuizFormInputs>();
-  const { sendAnalytics, changePageNumber } = useAnalytics();
+  const { sendAnalytics, setPageNumber, pageNumber } = useAnalytics();
 
-  const { setIsModalOpen, setShowQuizButton, isModalOpen, carouselRef } = props;
+  const { setIsModalOpen, isModalOpen, carouselRef } = props;
 
   /**
    * Submit handler for the form.
@@ -52,12 +50,9 @@ export default function Quiz(props: QuizProps) {
     // close the modal
     setIsModalOpen(false);
 
-    // get rid of the quiz button
-    setShowQuizButton(false);
-
     // go to next page
     carouselRef.current.next();
-    changePageNumber("add");
+    setPageNumber(pageNumber + 1);
 
     // handle the form data
     sendAnalytics(quizData);

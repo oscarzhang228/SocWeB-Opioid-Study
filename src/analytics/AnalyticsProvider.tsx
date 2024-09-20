@@ -1,5 +1,5 @@
 // analytics/AnalyticsProvider.tsx
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 import {
   AnalyticsContextProps,
   AnalyticsProviderProps,
@@ -37,7 +37,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   // Section: Question Analytics
   // ==========================================
   let questionAnalytics: QuestionClicks[] = [];
-  let pageNumber = 0;
+  const [pageNumber, setPageNumber] = useState<number>(0);
 
   /**
    * Initalizes the question analytics array with the question data from the server
@@ -82,29 +82,6 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
    */
   const incrementDirectClicks = (index: number) => {
     questionAnalytics[index]["directClicks"]++;
-  };
-
-  /**
-   * Getter for the current page number
-   * @returns the current page number
-   */
-  const getPageNumber = () => {
-    return pageNumber;
-  };
-
-  /**
-   * This function is used to change the page number
-   * @param operation the operation to perform on the page number either add or set
-   * @param pageNum the page number to set
-   */
-  const changePageNumber = (operation?: "add" | "set", pageNum?: number) => {
-    if (operation === "add") {
-      pageNumber++;
-    } else if (operation === "set" && pageNum != null) {
-      pageNumber = pageNum;
-    } else {
-      pageNumber--;
-    }
   };
 
   /**
@@ -207,9 +184,9 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     incrementDirectClicks,
     incrementHomePageClicks,
     incrementGlossaryHover,
-    changePageNumber,
+    setPageNumber,
     incrementQuestionTime,
-    getPageNumber,
+    pageNumber,
     sendAnalytics,
   };
 

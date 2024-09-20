@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface AnalyticsContextProps {
   initializeQuestionAnalytics: (questionData: QuestionData[]) => void;
@@ -9,8 +9,8 @@ export interface AnalyticsContextProps {
   incrementGlossaryHover: (term: string) => void;
   incrementHomePageClicks: () => void;
   incrementQuestionTime: () => void;
-  changePageNumber: (operation?: "add" | "set", pageNum?: number) => void;
-  getPageNumber: () => number;
+  setPageNumber: Dispatch<SetStateAction<number>>;
+  pageNumber: number;
   sendAnalytics: (quizData: any) => void;
 }
 
