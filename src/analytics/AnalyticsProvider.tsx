@@ -25,6 +25,8 @@ export const useAnalytics = (): AnalyticsContextProps => {
   return context;
 };
 
+const questionAnalytics: QuestionClicks[] = [];
+
 /**
  * This component is used to provide the analytics context to the application.
  * @param param0 contains the children of the provider
@@ -33,10 +35,6 @@ export const useAnalytics = (): AnalyticsContextProps => {
 export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
   children,
 }) => {
-  // ==========================================
-  // Section: Question Analytics
-  // ==========================================
-  let questionAnalytics: QuestionClicks[] = [];
   const [pageNumber, setPageNumber] = useState<number>(0);
 
   /**
@@ -44,11 +42,12 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
    * @param questionData the question data from the server
    */
   const initializeQuestionAnalytics = (questionData: QuestionData[]) => {
-    // create a temporary array in order to avoid accidentally getting send two messages and making too big of an inital quesiton analytics array
-    const temporaryQuestionAnalytics: QuestionClicks[] = [];
+    if (questionAnalytics.length !== 0) {
+      return;
+    }
 
     questionData.forEach((q, index) => {
-      temporaryQuestionAnalytics.push({
+      questionAnalytics.push({
         question: q["Question (Reddit post)"],
         backClicks: 0,
         forwardClicks: 0,
@@ -56,8 +55,6 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
         time: 0,
       });
     });
-
-    questionAnalytics = temporaryQuestionAnalytics;
   };
 
   /**
