@@ -79,7 +79,10 @@ export default function Debrief() {
         setPageNumber(0);
         break;
       case event.key.startsWith("Debrief:") ? event.key : "":
-        // handleQuestionMenuClick(event.key);
+        // get the number after debrief
+        const pageNumber = parseInt(event.key.split(":")[1]);
+        carouselRef.current.goTo(pageNumber);
+        setPageNumber(pageNumber);
         break;
       default:
         throw new Error("Invalid menu item clicked: " + event.key);

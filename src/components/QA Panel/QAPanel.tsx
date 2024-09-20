@@ -87,9 +87,8 @@ export default function QAPanel(props: QAPanelProps) {
   const [defaultFontSize, changeDefaultFontSize] = useState<number>(-1);
 
   const day = new URL(window.location.toString()).searchParams.get("day");
-  const version = new URL(window.location.toString()).searchParams.get(
-    "version"
-  );
+  const version =
+    new URL(window.location.toString()).searchParams.get("version") || 1;
 
   const questionStyleOverrides = {
     fontSize:
