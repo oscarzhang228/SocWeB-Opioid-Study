@@ -10,37 +10,6 @@ const TEXT_RATIO_CHANGE = 0.1;
 const MIN_TEXT_RATIO = 0.75;
 const MAX_TEXT_RATIO = 1.5;
 
-const COMPLETIONLINKS: { [key: string]: string } = {
-  day1Version1: "https://app.prolific.com/submissions/complete?cc=CVCEUYL6",
-  day2Version1: "https://app.prolific.com/submissions/complete?cc=C1C4NS5O",
-  day3Version1: "https://app.prolific.com/submissions/complete?cc=C18I0SL0",
-  day4Version1: "https://app.prolific.com/submissions/complete?cc=C1K98S0Q",
-  day5Version1: "https://app.prolific.com/submissions/complete?cc=CMRSE5OT",
-  day6Version1: "https://app.prolific.com/submissions/complete?cc=C1KKC9JQ",
-  day7Version1: "https://app.prolific.com/submissions/complete?cc=C18OY7MR",
-  day8Version1: "https://app.prolific.com/submissions/complete?cc=C2720TC6",
-  day9Version1: "https://app.prolific.com/submissions/complete?cc=COHJ4EQF",
-  day10Version1: "https://app.prolific.com/submissions/complete?cc=C1FUH647",
-  day11Version1: "https://app.prolific.com/submissions/complete?cc=C15WI1ML",
-  day12Version1: "https://app.prolific.com/submissions/complete?cc=CEEUOA3L",
-  day13Version1: "https://app.prolific.com/submissions/complete?cc=C1MQDQOO",
-  day14Version1: "https://app.prolific.com/submissions/complete?cc=CXGSAMP0",
-  day1Version2: "https://app.prolific.com/submissions/complete?cc=CC3LCT0S",
-  day2Version2: "https://app.prolific.com/submissions/complete?cc=CMHGDY9H",
-  day3Version2: "https://app.prolific.com/submissions/complete?cc=CHS7NCOG",
-  day4Version2: "https://app.prolific.com/submissions/complete?cc=C1IOGJVK",
-  day5Version2: "https://app.prolific.com/submissions/complete?cc=C1NJCPOD",
-  day6Version2: "https://app.prolific.com/submissions/complete?cc=C15KQ5OJ",
-  day7Version2: "https://app.prolific.com/submissions/complete?cc=CDZLJOMZ",
-  day8Version2: "https://app.prolific.com/submissions/complete?cc=C17P2D05",
-  day9Version2: "https://app.prolific.com/submissions/complete?cc=CONNL5ID",
-  day10Version2: "https://app.prolific.com/submissions/complete?cc=CH33FJDP",
-  day11Version2: "https://app.prolific.com/submissions/complete?cc=CBJK0401",
-  day12Version2: "https://app.prolific.com/submissions/complete?cc=CX34IVDJ",
-  day13Version2: "https://app.prolific.com/submissions/complete?cc=CAZXA4S8",
-  day14Version2: "https://app.prolific.com/submissions/complete?cc=C1LCRSFA",
-};
-
 type DisplayItem = {
   "Question (Reddit post)": string;
   "Reddit response": string;
@@ -55,6 +24,7 @@ type QAPanelProps = {
   disabledBackButton: boolean;
   showQuizButton: boolean;
   startingText: ReactNode;
+  endingText: ReactNode;
 };
 /**
  * This component is used to display the questions and responses in a carousel
@@ -78,6 +48,7 @@ export default function QAPanel(props: QAPanelProps) {
     disabledBackButton,
     showQuizButton,
     startingText,
+    endingText,
   } = props;
   const { setPageNumber, incrementQuestionTime, pageNumber } = useAnalytics();
   const [currentTextRatio, changeTextRatio] = useState<number>(1);
@@ -85,10 +56,6 @@ export default function QAPanel(props: QAPanelProps) {
   // used to get the font-size of the questions at the start
   const homeRef = useRef<HTMLParagraphElement>(null);
   const [defaultFontSize, changeDefaultFontSize] = useState<number>(-1);
-
-  const day = new URL(window.location.toString()).searchParams.get("day");
-  const version =
-    new URL(window.location.toString()).searchParams.get("version") || 1;
 
   const questionStyleOverrides = {
     fontSize:
@@ -125,12 +92,6 @@ export default function QAPanel(props: QAPanelProps) {
    * This function is used to go back to the previous question
    */
   const goBack = () => {
-    if (pageNumber === 0) {
-      throw new Error(
-        "Should not be able to go back when back button is disabled"
-      );
-    }
-
     // change the page number and move the carousel to the previous page
     setPageNumber(pageNumber - 1);
     carouselRef!.current.prev();
@@ -140,12 +101,6 @@ export default function QAPanel(props: QAPanelProps) {
    * This function is used to go forward to the next question
    */
   const goForward = () => {
-    if (pageNumber === displayItems.length) {
-      throw new Error(
-        "Should not be able to go forward when button is disabled on the last page"
-      );
-    }
-
     // change the page number and move the carousel to the next page
     setPageNumber(pageNumber + 1);
     carouselRef!.current.next();
@@ -212,16 +167,7 @@ export default function QAPanel(props: QAPanelProps) {
           <p
             className={`text-start ${styles["QAPanel-NonQuestion"]} h5 fw-normal`}
           >
-            Thank you so much for participating and going through the content
-            and the quiz. Your participation is greatly appreciated. <br />{" "}
-            <br />
-            <span className="fw-bold">
-              Please click this link{" "}
-              <a href={COMPLETIONLINKS[`day${day}Version${version}`]}>
-                {COMPLETIONLINKS[`day${day}Version${version}`]}
-              </a>{" "}
-              to complete your session on Prolific.{" "}
-            </span>
+            {endingText}
           </p>
         </Card>
       </Carousel>

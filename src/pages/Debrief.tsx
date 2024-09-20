@@ -18,12 +18,12 @@ export default function Debrief() {
   const carouselRef = useRef<any>(null);
   const { setPageNumber, pageNumber } = useAnalytics();
   const disabledBackButton = pageNumber === 0;
-  const disabledForwardButton = pageNumber === DEBRIEF_STATEMENTS.length;
+  const disabledForwardButton = pageNumber === DEBRIEF_STATEMENTS.length + 1;
   const params = new URLSearchParams(window.location.search);
 
   const version = params.get("version");
 
-  const STARTING_QA_Text = (
+  const STARTING_QA_TEXT = (
     <>
       Thank you for your participation in our study! Through this debrief
       statement, we want to inform you that in the study you read
@@ -60,6 +60,21 @@ export default function Debrief() {
         At the end of this reading, you will receive a link to complete your
         submission on Prolific.
       </strong>
+    </>
+  );
+
+  const redditLink =
+    "https://app.prolific.com/submissions/complete?cc=CG3D49VN";
+  const LLMLink = "https://app.prolific.com/submissions/complete?cc=CGI9H6GK";
+
+  const ENDING_QA_TEXT = (
+    <>
+      Thank you so much for participating in the study. Your participation is
+      greatly appreciated! Please click this link{" "}
+      <a href={version === "1" ? redditLink : LLMLink}>
+        {version === "1" ? redditLink : LLMLink}
+      </a>{" "}
+      to complete your session on Prolific.
     </>
   );
 
@@ -101,9 +116,10 @@ export default function Debrief() {
         </section>
         <section className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100">
           <QAPanel
-            startingText={STARTING_QA_Text}
+            startingText={STARTING_QA_TEXT}
             displayItems={DEBRIEF_STATEMENTS}
             carouselRef={carouselRef}
+            endingText={ENDING_QA_TEXT}
             setIsModalOpen={() => {}}
             disabledForwardButton={disabledForwardButton}
             disabledBackButton={disabledBackButton}

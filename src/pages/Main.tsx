@@ -10,7 +10,7 @@ import { useAnalytics } from "../analytics/AnalyticsProvider";
 import QAPanel from "../components/QA Panel/QAPanel";
 import axios from "axios";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-
+import { COMPLETION_LINKS } from "../data/completionLinks";
 import Quiz from "../components/Quiz/Quiz";
 import { Button, Tooltip } from "antd";
 
@@ -103,8 +103,22 @@ export default function Main() {
 
   const params = new URL(window.location.toString()).searchParams;
   const day = params.get("day");
+  const version = params.get("version");
 
   const questionMenu = questionMenuItems(questions, showQuizButton);
+  const ENDING_QA_PANEL_TEXT = (
+    <>
+      Thank you so much for participating and going through the content and the
+      quiz. Your participation is greatly appreciated. <br /> <br />
+      <span className="fw-bold">
+        Please click this link{" "}
+        <a href={COMPLETION_LINKS[`day${day}Version${version}`]}>
+          {COMPLETION_LINKS[`day${day}Version${version}`]}
+        </a>{" "}
+        to complete your session on Prolific.{" "}
+      </span>
+    </>
+  );
 
   /**
    * This useEffect is used to get the questions from the backend and set the questions, the question menu, and initialize the question analytics.
@@ -188,6 +202,7 @@ export default function Main() {
         <section className="col-sm-12 col-lg-8 d-flex justify-content-center flex-column h-100">
           <QAPanel
             startingText={STARTING_QA_PANEL_TEXT}
+            endingText={ENDING_QA_PANEL_TEXT}
             displayItems={questions}
             carouselRef={carouselRef}
             setIsModalOpen={setIsModalOpen}
