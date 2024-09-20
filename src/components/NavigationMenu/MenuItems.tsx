@@ -10,6 +10,7 @@ import {
   BarsOutlined,
   UnlockFilled,
 } from "@ant-design/icons";
+import { DEBRIEF_STATEMENTS } from "../../data/debriefStatements";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -104,3 +105,30 @@ export const questionMenuItems = (
 
 // all items should be open by default
 export const questionMenuDefaultOpenKeys = ["questions"];
+
+export const debriefMenuItems = [
+  getItem(
+    "Navigation",
+    "nav",
+    null,
+    [
+      getItem("Home", "home", <AppstoreOutlined />),
+      getItem(
+        "Debriefs",
+        "debriefs",
+        <BarsOutlined />,
+        DEBRIEF_STATEMENTS.map((data, index) => {
+          return getItem(
+            `Debrief ${index + 1}`,
+            `Debrief:${index + 1}`,
+            <QuestionCircleOutlined />
+          );
+        })
+      ),
+    ],
+    "group"
+  ),
+];
+
+// all items should be open by default
+export const debriefMenuDefaultOpenKeys = ["debriefs"];

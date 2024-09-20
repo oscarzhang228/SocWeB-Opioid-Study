@@ -27,7 +27,7 @@ export default function Question(props: QuestionProps) {
     <div className={styles.QuestionResponse} style={questionStyleOverride}>
       <div>
         <h2 className={styles["QuestionResponse-Header"]}>
-          Question {questionNumber}
+          Item {questionNumber}
         </h2>
         <p>{question}</p>
       </div>

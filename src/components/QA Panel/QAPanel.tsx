@@ -1,9 +1,9 @@
-import { Carousel, Card, Button, Tooltip } from "antd";
+import { Carousel, Card, Button } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import Question from "../Question/Question";
 import styles from "./QAPanel.module.scss";
 import { useAnalytics } from "../../analytics/AnalyticsProvider";
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import TextResizeControls from "../TextResizeControls/TextResizeControls";
 
 const TEXT_RATIO_CHANGE = 0.1;
@@ -41,34 +41,43 @@ const COMPLETIONLINKS: { [key: string]: string } = {
   day14Version2: "https://app.prolific.com/submissions/complete?cc=C1LCRSFA",
 };
 
+type DisplayItem = {
+  "Question (Reddit post)": string;
+  "Reddit response": string;
+  "LLM response": string;
+};
+
 type QAPanelProps = {
-  questions: any[];
+  displayItems: DisplayItem[];
   carouselRef: any;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   disabledForwardButton: boolean;
   disabledBackButton: boolean;
   showQuizButton: boolean;
+  startingText: ReactNode;
 };
 /**
  * This component is used to display the questions and responses in a carousel
  * @param {{
- *   questions: any[]; array for current items to display
+ *   displayItems: any[]; array for current items to display
  *   carouselRef: any; reference to the carousel
  *   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>; function to open the modal
  *   disabledForwardButton: boolean; state to disable the forward button
  *   disabledBackButton: boolean; state to disable the back button
  *   showQuizButton: boolean; state to show the quiz button
+ *   startingText: ReactNode; the starting text
  * }} props
  * @return {*}
  */
 export default function QAPanel(props: QAPanelProps) {
   const {
-    questions,
+    displayItems,
     carouselRef,
     setIsModalOpen,
     disabledForwardButton,
     disabledBackButton,
     showQuizButton,
+    startingText,
   } = props;
   const { setPageNumber, incrementQuestionTime, pageNumber } = useAnalytics();
   const [currentTextRatio, changeTextRatio] = useState<number>(1);
@@ -132,7 +141,7 @@ export default function QAPanel(props: QAPanelProps) {
    * This function is used to go forward to the next question
    */
   const goForward = () => {
-    if (pageNumber === questions.length) {
+    if (pageNumber === displayItems.length) {
       throw new Error(
         "Should not be able to go forward when button is disabled on the last page"
       );
@@ -171,78 +180,10 @@ export default function QAPanel(props: QAPanelProps) {
             ref={homeRef}
             style={questionStyleOverrides}
           >
-            Hello, <br />
-            Thank you for consenting to participate in our study! <br /> <br />
-            <span className="underline">What to do:</span>
-            {""} Please carefully read through the following questions and their
-            corresponding responses, related to opioid use disorder (OUD).
-            Navigate through the questions using the left/right arrow buttons (
-            <Button shape="circle" icon={<LeftOutlined />} size="small" />
-            <Button shape="circle" icon={<RightOutlined />} size="small" />
-            ) provided below. <br /> <br />
-            You may search the meaning of any unknown terms that appear using
-            search engines such as Google. As and when applicable, we also
-            provide a brief description of OUD related terms, highlighted in
-            bold. The description can be accessed by{" "}
-            <Tooltip title="Hover to get a brief description of the word/phrase">
-              <i>hovering</i>
-            </Tooltip>{" "}
-            over the italicized terms. You may zoom in/out of the content
-            (increase/decrease the font size) using the +/- buttons (
-            <Button size="small">+</Button> <Button size="small">-</Button>).{" "}
-            <br /> <br />
-            <span className="underline">What not to do:</span>
-            {""} Please refrain from using any large language model or
-            generative AI powered search tools such as ChatGPT or Google Bard.
-            We also ask that you restrict yourself from consuming any other
-            OUD-related content other than what is being provided to you. <br />
-            <br />
-            <span className="underline">
-              Required Quiz and Compensation:
-            </span>{" "}
-            After reading through the questions and their responses, please
-            complete the short “required” quiz. The quiz can be accessed by
-            clicking on the “start quiz” button (
-            <Button size="small" type="primary">
-              Start Quiz
-            </Button>
-            ), which appears after navigating through all the questions.
-            Successful completion of reading the content and taking the quiz
-            would provide a daily compensation of $2, amounting to a total of
-            $30 for the entire duration of two weeks. <br /> <br />
-            <span className="underline">
-              Helplines and Contact Information:
-            </span>{" "}
-            {""}
-            As a reminder, your participation is entirely voluntary and you may
-            discontinue participation at any time. If at any point in this
-            study, you feel distressed, please call the Substance Abuse and
-            Mental Health Services Administration (SAMHSA) National Helpline at
-            1-800-662-HELP (4357). The Helpline is free and available 24/7 and
-            can help you find local resources to help with any mental health or
-            substance use concerns. You can also find an online listing of
-            treatment programs in your area through the{" "}
-            <a
-              href="https://findtreatment.gov/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              SAMHSA Treatment Services Locator
-            </a>
-            . If you have any questions about the study, you may contact our
-            research team at{" "}
-            <a href="mailto:smittal87@gatech.edu">smittal87@gatech.edu</a>.
-            Additionally, if you have any questions about your rights as a
-            research participant, you may contact the Georgia Institute of
-            Technology Office of Research Integrity Assurance at{" "}
-            <a href="mailto:IRB@gatech.edu" target="_blank" rel="noreferrer">
-              IRB@gatech.edu
-            </a>
-            . <br /> <br />
-            Thank you for your time and participation!
+            {startingText}
           </p>
         </Card>
-        {questions.map((data, index) => {
+        {displayItems.map((data, index) => {
           // get which version to show based on the url query. 1 is Reddit and 2 is GPT
           const params = new URL(window.location.toString()).searchParams;
           const version = params.get("version");
