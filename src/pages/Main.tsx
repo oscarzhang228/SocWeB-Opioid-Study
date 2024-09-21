@@ -18,11 +18,10 @@ const STARTING_QA_PANEL_TEXT = (
   <>
     Hello, <br />
     Thank you for consenting to participate in our study! <br /> <br />
-    <span className="underline">What to do:</span>
-    Please carefully read through the following questions and their
-    corresponding responses, related to opioid use disorder (OUD). Navigate
-    through the questions using the left/right arrow buttons ( //
-    eslint-disable-next-line react/jsx-no-undef, react/jsx-no-undef
+    <span className="underline">What to do:</span> Please carefully read through
+    the following questions and their corresponding responses, related to opioid
+    use disorder (OUD). Navigate through the questions using the left/right
+    arrow buttons (
     <Button shape="circle" icon={<LeftOutlined />} size="small" />
     <Button shape="circle" icon={<RightOutlined />} size="small" />
     ) provided below. <br /> <br />
@@ -203,6 +202,8 @@ export default function Main() {
           <QAPanel
             startingText={STARTING_QA_PANEL_TEXT}
             endingText={ENDING_QA_PANEL_TEXT}
+            displayItemHeading={"Question"}
+            displayItemSubHeading={"Response"}
             displayItems={questions}
             carouselRef={carouselRef}
             setIsModalOpen={setIsModalOpen}

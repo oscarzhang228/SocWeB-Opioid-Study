@@ -18,6 +18,8 @@ type DisplayItem = {
 
 type QAPanelProps = {
   displayItems: DisplayItem[];
+  displayItemHeading: string;
+  displayItemSubHeading?: string;
   carouselRef: any;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   disabledForwardButton: boolean;
@@ -30,6 +32,8 @@ type QAPanelProps = {
  * This component is used to display the questions and responses in a carousel
  * @param {{
  *   displayItems: any[]; array for current items to display
+ *   displayItemHeading: string; the heading for the current item
+ *   displayItemSubHeading: string; the subheading for the current item
  *   carouselRef: any; reference to the carousel
  *   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>; function to open the modal
  *   disabledForwardButton: boolean; state to disable the forward button
@@ -43,6 +47,8 @@ export default function QAPanel(props: QAPanelProps) {
   const {
     displayItems,
     carouselRef,
+    displayItemHeading,
+    displayItemSubHeading,
     setIsModalOpen,
     disabledForwardButton,
     disabledBackButton,
@@ -155,6 +161,8 @@ export default function QAPanel(props: QAPanelProps) {
               id={`question-${index + 1}`}
             >
               <Question
+                heading={displayItemHeading}
+                subheading={displayItemSubHeading}
                 questionNumber={index + 1}
                 question={data["Question (Reddit post)"]}
                 response={response}

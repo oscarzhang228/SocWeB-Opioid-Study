@@ -26,19 +26,20 @@ export default function Debrief() {
   const STARTING_QA_TEXT = (
     <>
       Thank you for your participation in our study! Through this debrief
-      statement, we want to inform you that in the study you read
+      statement, we want to inform you that in the study you read{" "}
       {version === "1" ? "human" : "LLM"}-generated responses to Opioid Use
-      Disorder (OUD) queries{" "}
+      Disorder (OUD) queries
       {version === "1"
         ? ", which were taken from the online platform Reddit"
         : ""}
-      . If you have any questions regarding this, please email
-      smittal87@gatech.edu directly. It is entirely your decision if you wish
-      your data to be kept or destroyed based on this provided information. If
-      you no longer wish for your data to be used in the study, you will not
-      lose any rights, services, or benefits as a result of your withdrawal. We
-      will destroy all your data records if you choose to withdraw your
-      participation. The study is entirely voluntary. <br /> <br />
+      . If you have any questions regarding this, please email{" "}
+      <a href="mailto:smittal87@gatech.edu">smittal87@gatech.edu</a> directly.
+      It is entirely your decision if you wish your data to be kept or destroyed
+      based on this provided information. If you no longer wish for your data to
+      be used in the study, you will not lose any rights, services, or benefits
+      as a result of your withdrawal. We will destroy all your data records if
+      you choose to withdraw your participation. The study is entirely
+      voluntary. <br /> <br />
       <span className="underline">Helplines and Contact Information: </span> If
       the participation in the study had a negative impact on you or made you
       feel distressed, please call the Substance Abuse and Mental Health
@@ -70,7 +71,8 @@ export default function Debrief() {
   const ENDING_QA_TEXT = (
     <>
       Thank you so much for participating in the study. Your participation is
-      greatly appreciated! Please click this link{" "}
+      greatly appreciated! <br />
+      Please click this link{" "}
       <a href={version === "1" ? redditLink : LLMLink}>
         {version === "1" ? redditLink : LLMLink}
       </a>{" "}
@@ -118,6 +120,8 @@ export default function Debrief() {
           <QAPanel
             startingText={STARTING_QA_TEXT}
             displayItems={DEBRIEF_STATEMENTS}
+            displayItemHeading="Misinformation"
+            displayItemSubHeading="Corrected Information"
             carouselRef={carouselRef}
             endingText={ENDING_QA_TEXT}
             setIsModalOpen={() => {}}
