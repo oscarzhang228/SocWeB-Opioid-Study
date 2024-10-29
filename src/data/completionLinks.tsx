@@ -1,5 +1,5 @@
 export const COMPLETION_LINKS: { [key: string]: string } = {
-  day1Version1: "https://app.prolific.com/submissions/complete?cc=CVCEUYL6",
+  day1Version1: "https://gatech.co1.qualtrics.com/jfe/form/SV_6JZfNYh1PSRii3Q",
   day2Version1: "https://app.prolific.com/submissions/complete?cc=C1C4NS5O",
   day3Version1: "https://app.prolific.com/submissions/complete?cc=C18I0SL0",
   day4Version1: "https://app.prolific.com/submissions/complete?cc=C1K98S0Q",
@@ -13,7 +13,7 @@ export const COMPLETION_LINKS: { [key: string]: string } = {
   day12Version1: "https://app.prolific.com/submissions/complete?cc=CEEUOA3L",
   day13Version1: "https://app.prolific.com/submissions/complete?cc=C1MQDQOO",
   day14Version1: "https://app.prolific.com/submissions/complete?cc=CXGSAMP0",
-  day1Version2: "https://app.prolific.com/submissions/complete?cc=CC3LCT0S",
+  day1Version2: "https://gatech.co1.qualtrics.com/jfe/form/SV_7R6pofktjBCeHSC",
   day2Version2: "https://app.prolific.com/submissions/complete?cc=CMHGDY9H",
   day3Version2: "https://app.prolific.com/submissions/complete?cc=CHS7NCOG",
   day4Version2: "https://app.prolific.com/submissions/complete?cc=C1IOGJVK",

@@ -1,7 +1,8 @@
 const quizQuestions = [
   [
-    "Based on the response you read, do you think it is easier for someone who has been clean for 2 years to relapse as compared to someone who has been clean for 10 years? Explain your answer.",
-    "Is a full recovery possible from OUD?",
+    "Based on the responses you read, is a full recovery possible from OUD?",
+    "Can personal relationships ruin due to opioid use? Explain your answer.",
+    "Based on your reading, can someone get addicted to medication-assisted treatments? Explain your answer.",
   ],
   [
     "Is methadone the best route to recovery? Explain your answer.",
