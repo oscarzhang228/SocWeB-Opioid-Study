@@ -104,20 +104,37 @@ export default function Main() {
   const day = params.get("day");
   const version = params.get("version");
 
+  const dayToCompletionText: { [key: string]: (link: string) => JSX.Element } =
+    {
+      "1": (link: string) => (
+        <>
+          Thank you so much for participating and going through the content and
+          the quiz. Your participation is greatly appreciated. <br /> <br />{" "}
+          <span className="fw-bold">
+            Please click this link <a href={link}>{link}</a> to take the final
+            survey and complete your session on Prolific.
+          </span>
+        </>
+      ),
+    };
+
   const questionMenu = questionMenuItems(questions, showQuizButton);
-  const ENDING_QA_PANEL_TEXT = (
-    <>
-      Thank you so much for participating and going through the content and the
-      quiz. Your participation is greatly appreciated. <br /> <br />
-      <span className="fw-bold">
-        Please click this link{" "}
-        <a href={COMPLETION_LINKS[`day${day}Version${version}`]}>
-          {COMPLETION_LINKS[`day${day}Version${version}`]}
-        </a>{" "}
-        to complete your session on Prolific.{" "}
-      </span>
-    </>
-  );
+  const ENDING_QA_PANEL_TEXT =
+    day && day in dayToCompletionText ? (
+      dayToCompletionText[day](COMPLETION_LINKS[`day${day}Version${version}`])
+    ) : (
+      <>
+        Thank you so much for participating and going through the content and
+        the quiz. Your participation is greatly appreciated. <br /> <br />
+        <span className="fw-bold">
+          Please click this link{" "}
+          <a href={COMPLETION_LINKS[`day${day}Version${version}`]}>
+            {COMPLETION_LINKS[`day${day}Version${version}`]}
+          </a>{" "}
+          to complete your session on Prolific.{" "}
+        </span>
+      </>
+    );
 
   /**
    * This useEffect is used to get the questions from the backend and set the questions, the question menu, and initialize the question analytics.
